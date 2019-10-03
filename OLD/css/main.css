@@ -1,0 +1,46 @@
+body {
+  font-family: 'Lato'
+}
+
+.btn-orange {
+  color: #fff;
+  padding: 5px 30px;
+  background-color: #ec7d3d;
+}
+
+.bg-1 {  position: relative; }
+
+.bg-1:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  background-image: url('../backdrop1.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.3;
+}
+
+.bg-2 {  position: relative; }
+
+.bg-2:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  background-image: url('../backdrop2.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.3;
+}
+
+.content {
+    position: relative; 
+    z-index: 2;
+}​
