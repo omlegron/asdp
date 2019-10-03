@@ -262,6 +262,11 @@ Class M_model extends CI_Model {
         }
     }
 
+    function destroy($id,$db){
+        $this->db->where('id', $id);
+        $this->db->delete($db);
+    }
+
     function loginData($data) {
         $condition = "email ="."'".clearText($data['email'])."' AND "."password ="."'".md5($data['password'])
             ."' AND "."user_role ="."'".$data['user_role']."'";

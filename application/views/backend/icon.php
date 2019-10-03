@@ -139,6 +139,7 @@
                             if (count($data) > 0) {
                                 foreach ($data as $key => $value) {
                                     $img=check_img($value->path_file);
+                                    // print_r($value);
                             ?>
                                 <tr>
                                     <td><?= $key + 1; ?></td>

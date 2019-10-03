@@ -467,6 +467,7 @@ function check_img($path=null) {
     $data=array();
     if($path==null){
         $data['path']=base_url('images/images.jpeg');
+        
         return $data;
     }
 
@@ -484,9 +485,12 @@ function check_img($path=null) {
         }
         $i++;
     }
-    $headers = get_headers(base_url($new_path));
+    // print_r($new_path);
+    $headers = base_url($new_path);
+    // print('cekkkss'.$headers);
     $id_header=substr($headers[0], 9, 3);
-    if($id_header==200){
+    // print_r('array_intersect_assoc(array1, array2)'.$id_header);
+    if($headers){
         //connection OK 
         $data['path']=base_url($new_path);
     }
@@ -494,6 +498,7 @@ function check_img($path=null) {
         //connection NOT FOUND
         $data['path']=base_url('images/images.jpeg');
     }
+    // print_r($data);
     return $data;
 }
 

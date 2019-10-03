@@ -2269,4 +2269,39 @@ class Panel extends CI_Controller {
             redirect('panel/icon', 'refresh');
         }
     }
+
+    public function roles() {
+        if ($this->session->userdata('admin')) {
+            $this->load->view('backend/roles',[
+                'title' => 'Roles',
+                'bcrumb' => 'Master Data > Roles'
+            ]);
+        } else {
+            redirect('panel/login', 'refresh');
+        }
+        //---
+        if ($this->input->post('add')) {
+            $param = array(
+                'roles'  => cleartext($this->input->post('roles')),
+            );
+            $create=$this->m_model->insertgetid($param, 'roles');
+            $this->session->set_flashdata('sukses', 'Data Berhasil Di Buat');
+            redirect('panel/roles', 'refresh');
+        }
+        //---
+        if ($this->input->post('save')) {
+            $param = array(
+                'roles'  => cleartext($this->input->post('roles')),
+            );
+            $this->m_model->updateas('id', $this->input->post('id'), $param, 'roles');
+            $this->session->set_flashdata('sukses', 'Data Berhasil Di Ubah');
+            redirect('panel/roles', 'refresh');
+        }
+        //---
+        if ($this->input->get('remove')) {
+            $this->m_model->destroy($this->input->get('remove'), 'roles');
+            $this->session->set_flashdata('sukses', 'Data Berhasil Di Hapus');
+            redirect('panel/roles', 'refresh');
+        }
+    }
 }

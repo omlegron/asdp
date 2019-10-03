@@ -39,7 +39,7 @@
         <ul class="nav navbar-nav navbar-left">
             <li><a href="javascript:void(0);" class="ls-toggle-btn" data-close="true"><i class="zmdi zmdi-swap"></i></a></li>
         </ul>
-        <ul class="nav navbar-nav navbar-right">
+       <!--  <ul class="nav navbar-nav navbar-right">
             <li><a href="javascript:void(0);" class="js-search" data-close="true"><i class="zmdi zmdi-search"></i></a></li>
             <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"><i class="zmdi zmdi-notifications"></i>
                 <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
@@ -104,7 +104,7 @@
             </li>
             
             <li><a href="#" class="mega-menu" data-close="true"><i class="zmdi zmdi-power"></i></a></li>
-        </ul>
+        </ul> -->
     </div> 
 </nav>
 <?php //print_r($this->session->userdata('admin_data')); die();?>
@@ -122,10 +122,10 @@
                 <ul class="dropdown-menu slideUp">
                     <li><a href="#"><i class="material-icons">person</i>Profile</a></li>
                     <li class="divider"></li>
-                    <li><a href="javascript:void(0);"><i class="material-icons">group</i>Followers</a></li>
+                   <!--  <li><a href="javascript:void(0);"><i class="material-icons">group</i>Followers</a></li>
                     <li><a href="javascript:void(0);"><i class="material-icons">shopping_cart</i>Sales</a></li>
-                    <li><a href="javascript:void(0);"><i class="material-icons">favorite</i>Likes</a></li>
-                    <li class="divider"></li>
+                    <li><a href="javascript:void(0);"><i class="material-icons">favorite</i>Likes</a></li> -->
+                    <!-- <li class="divider"></li> -->
                     <li><a href="<?=base_url();?>panel/logout"><i class="material-icons">input</i>Sign Out</a></li>
                 </ul>
             </div>
@@ -143,7 +143,9 @@
                     <?php
                         if($this->session->userdata('admin_data')->roles==5){
                     ?>
+                            <li><a href="<?=base_url();?>panel/roles">Roles</a></li>
                             <li><a href="<?=base_url();?>panel/users">User</a></li>
+                            <!-- <li><a href="<?php echo site_url('backend/roles'); ?>">User Roles</a></li> -->
                     <?php
                         }
                         else{
@@ -176,13 +178,13 @@
     <div class="block-header">
         <div class="row">
             <div class="col-lg-7 col-md-6 col-sm-12">
-                <h2>Dashboard
+                <h2><?php echo isset($title) ? $title : 'Dashboard'; ?>
                 <small class="text-muted">Welcome to Asdp Application</small>
                 </h2>
             </div>
             <div class="col-lg-5 col-md-6 col-sm-12">
                 <ul class="breadcrumb float-md-right">
-                    <li class="breadcrumb-item"><a href="index.html"><i class="zmdi zmdi-home"></i> Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="index.html"><i class="zmdi zmdi-home"></i> <?php echo isset($title) ? $title : 'Dashboard'; ?></a></li>
                 </ul>
             </div>
         </div>
