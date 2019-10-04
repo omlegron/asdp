@@ -178,7 +178,16 @@
                         <div class="btn-group float-right">
                             <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> aspek <span class="caret"></span> </button>
                             <ul class="dropdown-menu">
-                                
+                                <?php 
+                                    if(count($this->m_model->all('jenis_aspeks')) > 0){
+                                        foreach ($this->m_model->all('jenis_aspeks') as $k => $value) {
+                                        ?>
+                                            <li><a href="<?php echo site_url(); ?>backend/pelabuhan/<?php echo slugify($value->nama_aspek); ?>"><?php echo $value->nama_aspek; ?></a></li>
+
+                                        <?php                
+                                        }
+                                    }
+                                ?>
                             </ul>
                             <a href="<?=base_url();?>panel/pelabuhan?edit=<?=$val['id'];?>"  class="btn btn-primary btn-sm" style="color: #fff">Edit</a>
                             <a href="<?=base_url();?>panel/pelabuhan?remove=<?=$val['id'];?>"  class="confirm btn btn-danger btn-sm" msg="Are you sure to Delete data?" style="color: #fff">Delete</a>
@@ -246,7 +255,7 @@
             }
         }
         ?>
-            <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+            <!--<div class="col-lg-4 col-md-6 col-sm-12 text-center">
                 <div class="card">
                   <a href="detail.html">
                     <img class="img-fluid" src="<?=base_url();?>assets/backend/images/map-1.png" style="width:100%;max-height: 200px !important;" alt="Card image cap">
@@ -281,7 +290,7 @@
                     <h4 class="title">Card title</h4>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
     <?php } ?>
 
