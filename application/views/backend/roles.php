@@ -94,7 +94,7 @@
                                 
                             </div>
                             <div class="col-lg-2">
-                                <a class="btn btn-primary" href="<?= site_url('panel/roles?add=true'); ?>">Add Role</a>
+                               <!--  -->
                             </div>
                         </div>
                     </div>

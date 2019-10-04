@@ -118,7 +118,7 @@
         <div class="info-container">
             <div class="name" data-toggle="dropdown"><?=$this->session->userdata('admin_data')->username;?></div>
             <div class="btn-group user-helper-dropdown">
-                <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" role="button"> keyboard_arrow_down </i>
+                <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" role="button" style="position: relative;left: 55px;top: 5px;"> keyboard_arrow_down </i>
                 <ul class="dropdown-menu slideUp">
                     <li><a href="#"><i class="material-icons">person</i>Profile</a></li>
                     <li class="divider"></li>
@@ -129,7 +129,13 @@
                     <li><a href="<?=base_url();?>panel/logout"><i class="material-icons">input</i>Sign Out</a></li>
                 </ul>
             </div>
-            <div class="email" style="min-width: 150px;"><?=$this->session->userdata('admin_data')->email;?></div>
+            <?php
+                if(!isset($this->session->userdata('admin_data')->id_cabang)){
+            ?>
+            <div class="email" ><?=$this->session->userdata('admin_data')->email;?></div>
+            <?php
+                }
+            ?>
         </div>
     </div>
     <!-- #User Info --> 
@@ -142,26 +148,35 @@
                 <ul class="ml-menu">
                     <?php
                         if($this->session->userdata('admin_data')->roles==5){
-                    ?>
+                    ?>  
                             <li><a href="<?=base_url();?>panel/roles">Roles</a></li>
                             <li><a href="<?=base_url();?>panel/users">User</a></li>
-                            <!-- <li><a href="<?php echo site_url('backend/roles'); ?>">User Roles</a></li> -->
                     <?php
                         }
                         else{
+                            if(($this->session->userdata('admin_data')->roles==3) && (isset($this->session->userdata('admin_data')->id_cabang))){
                     ?>
-                        <li><a href="<?=base_url();?>panel/icon">Icon</a></li>
-                        <li><a href="<?=base_url();?>panel/cabang">Cabang</a></li>
-                        <li><a href="<?=base_url();?>panel/aspek">Aspek</a></li>
-                        <li><a href="<?=base_url();?>panel/pelabuhan">Pelabuhan</a></li>
-                        <li><a href="<?=base_url();?>panel/armada">Armada</a></li>
+                                <!-- <li><a href="<?=base_url();?>panel/icon">Icon</a></li> -->
+                                <!-- <li><a href="<?=base_url();?>panel/cabang">Cabang</a></li> -->
+                                <!-- <li><a href="<?=base_url();?>panel/aspek">Aspek</a></li> -->
+                                <li><a href="<?=base_url();?>panel/pelabuhan">Pelabuhan</a></li>
+                                <li><a href="<?=base_url();?>panel/armada">Armada</a></li>
                     <?php
+                            }else{
+                    ?>
+                                <li><a href="<?=base_url();?>panel/icon">Icon</a></li>
+                                <li><a href="<?=base_url();?>panel/cabang">Cabang</a></li>
+                                <li><a href="<?=base_url();?>panel/aspek">Aspek</a></li>
+                                <li><a href="<?=base_url();?>panel/pelabuhan">Pelabuhan</a></li>
+                                <li><a href="<?=base_url();?>panel/armada">Armada</a></li>
+                    <?php
+                            }
                         }
                     ?>
                 </ul>
             </li>
             <?php
-                if($this->session->userdata('admin_data')->roles!=5){
+                if(($this->session->userdata('admin_data')->roles != 5) && (!isset($this->session->userdata('admin_data')->id_cabang))){
             ?>
                     <li> <a href="<?=base_url();?>panel/photo"><i class="zmdi zmdi-collection-image-o"></i><span>Foto</span> </a> </li>
                     <li> <a href="<?=base_url();?>panel/video"><i class="zmdi zmdi-collection-video"></i><span>Video</span> </a> </li>

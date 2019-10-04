@@ -1474,7 +1474,7 @@ class Panel extends CI_Controller {
 /*---------------------------------------------------------------ASDP----------------------------*/
     public function users() {
         if ($this->session->userdata('admin') &&  $this->session->userdata('admin_data')->roles==5) {
-            $this->load->view('backend/users');
+            $this->load->view('backend/users',['title' => 'Users']);
         } else {
             redirect('panel/login', 'refresh');
         }
@@ -1487,6 +1487,7 @@ class Panel extends CI_Controller {
                 'email' => $this->input->post('email'),
                 'password' => md5($this->input->post('password')),
                 'roles' => $this->input->post('roles'),
+                'id_cabang' => $this->input->post('id_cabang'),
             );
             
             /*if (!empty($_FILES['logo']['name'])) {
@@ -1527,12 +1528,14 @@ class Panel extends CI_Controller {
                     'email' => $this->input->post('email'),
                     'password' => md5($this->input->post('password')),
                     'roles' => $this->input->post('roles'),
+                    'id_cabang' => $this->input->post('id_cabang'),
                 );
             }else{
                 $data = array(
                     'username' => $this->input->post('username'),
                     'email' => $this->input->post('email'),
                     'roles' => $this->input->post('roles'),
+                    'id_cabang' => $this->input->post('id_cabang'),
                 );
             }
             
@@ -1581,7 +1584,7 @@ class Panel extends CI_Controller {
 
     public function pelabuhan() {
         if ($this->session->userdata('admin')) {
-            $this->load->view('backend/pelabuhan');
+            $this->load->view('backend/pelabuhan',['title' => 'Pelabuhan']);
         } else {
             redirect('panel/login', 'refresh');
         }
@@ -1656,7 +1659,7 @@ class Panel extends CI_Controller {
 
     public function armada() {
         if ($this->session->userdata('admin')) {
-            $this->load->view('backend/armada');
+            $this->load->view('backend/armada',['title' => 'Armada']);
         } else {
             redirect('panel/login', 'refresh');
         }
@@ -2095,6 +2098,7 @@ class Panel extends CI_Controller {
         if ($this->input->post('add')) {
             $param = array(
                 'nama_aspek' => cleartext($this->input->post('nama_aspek')),
+                'status' => cleartext($this->input->post('status')),
                 'deskripsi'     => cleartext($this->input->post('deskripsi')),
                 'created_at'   => date('Y-m-d H:i:s'),
                 'created_user'   => cleartext($this->session->userdata('admin_data')->username),
@@ -2106,6 +2110,7 @@ class Panel extends CI_Controller {
         if ($this->input->post('save')) {
             $param = array(
                 'nama_aspek' => cleartext($this->input->post('nama_aspek')),
+                'status' => cleartext($this->input->post('status')),
                 'deskripsi'     => cleartext($this->input->post('deskripsi')),
                 'updated_at'   => date('Y-m-d H:i:s'),
                 'updated_by'   => cleartext($this->session->userdata('admin_data')->username),
@@ -2220,6 +2225,7 @@ class Panel extends CI_Controller {
 
             $param = array(
                 'name'  => cleartext($this->input->post('name')),
+                
                 'deskripsi'  => cleartext($this->input->post('deskripsi')),
                 'path_file'   => $pathfile,
                 'created_at'   => date('Y-m-d H:i:s'),
@@ -2242,6 +2248,7 @@ class Panel extends CI_Controller {
 
                 $param = array(
                     'name'  => cleartext($this->input->post('name')),
+                    
                     'deskripsi'  => cleartext($this->input->post('deskripsi')),
                     'path_file'   => $pathfile,
                     'updated_at'   => date('Y-m-d H:i:s'),
@@ -2251,6 +2258,7 @@ class Panel extends CI_Controller {
             else{
                 $param = array(
                     'name'  => cleartext($this->input->post('name')),
+                    
                     'deskripsi'  => cleartext($this->input->post('deskripsi')),
                     'updated_at'   => date('Y-m-d H:i:s'),
                     'updated_by'   => cleartext($this->session->userdata('admin_data')->username),
@@ -2302,6 +2310,29 @@ class Panel extends CI_Controller {
             $this->m_model->destroy($this->input->get('remove'), 'roles');
             $this->session->set_flashdata('sukses', 'Data Berhasil Di Hapus');
             redirect('panel/roles', 'refresh');
+        }
+    }
+
+    public function signup() {
+        if ($this->session->userdata('admin')) {
+            redirect('panel', 'refresh');
+        } else {
+            $this->load->view('backend/signup');
+        }
+
+        if ($this->input->post('email') && $this->input->post('password')) {
+            $data = array(
+                'username'    => $this->input->post('username'),
+                'email'    => $this->input->post('email'),
+                'password' => $this->input->post('password'),
+            );
+            if ($this->m_model->loginadmin($data) == 1) {
+                redirect('panel', 'refresh');
+            }
+            else{
+                $this->session->set_flashdata('gagal', 'Kesalahan Untuk Registrasi');
+                $this->session->set_userdata($sess_data);
+            }
         }
     }
 }

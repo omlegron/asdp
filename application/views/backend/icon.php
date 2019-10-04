@@ -31,6 +31,7 @@
                                         <textarea rows="4" name="deskripsi" id="deskripsi" placeholder="Deskripsi" class="form-control no-resize" placeholder="Please type what you want..."></textarea>
                                     </div>
                                 </div>
+                                
                             </div>
                             <div class="row clearfix" style="margin-top: 20px;">
                                 <div class="col-lg-2">
@@ -89,6 +90,7 @@
                                         <textarea rows="4" name="deskripsi" id="deskripsi" placeholder="Deskripsi" class="form-control no-resize" placeholder="Please type what you want..."><?=$val[0]->deskripsi;?></textarea>
                                     </div>
                                 </div>
+                                
                             </div>
                             <div class="row clearfix" style="margin-top: 20px;">
                                 <div class="col-lg-2">
@@ -152,6 +154,7 @@
                                     <td>
                                         <?= $value->deskripsi; ?>
                                     </td>
+                                    
                                     <td>
                                         <a class="confirm badge badge-info" msg="Do you want to Edit data?" href="<?= site_url('panel/icon?edit=').$value->id; ?>">Edit</a>
                                     <?php

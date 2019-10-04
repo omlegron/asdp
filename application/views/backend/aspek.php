@@ -9,13 +9,23 @@
                     <div class="body">
                         <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
                             <div class="row clearfix">
-                                <div class="form-group col-lg-6">
+                                <div class="form-group col-lg-4">
+                                    <div class="form-line">
+                                        <label for="nama_aspek">Kategori Status</label>
+                                        <select name="status" class="form-control show-tick" required="">
+                                            <option value="">Pilih Salah Satu</option>
+                                            <option value="Pelabuhan">Pelabuhan</option>
+                                            <option value="Armada">Armada</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-4">
                                     <div class="form-line">
                                         <label for="nama_aspek">Jenis Aspek</label>
                                         <input type="text" class="form-control" id="nama_aspek" placeholder="Keamanan" name="nama_aspek" required >
                                     </div>
                                 </div>
-                                <div class="form-group col-lg-6">
+                                <div class="form-group col-lg-4">
                                     <div class="form-line">
                                         <label for="deskripsi">Deskripsi</label>
                                         <textarea rows="4" name="deskripsi" id="deskripsi" placeholder="Deskripsi" class="form-control no-resize" placeholder="Please type what you want..."></textarea>
@@ -46,13 +56,23 @@
                     </div>
                     <div class="body">
                      <?php
-                        $val = $this->m_model->selectas2('id', cleartext($this->input->get('edit')), 'deleted_at is NULL', NULL, 'jenis_aspeks');
-                        if (count($val)) {
+                        $val = $this->m_model->getOne(cleartext($this->input->get('edit')),'jenis_aspeks');
+                        if ($val) {
                     ?>
 
                         <form class="form-horizontal" action="" method="post">
                             <input name="id" type="hidden" value="<?= $val[0]->id; ?>">
                             <div class="row clearfix">
+                                <div class="form-group col-lg-4">
+                                    <div class="form-line">
+                                        <label for="nama_aspek">Kategori Status</label>
+                                        <select name="status" class="form-control show-tick" required="">
+                                            <option value="">Pilih Salah Satu</option>
+                                            <option value="Pelabuhan" <?php ($val['status'] == 'Pelabuhan') ? 'selected' : ''; ?> >Pelabuhan</option>
+                                            <option value="Armada" <?php ($val['status'] == 'Armada') ? 'selected' : ''; ?> >Armada</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="form-group col-lg-6">
                                     <div class="form-line">
                                         <label for="nama_aspek">Jenis Aspek</label>
@@ -220,6 +240,7 @@
                                     <th>#</th>
                                     <th>Aspek</th>
                                     <th>Sub Aspek</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -235,6 +256,7 @@
                                     <td><?= $key + 1; ?></td>
                                     <td><?= $value->nama_aspek; ?></td>
                                     <td><a class="badge badge-primary" href="<?= site_url('panel/aspek?addsub=true'); ?>">Add Sub Aspek</a></td>
+                                    <td><?= $value->status; ?></td>
                                     <td>
                                         <a class="confirm badge badge-info"  msg="Do you want to Edit data?" href="<?= site_url('panel/aspek?edit=').$value->id; ?>">Edit</a>
                                         <?php
@@ -251,7 +273,7 @@
                                 foreach ($subcategory as $keysub => $valuesub) { ?>
                                 <tr>
                                     <td colspan="2"></td>
-                                    <td><?= $valuesub->name; ?></td>
+                                    <td colspan="2"><?= $valuesub->name; ?></td>
                                     <td>
                                         <a class="badge badge-info"  msg="Do you want to Edit data?" href="<?= site_url('panel/aspek?editsub=').$valuesub->id; ?>">Edit</a>
                                         <?php

@@ -58,24 +58,34 @@
                     </div>
                     <div class="body">
                      <?php
-                        $val = $this->m_model->selectas2('id', cleartext($this->input->get('edit')), 'deleted_at is NULL', NULL, 'cabangs');
-                        if (count($val)) {
+                        $val = $this->m_model->getOne(cleartext($this->input->get('edit')), 'cabangs');
                     ?>
 
                         <form class="form-horizontal" action="" method="post">
-                            <input name="id" type="hidden" value="<?= $val[0]->id; ?>">
+                            <input name="id" type="hidden" value="<?= isset($val['id']) ? $val['id'] : ''; ?>">
                             <div class="row clearfix">
                                 <div class="form-group col-lg-6">
                                     <div class="form-line">
                                         <label for="name">Cabang</label>
-                                        <input type="text" class="form-control" id="name" placeholder="Merak" name="name" required value="<?=$val[0]->name;?>">
+                                        <input type="text" class="form-control" id="name" placeholder="Merak" name="name" required value="<?=isset($val['name']) ? $val['name']: '';?>">
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label>Status</label>
                                     <select name="status" class="form-control show-tick" required>
-                                        <option value="1" <?php if($val[0]->status==1){echo 'selected';}?>>Active</option>
-                                        <option value="0" <?php if($val[0]->status==0){echo 'selected';}?>>UnActive</option>
+                                        <?php
+                                            $sel = '';
+                                            $sel1 = '';
+                                            if(isset($val['status'])){
+                                                if($val['status'] == 1){
+                                                    $sel = 'selected';
+                                                }elseif($val['status'] == 0){
+                                                    $sel1 = 'selected';
+                                                }
+                                            }
+                                        ?>
+                                        <option value="1" <?php echo $sel; ?>>Active</option>
+                                        <option value="0" <?php echo $sel1; ?>>UnActive</option>
                                     </select>
                                 </div>
                             </div>
@@ -87,7 +97,6 @@
                             </div>
                         </form>
 
-                    <?php } ?>
                         
                     </div>
                 </div>
@@ -105,7 +114,16 @@
                                 <h2>List Cabang</h2>
                             </div>
                             <div class="col-lg-2">
-                                <a class="btn btn-primary" href="<?= site_url('panel/cabang?add=true'); ?>">Add Cabang</a>
+                                <?php
+                                    if(isset($this->session->userdata('admin_data')->id_cabang)){
+                                ?>
+                                <?php
+                                    }else{
+                                ?>
+                                    <a class="btn btn-primary" href="<?= site_url('panel/cabang?add=true'); ?>">Add Cabang</a>
+                                <?php
+                                    }
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -121,7 +139,12 @@
                             </thead>
                             <tbody>
                             <?php
-                            $data = $this->m_model->selectas('deleted_at is NULL', NULL, 'cabangs', 'name', 'ASC');
+                            $cabang = $this->session->userdata("admin_data")->id_cabang;
+                            if(isset($this->session->userdata("admin_data")->id_cabang)){
+                                $data = $this->m_model->selectcustom("select * from cabangs where id ='$cabang'");
+                            }else{
+                                $data = $this->m_model->selectcustom("select * from cabangs");
+                            }
                             if (count($data) > 0) {
                                 foreach ($data as $key => $value) {
                                     switch ($value->status) {

@@ -1,3 +1,11 @@
+<script src="/javascripts/application.js" type="text/javascript" charset="utf-8" async defer>
+    jQuery(document).ready(function($) {
+        jQuery(document).change('.roles',function(){
+            console.log('dsdsadb')
+        });
+    });
+</script>
+
 <?php include 'header.php'; ?>
 
     <?php if ($this->input->get('add')) { 
@@ -25,16 +33,16 @@
                                         <input type="email" class="form-control" id="email" placeholder="email" name="email" required>
                                     </div>
                                 </div>
-                                <div class="form-group col-lg-6">
+                                <div class="form-group col-lg-4">
                                     <div class="form-line">
                                         <label for="password">Password</label>
                                         <input type="password" class="form-control" id="password" placeholder="Password" name="password" minlength="8" required>
                                     </div>
                                 </div>
-                                <div class="form-group col-lg-6">
+                                <div class="form-group col-lg-4">
                                     <div class="form-line">
                                         <label >Role User</label>
-                                        <select name="roles" class="form-control show-tick" required>
+                                        <select name="roles" class="form-control show-tick roles" required>
                                             <option value="">Pilih</option>
                                             <?php
                                                 foreach ($roles as $key => $valueRoles) {
@@ -47,6 +55,23 @@
                                         </select>
                                     </div>
                                 </div>
+                                 <div class="form-group col-lg-4">
+                                    <div class="form-line">
+                                        <label >Cabang</label>
+                                        <select name="id_cabang" class="form-control show-tick" required>
+                                            <option value="">Pilih Cabang</option>
+                                            <?php
+                                                foreach ($this->m_model->all('cabangs') as $key => $val) {
+                                                    # code...
+                                            ?>
+                                                    <option value="<?=$val->id;?>"><?=$val->name;?></option>
+                                            <?php
+                                                }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+
                                 <!--<div class="form-group col-lg-6">
                                     <div class="form-group form-float">
                                         <label class="form-label">Logo</label>
@@ -101,11 +126,11 @@
                                     <label for="email">Email</label>
                                     <input type="email" class="form-control" id="email" placeholder="email" name="email" value="<?=$val[0]->email;?>" required>
                                 </div>
-                                <div class="form-group col-lg-6">
+                                <div class="form-group col-lg-4">
                                     <label for="password">Password</label>
                                     <input type="password" class="form-control" id="password" placeholder="Fill if you want change the Password" name="password" minlength="8">
                                 </div>
-                                <div class="form-group col-lg-6">
+                                <div class="form-group col-lg-4">
                                     <label >Role User</label>
                                     <select name="roles" class="form-control show-tick" required>
                                         <option value="">Pilih</option>
@@ -123,9 +148,31 @@
                                         ?>
                                     </select>
                                 </div>
-                            </div>
 
-                            <div class="row clearfix" style="margin-top: 20px;">
+                                 <div class="form-group col-lg-4">
+                                    <div class="form-line">
+                                        <label >Cabang</label>
+                                        <select name="id_cabang" class="form-control show-tick" required>
+                                            <option value="">Pilih Cabang</option>
+                                            <?php
+                                                foreach ($this->m_model->all('cabangs') as $key => $vals) {
+                                                    $selectedCab="";
+                                                    if(isset($val[0]->id_cabang)){
+                                                        if($vals->id == $val[0]->id_cabang){
+                                                            $selectedCab="selected";
+                                                        }
+                                                    }
+                                            ?>
+                                                    <option value="<?=$vals->id;?>" <?=$selectedCab;?> ><?=$vals->name;?></option>
+                                            <?php
+                                                }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row clearfix pull-right" style="margin-top: 20px;">
                                 <div class="col-lg-2">
                                     <a href="<?=$this->uri->segment('2');?>" class="btn btn-block btn-danger">Back</a>
                                 </div>

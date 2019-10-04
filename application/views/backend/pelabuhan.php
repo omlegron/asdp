@@ -162,14 +162,20 @@
                     </div>
                 </div>
                 <div class="col-lg-4">
+                   
                         <div class="btn-group float-right">
                             <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> aspek <span class="caret"></span> </button>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Keamanan</a></li>
-                                <li><a href="javascript:void(0);">Another action</a></li>
-                                <li><a href="javascript:void(0);">Something else here</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="javascript:void(0);">Separated link</a></li>
+                                <?php 
+                                    if(count($this->m_model->all('jenis_aspeks')) > 0){
+                                        foreach ($this->m_model->all('jenis_aspeks') as $k => $value) {
+                                        ?>
+                                            <li><a href="<?php echo site_url(); ?>backend/pelabuhan/<?php echo slugify($value->nama_aspek); ?>"><?php echo $value->nama_aspek; ?></a></li>
+
+                                        <?php                
+                                        }
+                                    }
+                                ?>
                             </ul>
                             <a href="<?=base_url();?>panel/pelabuhan?edit=<?=$val[0]->id;?>"  class="btn btn-primary btn-sm" style="color: #fff">Edit</a>
                             <a href="<?=base_url();?>panel/pelabuhan?remove=<?=$val[0]->id;?>"  class="confirm btn btn-danger btn-sm" msg="Are you sure to Delete data?" style="color: #fff">Delete</a>
@@ -191,67 +197,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 pl-0 pt-0">
-                            <div class="row">
-                                <div class="col-lg-3 col-md-6 col-sm-12 text-center">
-                                        <div class="card tasks_report">
-                                            <div class="body">
-                                                <input type="text" class="knob dial1" value="66" data-width="50" data-height="50" data-thickness="0.05" data-fgColor="#00ced1" readonly>
-                                                <h6 class="m-t-20">Aspek<br>Keselamatan</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-6 col-sm-12 text-center">
-                                        <div class="card tasks_report">
-                                            <div class="body">
-                                                <input type="text" class="knob dial1" value="66" data-width="50" data-height="50" data-thickness="0.05" data-fgColor="#00ced1" readonly>
-                                                <h6 class="m-t-20">Aspek<br>Keamanan</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-6 col-sm-12 text-center">
-                                        <div class="card tasks_report">
-                                            <div class="body">
-                                                <input type="text" class="knob dial1" value="66" data-width="50" data-height="50" data-thickness="0.05" data-fgColor="#00ced1" readonly>
-                                                <h6 class="m-t-20">Aspek<br>Kehandalan</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-6 col-sm-12 text-center">
-                                        <div class="card tasks_report">
-                                            <div class="body">
-                                                <input type="text" class="knob dial2" value="26" data-width="50" data-height="50" data-thickness="0.05" data-fgColor="#ffa07a" readonly>
-                                                <h6 class="m-t-20">Aspek<br>Kenyamanan</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="col-lg-3 col-md-6 col-sm-12 text-center">
-                                        <div class="card tasks_report">
-                                            <div class="body">
-                                                <input type="text" class="knob dial3" value="76" data-width="50" data-height="50" data-thickness="0.05" data-fgColor="#8fbc8f" readonly>
-                                                <h6 class="m-t-20">Aspek<br>Kebersihan</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-6 col-sm-12 text-center">
-                                        <div class="card tasks_report">
-                                            <div class="body">
-                                                <input type="text" class="knob dial4" value="88" data-width="50" data-height="50" data-thickness="0.05" data-fgColor="#00adef" readonly>
-                                                <h6 class="m-t-20">Aspek<br>Keterjangkauan</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-6 col-sm-12 text-center">
-                                        <div class="card tasks_report">
-                                            <div class="body">
-                                                <input type="text" class="knob dial1" value="66" data-width="50" data-height="50" data-thickness="0.05" data-fgColor="#00ced1" readonly>
-                                                <h6 class="m-t-20">Aspek<br>Kesetaraan</h6>
-                                            </div>
-                                        </div>
-                                    </div>                 
-                                </div>
-                            </div>
                     </div>
                 </div>
             </div>

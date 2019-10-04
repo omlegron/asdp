@@ -32,12 +32,33 @@
                                     <a href="index.html">
                                         <span><img src="<?=base_url();?>assets/login/images/logo-dark.png" alt="" height="50"></span>
                                     </a>
-                                </div>
+                                </div><br>
+
+                                <center><h3>Please Signup</h3></center>
+                                <p>
+                                    <center>
+                                         <?php 
+                                            $data=$this->session->flashdata('sukses');
+                                            if($data!=""){ ?>
+                                            <div class="alert alert-success"><strong>Sukses! </strong> <?=$data;?></div>
+                                            <?php } ?>
+                                            <?php 
+                                            $data2=$this->session->flashdata('error');
+                                            if($data2!=""){ ?>
+                                            <div class="alert alert-danger"><strong> Error! </strong> <?=$data2;?></div>
+                                        <?php } ?>
+                                    </center>
+                                </p>
                                 <form action="" style="padding-top: 30px;" method="POST">
 
                                     <div class="form-group mb-3">
                                         <label for="emailaddress">Username</label>
-                                        <input name="email" type="text" required="" class="form-control" placeholder="Username">
+                                        <input name="username" type="text" required="" class="form-control" placeholder="Username">
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        <label for="emailaddress">Email</label>
+                                        <input name="email" type="text" required="" class="form-control" placeholder="Email">
                                     </div>
 
                                     <div class="form-group mb-3">
@@ -53,8 +74,8 @@
                                     </div>
 
                                     <div class="form-group mb-0 text-center">
-                                        <button class="btn btn-primary btn-block" type="submit"> Log In </button>
-                                        <!-- <a class="btn btn-success btn-block" href="<?php base_url(''); ?>signup"> Signup </a> -->
+                                        <button class="btn btn-primary btn-block" type="submit"> Submit </button>
+                                        <a class="btn btn-success btn-block" href="<?php base_url(); ?>login"> Login </a>
                                     </div>
                                 </form>
                                 <?php

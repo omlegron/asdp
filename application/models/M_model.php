@@ -90,12 +90,12 @@ Class M_model extends CI_Model {
         return $query->result();
     }
 
-    function selectas($as, $data, $dbase, $key_order=null, $type_order=null) {
+    function selectas($as, $data, $dbase, $key_order='id', $type_order=null) {
         $this->db->select('*');
         $this->db->where($as, clearText($data));
         if($key_order!=null){
             if($type_order ==null){
-                $type_order='ASC';
+                $type_order='DESC';
             }
             $this->db->order_by($key_order, $type_order);
         }
@@ -371,7 +371,19 @@ Class M_model extends CI_Model {
         }
     }
 
-//==================================
+// ================================== NEW FUNCTION FOR A ONE TO MANY CALL //
+    function all($db){
+        $query = $this->db->get($db);
+        return $query->result();
+    }
+
+    function getOne($id,$db){
+        $this->db->select('*');
+        $this->db->where('id', $id);
+        $cek = $this->db->get($db)->row_array();
+
+        return $cek;
+    }
 }
 
 ?>
