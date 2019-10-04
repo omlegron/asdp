@@ -153,9 +153,9 @@
                         </div>
                         <div class="body">
                          <?php
-                            $val = $this->m_model->selectas('id', $this->input->get('detail'), 'pelabuhans');
-                            if (count($val)) {
-                                $img=check_img($val[0]->foto);
+                            $val = $this->m_model->getOne($this->input->get('detail'), 'pelabuhans');
+                            if ($val) {
+                                $img=check_img($val['foto']);
                         ?>
         <!--<div class="row">
             <div class="col-lg-5 col-md-6 col-sm-12">
@@ -189,8 +189,8 @@
                                     }
                                 ?>
                             </ul>
-                            <a href="<?=base_url();?>panel/pelabuhan?edit=<?=$val[0]->id;?>"  class="btn btn-primary btn-sm" style="color: #fff">Edit</a>
-                            <a href="<?=base_url();?>panel/pelabuhan?remove=<?=$val[0]->id;?>"  class="confirm btn btn-danger btn-sm" msg="Are you sure to Delete data?" style="color: #fff">Delete</a>
+                            <a href="<?=base_url();?>panel/pelabuhan?edit=<?=$val['id'];?>"  class="btn btn-primary btn-sm" style="color: #fff">Edit</a>
+                            <a href="<?=base_url();?>panel/pelabuhan?remove=<?=$val['id'];?>"  class="confirm btn btn-danger btn-sm" msg="Are you sure to Delete data?" style="color: #fff">Delete</a>
                         </div>
                     </div>
             </div>
@@ -204,8 +204,8 @@
                         <div class="col-md-12 pl-0">
                             <div class="card mb-0" style="border-bottom: 2px solid #000">
                                 <div class="body">
-                                    <h2><?=$val[0]->name;?></h2>
-                                    <p><?=$val[0]->deskripsi;?></p>
+                                    <h2><?=$val['name'];?></h2>
+                                    <p><?=$val['deskripsi'];?></p>
                                 </div>
                             </div>
                         </div>
