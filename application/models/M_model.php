@@ -384,6 +384,10 @@ Class M_model extends CI_Model {
 
         return $cek;
     }
+
+    function createNew($data, $dbase) {
+        return $this->db->insert($dbase, $data);
+    }
 }
 
 ?>

@@ -2121,26 +2121,33 @@ class Panel extends CI_Controller {
 
         //---
         if ($this->input->get('remove')) {
-            $createdata = array(
-                'deleted_at'  => date('Y-m-d H:i:s'),
-                'deleted_by'   => cleartext($this->session->userdata('admin_data')->username),
-            );
-            $this->m_model->updateas('id', cleartext($this->input->get('remove')), $createdata, 'jenis_aspeks');
+            
+            $this->m_model->destroy($this->input->get('remove'), 'jenis_aspeks');
             redirect('panel/aspek', 'refresh');
         }
         //---
         if ($this->input->post('addsubaspek')) {
+            // print_r($this->input->post('icon'));
             $data = array(
                 'jenis_aspek_id' => cleartext($this->input->post('jenis_aspeks')),
                 'name'            => cleartext($this->input->post('sub_aspek')),
                 'created_at' => date('Y-m-d H:i:s'),
                 'created_user' => cleartext($this->session->userdata('admin_data')->username),
             );
-            if ($this->m_model->create($data, 'sub_aspeks') == 1) {
-                redirect('panel/aspek', 'refresh');
-            } else {
-                redirect('panel/aspek', 'refresh');
+            // print_r($data);
+            // die();
+            $this->m_model->create($data,'sub_aspeks');
+            $arr = [];
+            $saves = $this->db->insert_id();
+            // print_r($this->db->insert_id());
+            // die();
+            foreach ($this->input->post('icon') as $k => $value) {
+                $arr[$k]['trans_sub_id'] = $saves;
+                $arr[$k]['trans_icon_id'] = $k;
+                $arr[$k]['status'] = $value;
             }
+            $this->db->insert_batch('sub_aspeks_icon',$arr);
+            redirect('panel/aspek', 'refresh');
         }
         if ($this->input->post('savesub')) {
            $data = array(
@@ -2150,11 +2157,15 @@ class Panel extends CI_Controller {
             );
             $update = $this->m_model->updateas('id', $this->input->post('id'), $data,
                 'sub_aspeks');
-            if ($update == 1) {
-                redirect('panel/aspek', 'refresh');
-            } else {
-                redirect('panel/aspek', 'refresh');
+            $arr = [];
+            foreach ($this->input->post('icon') as $k => $value) {
+                $arr[$k]['trans_sub_id'] = $this->input->post('id');
+                $arr[$k]['trans_icon_id'] = $k;
+                $arr[$k]['status'] = $value;
             }
+            $this->m_model->deleteas('trans_sub_id',$this->input->post('id'),'sub_aspeks_icon');
+            $this->db->insert_batch('sub_aspeks_icon',$arr);
+            redirect('panel/aspek', 'refresh');
         }
         if ($this->input->get('removesub')) {
             $createdata = array(

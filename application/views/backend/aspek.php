@@ -56,33 +56,39 @@
                     </div>
                     <div class="body">
                      <?php
-                        $val = $this->m_model->getOne(cleartext($this->input->get('edit')),'jenis_aspeks');
+                        $val = $this->m_model->getOne($this->input->get('edit'),'jenis_aspeks');
                         if ($val) {
                     ?>
 
                         <form class="form-horizontal" action="" method="post">
-                            <input name="id" type="hidden" value="<?= $val[0]->id; ?>">
+                            <input name="id" type="hidden" value="<?= $val['id']; ?>">
                             <div class="row clearfix">
-                                <div class="form-group col-lg-4">
-                                    <div class="form-line">
+                                <?php
+                                    $checkPela = '';
+                                    $checkArma = '';
+                                    if($val['status'] == 'Pelabuhan'){
+                                        $checkPela = 'selected';
+                                    }elseif($val['status'] == 'Armada'){
+                                        $checkArma = 'selected';
+                                    }           
+                                ?>
+                                <div class="form-group col-lg-6">
                                         <label for="nama_aspek">Kategori Status</label>
                                         <select name="status" class="form-control show-tick" required="">
-                                            <option value="">Pilih Salah Satu</option>
-                                            <option value="Pelabuhan" <?php ($val['status'] == 'Pelabuhan') ? 'selected' : ''; ?> >Pelabuhan</option>
-                                            <option value="Armada" <?php ($val['status'] == 'Armada') ? 'selected' : ''; ?> >Armada</option>
+                                            <option value="Pelabuhan" <?php $checkPela; ?> >Pelabuhan</option>
+                                            <option value="Armada" <?php $checkArma; ?> >Armada</option>
                                         </select>
-                                    </div>
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <div class="form-line">
                                         <label for="nama_aspek">Jenis Aspek</label>
-                                        <input type="text" class="form-control" id="nama_aspek" placeholder="Keamanan" name="nama_aspek" required value="<?=$val[0]->nama_aspek;?>">
+                                        <input type="text" class="form-control" id="nama_aspek" placeholder="Keamanan" name="nama_aspek" required value="<?=$val['nama_aspek'];?>">
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <div class="form-line">
                                         <label for="deskripsi">Deskripsi</label>
-                                        <textarea rows="4" name="deskripsi" id="deskripsi" placeholder="Deskripsi" class="form-control" placeholder="Please type what you want..."><?=$val[0]->deskripsi;?></textarea>
+                                        <textarea rows="4" name="deskripsi" id="deskripsi" placeholder="Deskripsi" class="form-control" placeholder="Please type what you want..."><?=$val['deskripsi'];?></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -114,7 +120,7 @@
 
                         <form class="form-horizontal" action="" method="post">
                             <div class="row clearfix">
-
+                                                
                                 <div class="col-lg-12">
                                     <div class="form-group form-float">
                                         <label class="form-label">Aspek</label>
@@ -122,8 +128,12 @@
                                             <option value="">Pilih Aspek</option>
                                             <?php $jenis_aspeks = $this->m_model->select('jenis_aspeks');
                                             if (count($jenis_aspeks) > 0) {
+                                                $slectd = '';
                                                 foreach ($jenis_aspeks as $key => $value) {
-                                                    echo '<option value="'.$value->id.'">'.$value->nama_aspek.'</option>';
+                                                    if($this->input->get('addsub') == $value->id){
+                                                        $slectd = 'selected';
+                                                    }
+                                                    echo '<option value="'.$value->id.'" '.$slectd.'>'.$value->nama_aspek.'</option>';
                                                 }
                                              } ?>
                                         </select>
@@ -138,7 +148,44 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <div class="col-md-12" style="max-height: 350px;overflow-x: scroll;">
+                                    <table class="table table-responsive table-bordered">
+                                        <thead>
+                                            <tr style="text-align: center">
+                                                <th style="width: 50px;text-align: center;">#</th>
+                                                <th style="width: 550px;text-align: center;">Name</th>
+                                                <th style="width: 350px;text-align: center;">Icon</th>
+                                                <th style="width: 100px;text-align: center;">
+                                                    Action Add
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="appendBody">
+                                            <?php
+                                                if(count($this->m_model->all('icon')) > 0){
+                                                    foreach ($this->m_model->all('icon') as $k => $value) {
+                                                        $img=check_img($value->path_file);
+                                            ?>
+                                                    <tr>
+                                                        <td style="text-align: center;"><?php echo $k+1; ?></td>
+                                                        <td><?php echo $value->name; ?></td>
+                                                        <td style="text-align:center;">
+                                                            <img src="<?=$img['path'];?>" class="img-responsive" style="cursor: pointer; max-width: 50px; max-height:50px;" data-fancybox="images<?= $k + 1; ?>" href="<?=$img['path'];?>">
+                                                        </td>
+                                                        <td style="text-align: center">
+                                                            <select name="icon[<?php echo $value->id; ?>]" class="form-control show-tick">
+                                                                <option value="Active" selected>Active</option>
+                                                                <option value="Non Active">Non Active</option>
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                            <?php
+                                                    }
+                                                }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
 
                             <div class="row clearfix" style="margin-top: 20px;">
@@ -199,6 +246,50 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-12" style="max-height: 350px;overflow-x: scroll;">
+                                    <?php
+                                        $subNewId = $sub_aspek[0]->id;
+
+                                    ?>
+                                    <table class="table table-responsive table-bordered">
+                                        <thead>
+                                            <tr style="text-align: center">
+                                                <th style="width: 50px;text-align: center;">#</th>
+                                                <th style="width: 550px;text-align: center;">Name</th>
+                                                <th style="width: 350px;text-align: center;">Icon</th>
+                                                <th style="width: 100px;text-align: center;">
+                                                    Action Add
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="appendBody">
+                                            <?php
+                                                $cekAll = $this->m_model->selectcustom("select * from sub_aspeks_icon where trans_sub_id='$subNewId'");
+                                                if(count($cekAll) > 0){
+                                                    foreach ($cekAll as $k => $value) {
+                                                        $cekONe = $this->m_model->getOne($value->trans_icon_id,'icon');
+                                                        $img=check_img($cekONe['path_file']);
+                                            ?>
+                                                    <tr>
+                                                        <td style="text-align: center;"><?php echo $k+1; ?></td>
+                                                        <td><?php echo $cekONe['name']; ?></td>
+                                                        <td style="text-align:center;">
+                                                            <img src="<?=$img['path'];?>" class="img-responsive" style="cursor: pointer; max-width: 50px; max-height:50px;" data-fancybox="images<?= $k + 1; ?>" href="<?=$img['path'];?>">
+                                                        </td>
+                                                        <td style="text-align: center">
+                                                            <select name="icon[<?php echo $cekONe['id']; ?>]" class="form-control show-tick">
+                                                                <option value="Active" <?php ($value->status == 'Active') ? 'selected' : ''; ?>>Active</option>
+                                                                <option value="Non Active" <?php ($value->status == 'Non Active') ? 'selected' : '';  ?>>Non Active</option>
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                            <?php
+                                                    }
+                                                }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                             <div class="row clearfix" style="margin-top: 20px;">
                                 <div class="col-lg-2">
@@ -229,11 +320,17 @@
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card">
                     <div class="header">
+                     <div class="row">
+                         
+                    <div class="col-lg-10">
                         <h2>Aspek</h2>
                     </div>
+                    <div class="col-lg-2">
+                        <a class="btn btn-primary pull-right" href="<?= site_url('panel/aspek?add=true'); ?>">Add Aspek</a>
+                    </div>
+                     </div>
                     <div class="body">
 
-                    <a class="btn btn-primary" href="<?= site_url('panel/aspek?add=true'); ?>">Add Aspek</a>
                         <table class="table table-bordered table-striped table-hover dataTable js-basic-example">
                             <thead>
                                 <tr>
@@ -255,14 +352,14 @@
                                 <tr>
                                     <td><?= $key + 1; ?></td>
                                     <td><?= $value->nama_aspek; ?></td>
-                                    <td><a class="badge badge-primary" href="<?= site_url('panel/aspek?addsub=true'); ?>">Add Sub Aspek</a></td>
+                                    <td><a class="badge badge-primary" href="<?= site_url('panel/aspek?addsub='.$value->id); ?>">Add Sub Aspek</a></td>
                                     <td><?= $value->status; ?></td>
                                     <td>
                                         <a class="confirm badge badge-info"  msg="Do you want to Edit data?" href="<?= site_url('panel/aspek?edit=').$value->id; ?>">Edit</a>
                                         <?php
                                             if(count($subcategory)<=0 && $this->session->userdata('admin_data')->roles==1){
                                         ?>
-                                                <a class="confirm badge badge-warning" msg="Are you sure to Delete data?" href="#">Delete</a>
+                                                <a class="confirm badge badge-warning" msg="Are you sure to Delete data?" href="<?= site_url('panel/aspek?remove=').$value->id; ?>">Delete</a>
                                         <?php
                                             }
                                         ?>
