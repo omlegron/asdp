@@ -144,6 +144,11 @@
         <ul class="list">
             <li class="header">MAIN NAVIGATION</li>
             <li> <a href="<?=base_url();?>"><i class="zmdi zmdi-home"></i><span>Beranda</span> </a> </li>
+            <?php
+                if($this->session->userdata('admin_data')->roles == 4){
+
+                }else{
+            ?>
             <li> <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-folder-outline"></i><span>Master Data</span></a>
                 <ul class="ml-menu">
                     <?php
@@ -164,7 +169,7 @@
 
                     <?php
                             }else{
-                    ?>
+                    ?>          
                                 <li><a href="<?=base_url();?>panel/icon">Icon</a></li>
                                 <li><a href="<?=base_url();?>panel/cabang">Cabang</a></li>
                                 <li><a href="<?=base_url();?>panel/aspek">Aspek</a></li>
@@ -177,6 +182,8 @@
                 </ul>
             </li>
             <?php
+                }
+                
                 if(($this->session->userdata('admin_data')->roles != 5) && (!isset($this->session->userdata('admin_data')->id_cabang))){
             ?>
                     <li> <a href="<?=base_url();?>panel/photo"><i class="zmdi zmdi-collection-image-o"></i><span>Foto</span> </a> </li>

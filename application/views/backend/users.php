@@ -58,7 +58,7 @@
                                  <div class="form-group col-lg-4">
                                     <div class="form-line">
                                         <label >Cabang</label>
-                                        <select name="id_cabang" class="form-control show-tick" required>
+                                        <select name="id_cabang" class="form-control show-tick">
                                             <option value="">Pilih Cabang</option>
                                             <?php
                                                 foreach ($this->m_model->all('cabangs') as $key => $val) {
