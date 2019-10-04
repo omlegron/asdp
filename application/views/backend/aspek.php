@@ -1,3 +1,19 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> <!-- Lib Scripts Plugin Js --> 
+
+<script type="text/javascript">
+    // #myInput is a <input type="text"> element
+    $(document).on('click','.searchs', function () {
+        var table = $('#example').DataTable();
+        table.columns( 3 ).search( $('input[name="filter[status]"]').val() ).draw();
+    } );
+    $(document).ready(function(){
+        $.fn.dataTable.ext.errMode = 'none';
+
+        $('#example').on( 'error.dt', function ( e, settings, techNote, message ) {
+            // console.log( 'An error has been reported by DataTables: ', message );
+        }) ;
+    });
+</script>
 <?php include 'header.php'; ?>
     <?php if ($this->input->get('add')) { ?>
         <div class="row clearfix">
@@ -328,15 +344,25 @@
                     <div class="col-lg-2">
                         <a class="btn btn-primary pull-right" href="<?= site_url('panel/aspek?add=true'); ?>">Add Aspek</a>
                     </div>
-                     </div>
+                   
+                    </div>
                     <div class="body">
-
-                        <table class="table table-bordered table-striped table-hover dataTable js-basic-example">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="input-group" style="width: 150px;border: 1px solid black !important;height: 39px">
+                                  <input type="text" class="form-control" name="filter[status]" placeholder="Search Status" style="">
+                                  <div class="input-group-btn">
+                                    <button type="button" class="btn btn-success searchs" style="position: relative;top: 4px;">Search </button>
+                                  </div><!-- /btn-group -->
+                                </div><!-- /input-group -->
+                            </div>
+                        </div>
+                        <table id="example" class="table table-bordered table-striped table-hover dataTable js-basic-example" style="font-size: 11px">
                             <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>Aspek</th>
-                                    <th>Sub Aspek</th>
+                                    <th colspan="5">Sub Aspek</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -351,8 +377,8 @@
                             ?>
                                 <tr>
                                     <td><?= $key + 1; ?></td>
-                                    <td><?= $value->nama_aspek; ?></td>
-                                    <td><a class="badge badge-primary" href="<?= site_url('panel/aspek?addsub='.$value->id); ?>">Add Sub Aspek</a></td>
+                                    <td><b><?= $value->nama_aspek; ?></b></td>
+                                    <td colspan="5"><a class="badge badge-primary" href="<?= site_url('panel/aspek?addsub='.$value->id); ?>">Add Sub Aspek</a></td>
                                     <td><?= $value->status; ?></td>
                                     <td>
                                         <a class="confirm badge badge-info"  msg="Do you want to Edit data?" href="<?= site_url('panel/aspek?edit=').$value->id; ?>">Edit</a>
@@ -369,8 +395,31 @@
                             if (count($subcategory) > 0) {
                                 foreach ($subcategory as $keysub => $valuesub) { ?>
                                 <tr>
-                                    <td colspan="2"></td>
-                                    <td colspan="2"><?= $valuesub->name; ?></td>
+                                    <td colspan=""></td>
+                                    <td colspan="7">
+                                        <li style="list-style: none"> <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block"><span class="badge badge-warning" style="font-size: 12px"><?= $valuesub->name; ?></span></a>
+                                            <ul class="ml-menu" style="display: none;">
+                                                <?php  
+                                                    foreach ($this->m_model->selectwhere('trans_sub_id',$valuesub->id,'sub_aspeks_icon') as $keySubIco => $valueSubIco) {
+                                                        $cekReal = $this->m_model->getOne($valueSubIco->trans_icon_id,'icon');
+                                                        $imgs=check_img($cekReal['path_file']);
+                                                ?>
+                                                <li style="list-style: none">
+                                                    <div class="list-group">
+                                                        <a href="javascript:void(0)" class="list-group-item ">
+                                                            <img src="<?=$imgs['path'];?>" class="img-responsive" style="cursor: pointer; max-width: 50px; max-height:50px;" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>">&nbsp;
+                                                            <h6 class="list-group-item-header">  <?php echo $cekReal['name']; ?></h6>
+                                                            <p class="list-group-item-text"><?php echo $cekReal['deskripsi'] ?></p> 
+                                                        </a>
+                                                    </div>
+                                                </li>
+                                                <?php
+                                                    }
+                                                ?>
+                                            </ul>
+                                        </li>
+                                        
+                                    </td>
                                     <td>
                                         <a class="badge badge-info"  msg="Do you want to Edit data?" href="<?= site_url('panel/aspek?editsub=').$valuesub->id; ?>">Edit</a>
                                         <?php

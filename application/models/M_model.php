@@ -104,6 +104,20 @@ Class M_model extends CI_Model {
         return $query->result();
     }
 
+    function selectwhere($as, $data, $dbase, $key_order='id', $type_order=null) {
+        $this->db->select('*');
+        $this->db->where($as, $data);
+        if($key_order!=null){
+            if($type_order ==null){
+                $type_order='DESC';
+            }
+            $this->db->order_by($key_order, $type_order);
+        }
+        $query = $this->db->get($dbase);
+
+        return $query->result();
+    }
+
     function selectasgroup($as, $data, $group, $dbase, $key_order=null, $type_order=null) {
         $this->db->select('*');
         $this->db->where($as, clearText($data));

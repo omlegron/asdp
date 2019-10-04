@@ -1,9 +1,16 @@
-<script src="/javascripts/application.js" type="text/javascript" charset="utf-8" async defer>
-    jQuery(document).ready(function($) {
-        jQuery(document).change('.roles',function(){
-            console.log('dsdsadb')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> <!-- Lib Scripts Plugin Js --> 
+
+<script type="text/javascript">
+    // jQuery(document).ready(function($) {
+        $(document).on('change','select[name="roles"]',function(){
+            if($(this).val() == 3){
+                $('.cabang').show();
+            }else{
+                $('.cabang').hide();
+
+            }
         });
-    });
+    // });
 </script>
 
 <?php include 'header.php'; ?>
@@ -55,7 +62,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                 <div class="form-group col-lg-4">
+                                 <div class="form-group col-lg-4 cabang">
                                     <div class="form-line">
                                         <label >Cabang</label>
                                         <select name="id_cabang" class="form-control show-tick">
