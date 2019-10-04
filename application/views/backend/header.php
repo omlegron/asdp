@@ -161,6 +161,7 @@
                                 <!-- <li><a href="<?=base_url();?>panel/aspek">Aspek</a></li> -->
                                 <li><a href="<?=base_url();?>panel/pelabuhan">Pelabuhan</a></li>
                                 <li><a href="<?=base_url();?>panel/armada">Armada</a></li>
+
                     <?php
                             }else{
                     ?>
@@ -181,6 +182,11 @@
                     <li> <a href="<?=base_url();?>panel/photo"><i class="zmdi zmdi-collection-image-o"></i><span>Foto</span> </a> </li>
                     <li> <a href="<?=base_url();?>panel/video"><i class="zmdi zmdi-collection-video"></i><span>Video</span> </a> </li>
                     <li> <a href="#"><i class="zmdi zmdi-file"></i><span>Laporan</span> </a> </li>
+            <?php
+                }else{
+            ?>
+                <li> <a href="<?=base_url();?>panel/photo"><i class="zmdi zmdi-collection-image-o"></i><span>Foto</span> </a> </li>
+                <li> <a href="<?=base_url();?>panel/video"><i class="zmdi zmdi-collection-video"></i><span>Video</span> </a> </li>
             <?php
                 }
             ?>

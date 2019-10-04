@@ -124,7 +124,15 @@
                                 <h2>List Video</h2>
                             </div>
                             <div class="col-lg-2">
+                                <?php
+                                    if(isset($this->session->userdata('admin_data')->id_cabang)){
+
+                                    }else{
+                                ?>
                                 <a class="btn btn-primary" href="<?= site_url('panel/video?add=true'); ?>">Add Video</a>
+                                <?php
+                                        }
+                                    ?>
                             </div>
                         </div>
                     </div>
@@ -172,7 +180,15 @@
                                         <?=$path_file;?>
                                     </td>
                                     <td>
-                                        <a class="confirm badge badge-info" msg="Do you want to Edit data?" href="<?= site_url('panel/photo?edit=').$value->id; ?>">Edit</a>
+                                        <?php
+                                            if(isset($this->session->userdata('admin_data')->id_cabang)){
+
+                                            }else{
+                                        ?>
+                                                <a class="confirm badge badge-info" msg="Do you want to Edit data?" href="<?= site_url('panel/photo?edit=').$value->id; ?>">Edit</a>
+                                        <?php
+                                            }
+                                        ?>
                                     <?php
                                         if($this->session->userdata('admin_data')->roles==1){
                                     ?>

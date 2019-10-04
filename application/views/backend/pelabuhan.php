@@ -27,17 +27,29 @@
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label>Cabang</label>
+                                    <?php 
+                                        if(isset($this->session->userdata('admin_data')->id_cabang)){
+                                    ?>
+                                        <input type="text" readonly="" class="form-control" value="<?php echo $this->m_model->getOne($this->session->userdata('admin_data')->id_cabang, 'cabangs')['name'] ?>">
+                                        <input type="hidden" name="cabang" class="form-control" value="<?php echo $this->session->userdata('admin_data')->id_cabang; ?>">
+                                    <?php
+                                        }else{
+                                    ?>
                                     <select name="cabang" class="form-control show-tick" required>
                                             <option value="">Pilih</option>
                                         <?php
                                             foreach ($cabangs as $keycabangs => $valuecabangs) {
-                                                # code...
+                                                $selected = '';
+                                                
                                         ?>
                                                 <option value="<?=$valuecabangs->id;?>"><?=$valuecabangs->name;?></option>
                                         <?php
                                             }
                                         ?>
                                     </select>
+                                    <?php
+                                            }
+                                        ?>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Foto Pelabuhan (cover)</label>
@@ -71,24 +83,24 @@
                     </div>
                     <div class="body">
                      <?php
-                        $val = $this->m_model->selectas('id', $this->input->get('edit'), 'pelabuhans');
+                        $val = $this->m_model->getOne($this->input->get('edit'), 'pelabuhans');
                         if (count($val)) {
-                            $img=check_img($val[0]->foto);
+                            $img=check_img($val['foto']);
                     ?>
 
                         <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
-                            <input name="id" type="hidden" value="<?= $val[0]->id; ?>">
+                            <input name="id" type="hidden" value="<?= $val['id']; ?>">
                             <div class="row clearfix">
                                 <div class="form-group col-lg-6">
                                     <div class="form-line">
                                         <label for="name">Nama Pelabuhan</label>
-                                        <input type="text" class="form-control" id="name" placeholder="Muara Karang" name="name" required value="<?=$val[0]->name;?>">
+                                        <input type="text" class="form-control" id="name" placeholder="Muara Karang" name="name" required value="<?=$val['name'];?>">
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <div class="form-line">
                                         <label for="deskripsi">Deskripsi</label>
-                                        <textarea rows="4" name="deskripsi" id="deskripsi" placeholder="Deskripsi" class="form-control no-resize" placeholder="Please type what you want..."><?=$val[0]->deskripsi;?></textarea>
+                                        <textarea rows="4" name="deskripsi" id="deskripsi" placeholder="Deskripsi" class="form-control no-resize" placeholder="Please type what you want..."><?=$val['deskripsi'];?></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-6">
@@ -96,10 +108,10 @@
                                     <select name="cabang" class="form-control show-tick" required>
                                             <option value="">Pilih</option>
                                         <?php
-                                            foreach ($cabangs as $keycabangs => $valuecabangs) {
+                                            foreach ($this->m_model->all('cabangs') as $keycabangs => $valuecabangs) {
                                                 # code...
                                         ?>
-                                                <option value="<?=$valuecabangs->id;?>" <?php if($valuecabangs->id==$val[0]->cabang_id){echo "selected";}?>><?=$valuecabangs->name;?></option>
+                                                <option value="<?=$valuecabangs->id;?>" <?php ($valuecabangs->id==$val['cabang_id']) ? "selected" : '';?>><?=$valuecabangs->name;?></option>
                                         <?php
                                             }
                                         ?>

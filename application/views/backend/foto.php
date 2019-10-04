@@ -130,7 +130,15 @@
                                 <h2>List Foto</h2>
                             </div>
                             <div class="col-lg-2">
-                                <a class="btn btn-primary" href="<?= site_url('panel/photo?add=true'); ?>">Add Foto</a>
+                                <?php
+                                    if(isset($this->session->userdata('admin_data')->id_cabang)){
+
+                                    }else{
+                                ?>
+                                    <a class="btn btn-primary" href="<?= site_url('panel/photo?add=true'); ?>">Add Foto</a>
+                                <?php
+                                    }
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -168,7 +176,15 @@
                                         <img src="<?=$img['path'];?>" class="img-responsive" style="cursor: pointer; max-width: 200px; max-height:150px;" data-fancybox="images<?= $key + 1; ?>" href="<?=$img['path'];?>">
                                     </td>
                                     <td>
+                                    <?php
+                                    if(isset($this->session->userdata('admin_data')->id_cabang)){
+
+                                        }else{
+                                    ?>
                                         <a class="confirm badge badge-info" msg="Do you want to Edit data?" href="<?= site_url('panel/photo?edit=').$value->id; ?>">Edit</a>
+                                    <?php
+                                    }
+                                    ?>
                                     <?php
                                         if($this->session->userdata('admin_data')->roles==1){
                                     ?>

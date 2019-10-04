@@ -27,17 +27,31 @@
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label>Cabang</label>
-                                    <select name="cabang_id" class="form-control show-tick" required>
-                                            <option value="">Pilih</option>
-                                        <?php
-                                            foreach ($pelabuhan as $keypelabuhan => $valuepelabuhan) {
-                                                # code...
-                                        ?>
-                                                <option value="<?=$valuepelabuhan->id;?>"><?=$valuepelabuhan->name;?></option>
-                                        <?php
+                                    <?php 
+                                        if(isset($this->session->userdata('admin_data')->id_cabang)){
+                                    ?>
+                                        <input type="text" readonly="" class="form-control" value="<?php echo $this->m_model->getOne($this->session->userdata('admin_data')->id_cabang, 'cabangs')['name'] ?>">
+                                        <input type="hidden" name="cabang_id" class="form-control" value="<?php echo $this->session->userdata('admin_data')->id_cabang; ?>">
+                                    <?php
+                                        }else{
+                                    ?>
+                                        <select name="cabang_id" class="form-control show-tick" required>
+                                                <option value="">Pilih</option>
+                                            <?php
+                                                foreach ($pelabuhan as $keypelabuhan => $valuepelabuhan) {
+                                                    # code...
+                                            ?>
+                                                    <option value="<?=$valuepelabuhan->id;?>"><?=$valuepelabuhan->name;?></option>
+                                            <?php
+                                                }
+                                            ?>
+                                        </select>
+                                    <?php
                                             }
                                         ?>
-                                    </select>
+
+                                        
+                                    
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Foto Armada (cover)</label>
