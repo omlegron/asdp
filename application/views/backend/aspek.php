@@ -408,7 +408,7 @@
                                                     <div class="list-group">
                                                         <a href="javascript:void(0)" class="list-group-item ">
                                                             <img src="<?=$imgs['path'];?>" class="img-responsive" style="cursor: pointer; max-width: 50px; max-height:50px;" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>">&nbsp;
-                                                            <h6 class="list-group-item-header">  <?php echo $cekReal['name']; ?></h6>
+                                                            <p class="list-group-item-header">  <?php echo $cekReal['name']; ?>. <br></p>&nbsp;&nbsp;&nbsp; 
                                                             <p class="list-group-item-text"><?php echo $cekReal['deskripsi'] ?></p> 
                                                         </a>
                                                     </div>
