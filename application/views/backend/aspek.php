@@ -126,6 +126,14 @@
     <?php } ?>
 
     <?php if ($this->input->get('addsub')) { ?>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('#example').dataTable( {
+                    "paging": false
+                } );
+
+            });          
+        </script>
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card">
@@ -164,13 +172,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12" style="max-height: 350px;overflow-x: scroll;">
-                                    <table class="table table-responsive table-bordered">
+                                <div class="col-md-12" >
+                                    <table class="table table-responsive table-bordered table-striped table-hover dataTable js-basic-example" id="example" style="max-height: 350px;overflow-x: scroll;">
                                         <thead>
                                             <tr style="text-align: center">
                                                 <th style="width: 50px;text-align: center;">#</th>
                                                 <th style="width: 550px;text-align: center;">Name</th>
-                                                <th style="width: 350px;text-align: center;">Icon</th>
+                                                <th style="width: 150px;text-align: center;">Icon</th>
+                                                <th style="width: 350px;text-align: center;">Description</th>
                                                 <th style="width: 100px;text-align: center;">
                                                     Action Add
                                                 </th>
@@ -185,9 +194,21 @@
                                                     <tr>
                                                         <td style="text-align: center;"><?php echo $k+1; ?></td>
                                                         <td><?php echo $value->name; ?></td>
+                                                        
                                                         <td style="text-align:center;">
                                                             <img src="<?=$img['path'];?>" class="img-responsive" style="cursor: pointer; max-width: 50px; max-height:50px;" data-fancybox="images<?= $k + 1; ?>" href="<?=$img['path'];?>">
                                                         </td>
+                                                        <td><?php 
+                                                            $iconSub = $this->m_model->selectas('trans_id', $value->id, 'icon_sub');
+                                                            if (count($iconSub) > 0) {
+                                                                foreach ($iconSub as $k1 => $value) {
+                                                                    $num = $k1+1;
+                                                                    echo ''.$num.'. '.$value->value;
+                                                                }
+                                                            }else{
+                                                                echo 'Not Found';
+                                                            }
+                                                         ?></td>
                                                         <td style="text-align: center">
                                                             <select name="icon[<?php echo $value->id; ?>]" class="form-control show-tick">
                                                                 <option value="Active" selected>Active</option>
@@ -221,6 +242,14 @@
     <?php } ?>
 
     <?php if ($this->input->get('editsub')) { ?>
+         <script type="text/javascript">
+            $(document).ready(function(){
+                $('#example').dataTable( {
+                    "paging": false
+                } );
+
+            });          
+        </script>
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card">
@@ -262,17 +291,18 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12" style="max-height: 350px;overflow-x: scroll;">
+                                <div class="col-md-12">
                                     <?php
                                         $subNewId = $sub_aspek[0]->id;
 
                                     ?>
-                                    <table class="table table-responsive table-bordered">
+                                    <table class="table table-responsive table-bordered table-bordered table-striped table-hover dataTable js-basic-example" id="example" style="max-height: 350px;overflow-x: scroll;">
                                         <thead>
                                             <tr style="text-align: center">
                                                 <th style="width: 50px;text-align: center;">#</th>
                                                 <th style="width: 550px;text-align: center;">Name</th>
-                                                <th style="width: 350px;text-align: center;">Icon</th>
+                                                <th style="width: 150px;text-align: center;">Icon</th>
+                                                <th style="width: 350px;text-align: center;">Description</th>
                                                 <th style="width: 100px;text-align: center;">
                                                     Action Add
                                                 </th>
@@ -292,10 +322,31 @@
                                                         <td style="text-align:center;">
                                                             <img src="<?=$img['path'];?>" class="img-responsive" style="cursor: pointer; max-width: 50px; max-height:50px;" data-fancybox="images<?= $k + 1; ?>" href="<?=$img['path'];?>">
                                                         </td>
+                                                        <td><?php 
+                                                            $iconSub = $this->m_model->selectas('trans_id', $cekONe['id'], 'icon_sub');
+                                                            if (count($iconSub) > 0) {
+                                                                foreach ($iconSub as $k1 => $value) {
+                                                                    $num = $k1+1;
+                                                                    echo ''.$num.'. '.$value->value;
+                                                                }
+                                                            }else{
+                                                                echo 'Not Found';
+                                                            }
+                                                         ?></td>
                                                         <td style="text-align: center">
+                                                            <?php
+                                                                $active = '';
+                                                                $nonAct = '';
+                                                                if($value->status == 'Active'){
+                                                                    $active = 'selected';
+                                                                }elseif($value->status == 'Non Active'){
+                                                                    $nonAct = 'selected';
+                                                                }
+                                                            // print_r($nonAct);
+                                                            ?>
                                                             <select name="icon[<?php echo $cekONe['id']; ?>]" class="form-control show-tick">
-                                                                <option value="Active" <?php ($value->status == 'Active') ? 'selected' : ''; ?>>Active</option>
-                                                                <option value="Non Active" <?php ($value->status == 'Non Active') ? 'selected' : '';  ?>>Non Active</option>
+                                                                <option value="Active" <?= $active ?> >Active</option>
+                                                                <option value="Non Active" <?= $nonAct ?> >Non Active</option>
                                                             </select>
                                                         </td>
                                                     </tr>
@@ -400,7 +451,7 @@
                                         <li style="list-style: none"> <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block"><span class="badge badge-warning" style="font-size: 12px"><?= $valuesub->name; ?></span></a>
                                             <ul class="ml-menu" style="display: none;">
                                                 <?php  
-                                                    foreach ($this->m_model->selectwhere('trans_sub_id',$valuesub->id,'sub_aspeks_icon') as $keySubIco => $valueSubIco) {
+                                                    foreach ($this->m_model->selectWhere2('trans_sub_id',$valuesub->id,'status','Active','sub_aspeks_icon') as $keySubIco => $valueSubIco) {
                                                         $cekReal = $this->m_model->getOne($valueSubIco->trans_icon_id,'icon');
                                                         $imgs=check_img($cekReal['path_file']);
                                                 ?>
@@ -410,6 +461,21 @@
                                                             <img src="<?=$imgs['path'];?>" class="img-responsive" style="cursor: pointer; max-width: 50px; max-height:50px;" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>">&nbsp;
                                                             <p class="list-group-item-header">  <?php echo $cekReal['name']; ?>. <br></p>&nbsp;&nbsp;&nbsp; 
                                                             <p class="list-group-item-text"><?php echo $cekReal['deskripsi'] ?></p> 
+                                                            <div class="col-md-12">
+                                                                <p class="list-group-item-text" style="position: relative;left: 60px">
+                                                                    <?php 
+                                                                        $iconSubIndex = $this->m_model->selectas('trans_id', $cekReal['id'], 'icon_sub');
+                                                                        if (count($iconSubIndex) > 0) {
+                                                                            foreach ($iconSubIndex as $k1 => $valueindex) {
+                                                                                $num = $k1+1;
+                                                                                echo ''.$num.'. '.$valueindex->value;
+                                                                            }
+                                                                        }else{
+                                                                            echo 'Not Found';
+                                                                        }
+                                                                     ?>
+                                                                </p> 
+                                                            </div>
                                                         </a>
                                                     </div>
                                                 </li>

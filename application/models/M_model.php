@@ -42,7 +42,7 @@ Class M_model extends CI_Model {
         $this->db->select('*');
         if($colom_order!=null){
             if($order_type ==null){
-                $order_type='ASC';
+                $order_type='DESC';
             }
             $this->db->order_by($colom_order, $order_type);
         }
@@ -76,13 +76,13 @@ Class M_model extends CI_Model {
         return $query->result();
     }
 
-    function selectasmax($max, $where, $dbase, $key_order=null, $type_order=null) {
+    function selectasmax($max, $where, $dbase, $key_order='id', $type_order=null) {
         $this->db->select("*");
         $this->db->where($where);
         $this->db->limit($max);
         if($key_order!=null){
             if($type_order ==null){
-                $type_order='ASC';
+                $type_order='DESC';
             }
             $this->db->order_by($key_order, $type_order);
         }
@@ -118,13 +118,13 @@ Class M_model extends CI_Model {
         return $query->result();
     }
 
-    function selectasgroup($as, $data, $group, $dbase, $key_order=null, $type_order=null) {
+    function selectasgroup($as, $data, $group, $dbase, $key_order='id', $type_order=null) {
         $this->db->select('*');
         $this->db->where($as, clearText($data));
         $this->db->group_by($group);
         if($key_order !=null){
             if($type_order ==null){
-                $type_order='ASC';
+                $type_order='DESC';
             }
             $this->db->order_by(strtolower($key_order), $type_order);
         }
@@ -133,13 +133,13 @@ Class M_model extends CI_Model {
         return $query->result();
     }
 
-    function selectas2($as, $data, $as2, $data2, $dbase, $key_order=null, $type_order=null) {
+    function selectas2($as, $data, $as2, $data2, $dbase, $key_order='id', $type_order=null) {
         $this->db->select('*');
         $this->db->where($as, clearText($data));
         $this->db->where($as2, clearText($data2));
         if($key_order !=null){
             if($type_order ==null){
-                $type_order='ASC';
+                $type_order='DESC';
             }
             $this->db->order_by(strtolower($key_order), $type_order);
         }
@@ -148,7 +148,7 @@ Class M_model extends CI_Model {
         return $query->result();
     }
 
-    function selectas3($as, $data, $as2, $data2, $as3, $data3, $dbase, $key_order=null, $type_order=null) {
+    function selectas3($as, $data, $as2, $data2, $as3, $data3, $dbase, $key_order='id', $type_order=null) {
         $this->db->select('*');
         $this->db->where($as, clearText($data));
         $this->db->where($as2, clearText($data2));
@@ -387,7 +387,7 @@ Class M_model extends CI_Model {
 
 // ================================== NEW FUNCTION FOR A ONE TO MANY CALL //
     function all($db){
-        $query = $this->db->get($db);
+        $query = $this->db->order_by('id', 'DESC')->get($db);
         return $query->result();
     }
 
@@ -401,6 +401,21 @@ Class M_model extends CI_Model {
 
     function createNew($data, $dbase) {
         return $this->db->insert($dbase, $data);
+    }
+
+    function selectWhere2($as, $data, $as2, $data2, $dbase, $key_order='id', $type_order=null) {
+        $this->db->select('*');
+        $this->db->where($as, $data);
+        $this->db->where($as2, $data2);
+        if($key_order !=null){
+            if($type_order ==null){
+                $type_order='DESC';
+            }
+            $this->db->order_by(strtolower($key_order), $type_order);
+        }
+        $query = $this->db->get($dbase);
+
+        return $query->result();
     }
 }
 

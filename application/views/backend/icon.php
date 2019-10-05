@@ -1,3 +1,39 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> <!-- Lib Scripts Plugin Js --> 
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        var no = $('#tabIc tr:last').data('no')+1;
+        $(document).on('click','.addIc',function(){
+            var appen = `<tr data-no="`+no+`">
+                            <td>
+                                <input type="text" class="form-control" name="ic_desc[`+no+`]" placeholder="Input Here ..." value="" style="height: 25px" required>
+                            </td>
+                            <td style="text-align: center;">
+                                <div class="btn btn-danger btn-sm deleteRow">
+                                    Delete
+                                </div>
+                            </td>
+                        </tr>`;
+            $('.appendIc').append(appen);
+        });
+        $(document).on('click', '.deleteRow', function (e){
+            $(this).closest('tr').remove();
+        });
+    });
+
+    $(document).on('click','.searchs', function () {
+        var table = $('#example').DataTable();
+        console.log('ads',$('select[name="filter[status]"]').val())
+        table.columns( 1 ).search( $('select[name="filter[status]"]').val() ).draw();
+    } );
+    $(document).ready(function(){
+        $.fn.dataTable.ext.errMode = 'none';
+
+        $('#example').on( 'error.dt', function ( e, settings, techNote, message ) {
+            // console.log( 'An error has been reported by DataTables: ', message );
+        }) ;
+    });
+</script>
 <?php include 'header.php'; ?>
 
     <?php if ($this->input->get('add')) { 
@@ -33,6 +69,28 @@
                                 </div>
                                 
                             </div>
+                            <table class="table table-responsive table-bordered" id="tabIc">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 800px">Deskripsi Icon</th>
+                                        <th>
+                                            <div class="btn btn-success btn-sm addIc">
+                                                Add Field
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="appendIc">
+                                    <tr data-no="1">
+                                        <td>
+                                            <input type="text" class="form-control" name="ic_desc[1]" placeholder="Input Here ..." value="" style="height: 25px" required>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            -
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                             <div class="row clearfix" style="margin-top: 20px;">
                                 <div class="col-lg-2">
                                     <a href="<?=$this->uri->segment('2');?>" class="btn btn-block btn-danger">Back</a>
@@ -92,6 +150,48 @@
                                 </div>
                                 
                             </div>
+                            <div class="row">
+                                <table class="table table-responsive table-bordered" id="tabIc">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 800px">Deskripsi Icon</th>
+                                            <th>
+                                                <div class="btn btn-success btn-sm addIc">
+                                                    Add Field
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="appendIc">
+                                        <?php
+                                        $iconSub = $this->m_model->selectas('trans_id', $this->input->get('edit'), 'icon_sub');
+                                        if (count($iconSub) > 0) {
+                                            foreach ($iconSub as $k => $value) {
+                                        ?>
+                                            <tr data-no="<?php echo $k+1; ?>">
+                                                <td>
+                                                    <input type="text" class="form-control" name="ic_desc[<?php echo $k+1; ?>]" placeholder="Input Here ..." value="<?php echo $value->value; ?>" style="height: 25px" required>
+                                                </td>
+                                                <td style="text-align: center;">
+                                                    <?php
+                                                        if($k == 0){
+                                                            echo '-';
+                                                        }else{
+                                                            echo '<div class="btn btn-danger btn-sm deleteRow">
+                                                                    Delete
+                                                                </div>';
+                                                        }
+                                                    ?>
+                                                </td>
+                                            </tr>
+                                        <?php 
+                                            }
+                                        }
+                                        ?>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
                             <div class="row clearfix" style="margin-top: 20px;">
                                 <div class="col-lg-2">
                                     <a href="<?=$this->uri->segment('2');?>" class="btn btn-block btn-danger">Back</a>
@@ -116,16 +216,28 @@
                 <div class="card">
                     <div class="header">
                         <div class="row">
-                            <div class="col-lg-10">
+                            <div class="col-lg-6">
                                 <h2>List Icon</h2>
                             </div>
-                            <div class="col-lg-2">
-                                <a class="btn btn-primary" href="<?= site_url('panel/icon?add=true'); ?>">Add Icon</a>
+                            <div class="col-lg-6 pull-right" style="position: relative;left: 115px;">
+                                <div class="input-group" style="width: 150px;">
+                                  <select name="filter[status]" class="form-control show-tick">
+                                      <option value="Pelabuhan">Pelabuhan</option>
+                                      <option value="Armada">Armada</option>
+                                  </select>
+                                  <div class="input-group-btn">
+                                    <button type="button" class="btn btn-success searchs" style="position: relative;top: 4px;">Search </button>
+                                  </div>
+                                  <div class="input-group-btn">
+                                    <a class="btn btn-primary" href="<?= site_url('panel/icon?add=true'); ?>" style="position: relative;top: 4px;">Add Icon</a>
+                                  </div><!-- /btn-group -->
+                                </div><!-- /input-group -->
                             </div>
                         </div>
                     </div>
                     <div class="body">
-                        <table class="table table-bordered table-striped table-hover dataTable js-basic-example">
+                        
+                        <table class="table table-bordered table-striped table-hover dataTable js-basic-example" id="example">
                             <thead>
                                 <tr>
                                     <th>#</th>

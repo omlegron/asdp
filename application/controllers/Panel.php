@@ -2242,7 +2242,18 @@ class Panel extends CI_Controller {
                 'created_at'   => date('Y-m-d H:i:s'),
                 'created_user'   => cleartext($this->session->userdata('admin_data')->username),
             );
-            $create=$this->m_model->insertgetid($param, 'icon');
+
+            $this->m_model->create($param,'icon');
+            $arr = [];
+            $saves = $this->db->insert_id();
+            // print_r($this->db->insert_id());
+            // die();
+            foreach ($this->input->post('ic_desc') as $k => $value) {
+                $arr[$k]['trans_id'] = $saves;
+                $arr[$k]['value'] = $value;
+            }
+            $this->db->insert_batch('icon_sub',$arr);
+
             redirect('panel/icon', 'refresh');
         }
         //---
@@ -2275,16 +2286,23 @@ class Panel extends CI_Controller {
                     'updated_by'   => cleartext($this->session->userdata('admin_data')->username),
                 );
             }
+
             $this->m_model->updateas('id', $this->input->post('id'), $param, 'icon');
+            $arr = [];
+            foreach ($this->input->post('ic_desc') as $k => $value) {
+                $arr[$k]['trans_id'] = $this->input->post('id');
+                $arr[$k]['value'] = $value;
+            }
+            $this->m_model->deleteas('trans_id',$this->input->post('id'),'icon_sub');
+            $this->db->insert_batch('icon_sub',$arr);
+
             redirect('panel/icon', 'refresh');
         }
         //---
         if ($this->input->get('remove')) {
-             $createdata = array(
-                'deleted_at'  => date('Y-m-d H:i:s'),
-                'deleted_by'   => cleartext($this->session->userdata('admin_data')->username),
-            );
-            $this->m_model->updateas('id', cleartext($this->input->get('remove')), $createdata, 'icon');
+            $this->m_model->deleteas('trans_id',$this->input->get('remove'), 'icon_sub');
+
+            $this->m_model->destroy($this->input->get('remove'), 'icon');
             redirect('panel/icon', 'refresh');
         }
     }
