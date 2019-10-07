@@ -119,7 +119,7 @@
 																		$cekReal = $this->m_model->getOne($valueSubIco->trans_icon_id,'icon');
 																		$imgs=check_img($cekReal['path_file']);
 																		?>
-																		<li>
+																		<li style="padding-bottom: 5px">
 																			<img src="<?=$imgs['path'];?>" class="img-responsive" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>">&nbsp;
 																			<span style="font-size: 12px"><?= $cekReal['name']; ?></span>
 																			<ul>
