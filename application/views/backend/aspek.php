@@ -562,6 +562,7 @@
                                             <ul class="ml-menu" style="display: none;">
                                                 <?php  
                                                     foreach ($this->m_model->selectWhere2('trans_sub_id',$valuesub->id,'status','Active','sub_aspeks_icon') as $keySubIco => $valueSubIco) {
+                                                        
                                                         $cekReal = $this->m_model->getOne($valueSubIco->trans_icon_id,'icon');
                                                         $imgs=check_img($cekReal['path_file']);
                                                 ?>

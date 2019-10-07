@@ -13,7 +13,13 @@ class Pelabuhan extends CI_Controller {
             $this->load->view('backend/pelabuhan-show',[
                 'title' => 'Pelabuhan',
                 'bcrumb' => 'Master Data > Detail Pelabuhan',
-                'record' => $this->m_model->selectOne('id',$id,'jenis_aspeks')
+                'record' => $this->m_model->selectOne('id',$id,'jenis_aspeks'),
+                'records' => $this->m_model->selectcustom('
+                    select jenis_aspeks.id, jenis_aspeks.nama_aspek, sub_aspeks.id,sub_aspeks.name 
+                    from jenis_aspeks 
+                    inner join sub_aspeks on jenis_aspeks.id = sub_aspeks.jenis_aspek_id 
+                    where jenis_aspeks.id="'.$id.'"
+                ')
             ]);
         } else {
             redirect('panel/login', 'refresh');
