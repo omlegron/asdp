@@ -204,7 +204,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6 pull-right" style="position: relative;left: 20px;top: 20px;">
-                                    <div class="input-group" style="width: 150px;">                                               <input type="text" name="filter[name]" placeholder="Name" class="form-control" >&nbsp;&nbsp;&nbsp;
+                                    <div class="input-group" >                                               <input type="text" name="filter[name]" placeholder="Name" class="form-control" style="border: 1px solid black !important;position: relative;top: 10px;width: 150px;">&nbsp;&nbsp;&nbsp;
                                       <select name="filter[status]" class="form-control show-tick" id="removeSlect">
                                           <option value="">Choose One</option>
                                           <option value="Pelabuhan">Pelabuhan</option>
