@@ -182,7 +182,7 @@
                                     if(count($this->m_model->all('jenis_aspeks')) > 0){
                                         foreach ($this->m_model->all('jenis_aspeks') as $k => $value) {
                                         ?>
-                                            <li><a href="<?php echo site_url(); ?>backend/pelabuhan/show/<?php echo slugify($value->nama_aspek); ?>/<?= $value->id; ?>"><?php echo $value->nama_aspek; ?></a></li>
+                                            <li><a href="<?php echo site_url(); ?>backend/pelabuhan/show/<?php echo slugify($value->nama_aspek); ?>/<?= $value->id; ?>/<?= $this->input->get('detail'); ?>"><?php echo $value->nama_aspek; ?></a></li>
 
                                         <?php                
                                         }
