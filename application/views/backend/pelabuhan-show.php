@@ -13,8 +13,8 @@
 
                 </div>
 
-                <h1>CEK</h1>
-                
+                <h3><?= $record->nama_aspek;  ?></h3>
+
                 <div class="row clearfix">
                     <div class="row">
                         <br>

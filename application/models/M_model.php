@@ -418,6 +418,14 @@ Class M_model extends CI_Model {
         return $query->result();
     }
 
+    function selectOne($as, $data, $db) {
+        $this->db->select('*');
+        $this->db->where($as, $data);
+        $query = $this->db->get($db);
+
+        return $query->row();
+    }
+
     function selectOneWhere2($as, $data, $as2, $data2, $dbase, $key_order='id', $type_order=null) {
         $this->db->select('*');
         $this->db->where($as, $data);

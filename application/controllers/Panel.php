@@ -2290,12 +2290,15 @@ class Panel extends CI_Controller {
 
             $this->m_model->updateas('id', $this->input->post('id'), $param, 'icon');
             $arr = [];
-            foreach ($this->input->post('ic_desc') as $k => $value) {
-                $arr[$k]['trans_id'] = $this->input->post('id');
-                $arr[$k]['value'] = $value;
-            }
             $this->m_model->deleteas('trans_id',$this->input->post('id'),'icon_sub');
-            $this->db->insert_batch('icon_sub',$arr);
+            if(count($this->input->post('ic_desc'))){
+                foreach ($this->input->post('ic_desc') as $k => $value) {
+                    $arr[$k]['trans_id'] = $this->input->post('id');
+                    $arr[$k]['value'] = $value;
+                }
+                $this->db->insert_batch('icon_sub',$arr);
+
+            }
 
             redirect('panel/icon', 'refresh');
         }
