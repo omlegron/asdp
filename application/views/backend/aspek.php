@@ -372,19 +372,22 @@
                                             <?php
                                                 $cekAll = $this->m_model->selectcustom("select * from sub_aspeks_icon where trans_sub_id='$subNewId'");
                                                 if(count($cekAll) > 0){
-                                                    foreach ($cekAll as $k => $value) {
-                                                        $cekONe = $this->m_model->getOne($value->trans_icon_id,'icon');
-                                                        $img=check_img($cekONe['path_file']);
+                                                    foreach ($this->m_model->all('icon') as $k => $valuess) {
+                                                        $img=check_img($valuess->path_file);
+                                                        $cek = $this->m_model->selectWhere2('trans_sub_id',$this->input->get('editsub'),'trans_icon_id',$valuess->id,'sub_aspeks_icon');
+                                                        $active = '';
+                                                        $nonAct = '';
+                                                       
                                             ?>
                                                     <tr>
                                                         <td style="text-align: center;"><?php echo $k+1; ?></td>
-                                                        <td><?php echo $cekONe['name']; ?></td>
-                                                        <td><?php echo $cekONe['deskripsi']; ?></td>
+                                                        <td><?php echo $valuess->name; ?></td>
+                                                        <td><?php echo $valuess->deskripsi; ?></td>
                                                         <td style="text-align:center;">
                                                             <img src="<?=$img['path'];?>" class="img-responsive" style="cursor: pointer; max-width: 50px; max-height:50px;" data-fancybox="images<?= $k + 1; ?>" href="<?=$img['path'];?>">
                                                         </td>
                                                         <td><?php 
-                                                            $iconSub = $this->m_model->selectas('trans_id', $cekONe['id'], 'icon_sub');
+                                                            $iconSub = $this->m_model->selectas('trans_id', $valuess->id, 'icon_sub');
                                                             if (count($iconSub) > 0) {
                                                                 foreach ($iconSub as $k1 => $value) {
                                                                     $num = $k1+1;
@@ -396,18 +399,18 @@
                                                          ?></td>
                                                         <td style="text-align: center">
                                                             <?php
-                                                                $active = '';
-                                                                $nonAct = '';
-                                                                if(isset($value->status)){
-                                                                    if($value->status == 'Active'){
-                                                                        $active = 'selected';
-                                                                    }elseif($value->status == 'Non Active'){
-                                                                        $nonAct = 'selected';
-                                                                    }
+                                                             if(isset($cek[0]->status)){
+                                                                if($cek[0]->status == 'Active'){
+                                                                    $active = 'selected';
+                                                                }elseif($cek[0]->status == 'Non Active'){
+                                                                    $nonAct = 'selected';
                                                                 }
+                                                            }
+                                                            // print_r($cek->row_);
+                                                            // die();
                                                             // print_r($nonAct);
                                                             ?>
-                                                            <select name="icon[<?php echo $cekONe['id']; ?>]" class="form-control show-tick">
+                                                            <select name="icon[<?php echo $valuess->id; ?>]" class="form-control show-tick">
                                                                 <option value="Active" <?= $active ?> >Active</option>
                                                                 <option value="Non Active" <?= $nonAct ?> >Non Active</option>
                                                             </select>

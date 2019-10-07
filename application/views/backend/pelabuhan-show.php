@@ -10,23 +10,54 @@
                             <a href="<?=base_url();?>panel/pelabuhan"  class="btn btn-primary btn-sm" style="color: #fff">Kembali</a>
                         </div>
                     </div>
-                    <div class="col-lg-4">
 
-                        <div class="btn-group float-right">
-                            <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> aspek <span class="caret"></span> </button>
-                            
-                        </div>
-                    </div>
                 </div>
 
                 <div class="row clearfix">
-                    <div class="col-lg-6">
-                        cek
-                    </div>
-                    <div class="col-lg-6 bg-white" style="color: #000">
-                        <div class="row">
-                            ceks
-                        </div>
+                    <div class="row">
+                        
+                        <ul>
+                          <li>Parent</li>
+                          <li>Parent
+                            <ul>
+                              <li>Child
+                                <ul>
+                                  <li>Grandchild</li>
+                                  <li>Grandchild</li>
+                                  <li>Grandchild</li>
+                                </ul>
+                              </li> 
+                              <li>Child
+                                <ul>
+                                  <li>Grandchild</li>
+                                  <li>Grandchild</li>
+                                  <li>Grandchild</li>
+                                </ul>
+                              </li> 
+                              <li>Child
+                                <ul>
+                                  <li>Grandchild</li>
+                                  <li>Grandchild</li>
+                                  <li>Grandchild</li>
+                                </ul>
+                              </li>
+                            </ul>
+                          </li>
+                          <li>Parent
+                            <ul>
+                              <li>Child</li>
+                              <li>Child</li>
+                              <li>Child</li>
+                            </ul>
+                          </li>
+                          <li>Parent
+                            <ul>
+                              <li>Child</li>
+                              <li>Child</li>
+                              <li>Child</li>
+                            </ul>
+                          </li>
+                        </ul>
                     </div>
                 </div>
             </div>
