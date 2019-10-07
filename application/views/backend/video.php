@@ -115,6 +115,42 @@
     <?php } ?>
 
     <?php if (!$this->input->get('add') && !$this->input->get('edit')) { ?>
+        <script src="<?=base_url();?>assets/backend/plugins/jquery/jquery-v3.2.1.min.js"></script>
+            
+        <!--fancy box-->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+         <script>
+            $(document).ready(function(){
+                $('#example').dataTable( {
+                    "paging": true,
+                    "dom": '<"toolbar">frtip',
+                    // 'filter': false,
+                    // processing: true,
+                } );
+                $('#example_filter').hide()
+            });
+            $(document).on('click','.searchs', function () {
+                var table = $('#example').DataTable();
+                table.columns( 1 ).search( $('input[name="filter[name]"]').val() ).draw();
+                table.columns( 3 ).search( $('select[name="filter[status]"]').val() ).draw();
+            } );
+            $(document).ready(function(){
+                $.fn.dataTable.ext.errMode = 'none';
+
+                $('#example').on( 'error.dt', function ( e, settings, techNote, message ) {
+                }) ;
+            });   
+
+            $(document).on('click','.reset',function(e){
+                $('input').val('');
+                $('select').val('')
+                var table = $('#example').DataTable();
+                table.columns( 1 ).search("").draw();
+                table.columns( 3 ).search("").draw();
+            });     
+
+        </script>
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card">
@@ -136,13 +172,30 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-6 pull-right" style="position: relative;left: 20px;top: 20px;">
+                        <div class="input-group" style="width: 150px;"> 
+                          <input type="text" name="filter[name]" placeholder="Name" class="form-control" style="border: 1px solid black !important;position: relative;top: 10px;width: 150px">&nbsp;&nbsp;&nbsp;
+                          <select name="filter[status]" class="form-control show-tick" id="removeSlect">
+                              <option value="">Choose One</option>
+                              <option value="Pelabuhan">Pelabuhan</option>
+                              <option value="Armada">Armada</option>
+                          </select>
+                          <div class="input-group-btn">
+                            <button type="button" class="btn btn-success searchs" style="position: relative;top: 4px;">Search </button>
+                          </div>
+                          <div class="input-group-btn">
+                              <button type="reset" class="btn btn-primary reset" style="position: relative;top: 4px;">Reset </button>
+                          </div>
+                        </div><!-- /input-group -->
+                    </div>
                     <div class="body">
-                        <table class="table table-bordered table-striped table-hover dataTable js-basic-example">
+                        <table class="table table-bordered table-striped table-hover dataTable js-basic-example" id="example">
                             <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>Pelabuhan</th>
                                     <th>Link Video</th>                             
+                                    <th>Deskripsi</th>                             
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -170,6 +223,11 @@
                                     else{
                                         $path_file="-";
                                     }
+
+                                    $desk = '-';
+                                    if(isset($value->deskripsi)){
+                                        $desk = $value->deskripsi;
+                                    }
                             ?>
                                 <tr>
                                     <td><?= $key + 1; ?></td>
@@ -178,6 +236,9 @@
                                     </td>
                                     <td>
                                         <?=$path_file;?>
+                                    </td>
+                                    <td>
+                                        <?= $desk; ?>
                                     </td>
                                     <td>
                                         <?php
@@ -206,11 +267,7 @@
             </div>
         </div>
 
-        <script src="<?=base_url();?>assets/backend/plugins/jquery/jquery-v3.2.1.min.js"></script>
-            
-        <!--fancy box-->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+        
     <?php } ?>
 
 <?php include 'footer.php'; ?>

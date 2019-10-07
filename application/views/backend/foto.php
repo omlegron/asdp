@@ -1,3 +1,6 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> 
+
+
 <?php include 'header.php'; ?>
 
     <?php if ($this->input->get('add')) { 
@@ -121,6 +124,37 @@
     <?php } ?>
 
     <?php if (!$this->input->get('add') && !$this->input->get('edit')) { ?>
+       <script>
+            $(document).ready(function(){
+                $('#example').dataTable( {
+                    "paging": true,
+                    "dom": '<"toolbar">frtip',
+                    // 'filter': false,
+                    // processing: true,
+                } );
+                $('#example_filter').hide()
+            });
+            $(document).on('click','.searchs', function () {
+                var table = $('#example').DataTable();
+                table.columns( 1 ).search( $('input[name="filter[name]"]').val() ).draw();
+                table.columns( 3 ).search( $('select[name="filter[status]"]').val() ).draw();
+            } );
+            $(document).ready(function(){
+                $.fn.dataTable.ext.errMode = 'none';
+
+                $('#example').on( 'error.dt', function ( e, settings, techNote, message ) {
+                }) ;
+            });   
+
+            $(document).on('click','.reset',function(e){
+                $('input').val('');
+                $('select').val('')
+                var table = $('#example').DataTable();
+                table.columns( 1 ).search("").draw();
+                table.columns( 3 ).search("").draw();
+            });     
+
+        </script>
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card">
@@ -142,13 +176,30 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-6 pull-right" style="position: relative;left: 20px;top: 20px;">
+                        <div class="input-group" style="width: 150px;"> 
+                          <input type="text" name="filter[name]" placeholder="Name" class="form-control" style="border: 1px solid black !important;position: relative;top: 10px;width: 150px">&nbsp;&nbsp;&nbsp;
+                          <select name="filter[status]" class="form-control show-tick" id="removeSlect">
+                              <option value="">Choose One</option>
+                              <option value="Pelabuhan">Pelabuhan</option>
+                              <option value="Armada">Armada</option>
+                          </select>
+                          <div class="input-group-btn">
+                            <button type="button" class="btn btn-success searchs" style="position: relative;top: 4px;">Search </button>
+                          </div>
+                          <div class="input-group-btn">
+                              <button type="reset" class="btn btn-primary reset" style="position: relative;top: 4px;">Reset </button>
+                          </div>
+                        </div><!-- /input-group -->
+                    </div>
                     <div class="body">
-                        <table class="table table-bordered table-striped table-hover dataTable js-basic-example">
+                        <table class="table table-bordered table-striped table-hover dataTable js-basic-example" id="example">
                             <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>Cabang</th>
                                     <th>Photo</th>                             
+                                    <th>Deskripsi</th>                             
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -166,6 +217,10 @@
                                     else{
                                         $name_cabangs= '-';
                                     }
+                                    $desk = '-';
+                                    if(isset($value->deskripsi)){
+                                        $desk = $value->deskripsi;
+                                    }
                             ?>
                                 <tr>
                                     <td><?= $key + 1; ?></td>
@@ -175,6 +230,7 @@
                                     <td>
                                         <img src="<?=$img['path'];?>" class="img-responsive" style="cursor: pointer; max-width: 200px; max-height:150px;" data-fancybox="images<?= $key + 1; ?>" href="<?=$img['path'];?>">
                                     </td>
+                                    <td><p><?= $desk; ?></p></td>
                                     <td>
                                     <?php
                                     if(isset($this->session->userdata('admin_data')->id_cabang)){
