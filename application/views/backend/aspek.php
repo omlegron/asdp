@@ -337,10 +337,12 @@
                                                             <?php
                                                                 $active = '';
                                                                 $nonAct = '';
-                                                                if($value->status == 'Active'){
-                                                                    $active = 'selected';
-                                                                }elseif($value->status == 'Non Active'){
-                                                                    $nonAct = 'selected';
+                                                                if(isset($value->status)){
+                                                                    if($value->status == 'Active'){
+                                                                        $active = 'selected';
+                                                                    }elseif($value->status == 'Non Active'){
+                                                                        $nonAct = 'selected';
+                                                                    }
                                                                 }
                                                             // print_r($nonAct);
                                                             ?>
