@@ -64,8 +64,6 @@
                                                     <option value="<?=$value->id;?>"><?=$value->name;?></option>
                                                     <?php
                                                 }
-                                            }else{
-                                                echo '<option value="">No Data Found</option>';
                                             }
                                             ?>
                                         </select>
