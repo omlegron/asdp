@@ -177,12 +177,12 @@
                    
                         <div class="btn-group float-right">
                             <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> aspek <span class="caret"></span> </button>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu" style="left: 0px">
                                 <?php 
                                     if(count($this->m_model->all('jenis_aspeks')) > 0){
                                         foreach ($this->m_model->all('jenis_aspeks') as $k => $value) {
                                         ?>
-                                            <li><a href="<?php echo site_url(); ?>backend/pelabuhan/<?php echo slugify($value->nama_aspek); ?>"><?php echo $value->nama_aspek; ?></a></li>
+                                            <li><a href="<?php echo site_url(); ?>backend/pelabuhan/show/<?php echo slugify($value->nama_aspek); ?>/<?= $value->id; ?>"><?php echo $value->nama_aspek; ?></a></li>
 
                                         <?php                
                                         }

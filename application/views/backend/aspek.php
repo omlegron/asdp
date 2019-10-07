@@ -130,7 +130,7 @@
             $(document).ready(function(){
                 $('#example').dataTable( {
                     "paging": false,
-                    'filter': false,
+                    // 'filter': false,
                     // processing: true,
                 } );
 
@@ -190,7 +190,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 pull-right" style="position: relative;left: 20px;top: 20px;">
+                                <div class="col-lg-6 pull-right" style="position: relative;left: 20px;top: 70px;">
                                     <div class="input-group" style="width: 150px;">
                                       <select name="filter[status]" class="form-control show-tick" id="removeSlect">
                                           <option value="">Choose One</option>
