@@ -11,8 +11,8 @@ class Pelabuhan extends CI_Controller {
         // print_r($url,$id);
         if ($this->session->userdata('admin')) {
             $this->load->view('backend/pelabuhan-show',[
-                'title' => 'Roles',
-                'bcrumb' => 'Master Data > Roles'
+                'title' => 'Pelabuhan',
+                'bcrumb' => 'Master Data > Detail Pelabuhan'
             ]);
         } else {
             redirect('panel/login', 'refresh');
