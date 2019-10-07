@@ -27,7 +27,7 @@ class Armada extends CI_Controller {
         }
     }
 
-    public function showDetail($bigId,$id,$armada){
+    public function showDetail($bigId,$id=NULL,$armada){
         $record = $this->load->view('backend/armada-deck',[
             'armadaElments' => $this->m_model->selectOne('id',$id, 'armada_elements'),
             'armada' => $this->m_model->selectOne('id',$armada, 'armada'),
