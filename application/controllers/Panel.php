@@ -2127,7 +2127,8 @@ class Panel extends CI_Controller {
         }
         //---
         if ($this->input->post('addsubaspek')) {
-            // print_r($this->input->post('icon'));
+            // print_r($this->input->post());
+            // die();
             $data = array(
                 'jenis_aspek_id' => cleartext($this->input->post('jenis_aspeks')),
                 'name'            => cleartext($this->input->post('sub_aspek')),

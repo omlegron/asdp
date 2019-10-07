@@ -1,6 +1,9 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> <!-- Lib Scripts Plugin Js --> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> 
+
+<!-- Lib Scripts Plugin Js --> 
 
 <script type="text/javascript">
+
     // #myInput is a <input type="text"> element
     $(document).on('click','.searchs', function () {
         var table = $('#example').DataTable();
@@ -133,24 +136,34 @@
                     // 'filter': false,
                     // processing: true,
                 } );
-
+                $('#example_filter').hide()
             });   
             $(document).on('click','.searchs', function () {
                 var table = $('#example').DataTable();
+                table.columns( 1 ).search( $('input[name="filter[name]"]').val() ).draw();
                 table.columns( 2 ).search( $('select[name="filter[status]"]').val() ).draw();
             } );
             $(document).ready(function(){
                 $.fn.dataTable.ext.errMode = 'none';
 
                 $('#example').on( 'error.dt', function ( e, settings, techNote, message ) {
-                    // console.log( 'An error has been reported by DataTables: ', message );
                 }) ;
             });   
 
             $(document).on('click','.reset',function(e){
                 var table = $('#example').DataTable();
+                table.columns( 1 ).search("").draw();
                 table.columns( 2 ).search("").draw();
             });     
+
+            $(document).on('click','.buttonAddSub',function(e){
+                console.log('console')
+                var table = $('#example').DataTable();
+                table.columns( 1 ).search("").draw();
+                table.columns( 2 ).search("").draw();
+                e.preventDefault();
+                $( ".buttonConfirm" ).trigger('click');
+            });
         </script>
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12">
@@ -190,8 +203,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 pull-right" style="position: relative;left: 20px;top: 70px;">
-                                    <div class="input-group" style="width: 150px;">
+                                <div class="col-lg-6 pull-right" style="position: relative;left: 20px;top: 20px;">
+                                    <div class="input-group" style="width: 150px;">                                               <input type="text" name="filter[name]" placeholder="Name" class="form-control" style="border: 1px solid black !important;position: relative;top: 10px;">&nbsp;&nbsp;&nbsp;
                                       <select name="filter[status]" class="form-control show-tick" id="removeSlect">
                                           <option value="">Choose One</option>
                                           <option value="Pelabuhan">Pelabuhan</option>
@@ -265,7 +278,9 @@
                                     <a href="<?=$this->uri->segment('2');?>" class="btn btn-block btn-danger">Back</a>
                                 </div>
                                 <div class="col-lg-2">
-                                    <input name="addsubaspek" type="submit" value="Add Sub Aspek" class="btn btn-block btn-primary buttonAddSub">
+                                    <input name="" type="submit" value="Add Sub Aspek" class="btn btn-block btn-primary buttonAddSub">
+
+                                    <input name="addsubaspek" type="submit" value="Add Sub Aspek" class="btn btn-block btn-primary buttonConfirm" style="display: none;">
                                 </div>
                             </div>
                         </form>
@@ -282,21 +297,47 @@
                 $('#example').dataTable( {
                     "paging": false
                 } );
-
-            });  
-
+                $('#example_filter').hide();
+            });   
             $(document).on('click','.searchs', function () {
                 var table = $('#example').DataTable();
-                console.log('ads',$('select[name="filter[status]"]').val())
+                table.columns( 1 ).search( $('input[name="filter[name]"]').val() ).draw();
                 table.columns( 2 ).search( $('select[name="filter[status]"]').val() ).draw();
             } );
             $(document).ready(function(){
                 $.fn.dataTable.ext.errMode = 'none';
 
                 $('#example').on( 'error.dt', function ( e, settings, techNote, message ) {
-                    // console.log( 'An error has been reported by DataTables: ', message );
                 }) ;
-            });        
+            });   
+
+            $(document).on('click','.reset',function(e){
+                var table = $('#example').DataTable();
+                table.columns( 1 ).search("").draw();
+                table.columns( 2 ).search("").draw();
+            });     
+
+            $(document).on('click','.buttonAddSub',function(e){
+                console.log('console')
+                var table = $('#example').DataTable();
+                table.columns( 1 ).search("").draw();
+                table.columns( 2 ).search("").draw();
+                e.preventDefault();
+                $( ".buttonConfirm" ).trigger('click');
+            });
+
+            // $(document).on('click','.searchs', function () {
+            //     var table = $('#example').DataTable();
+            //     console.log('ads',$('select[name="filter[status]"]').val())
+            //     table.columns( 2 ).search( $('select[name="filter[status]"]').val() ).draw();
+            // } );
+            // $(document).ready(function(){
+            //     $.fn.dataTable.ext.errMode = 'none';
+
+            //     $('#example').on( 'error.dt', function ( e, settings, techNote, message ) {
+            //         // console.log( 'An error has been reported by DataTables: ', message );
+            //     }) ;
+            // });        
         </script>
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12">
@@ -339,14 +380,18 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 pull-right" style="position: relative;left: 20px;top: 60px;">
-                                    <div class="input-group" style="width: 150px;">
-                                      <select name="filter[status]" class="form-control show-tick">
+                                <div class="col-lg-6 pull-right" style="position: relative;left: 20px;top: 20px;">
+                                    <div class="input-group" style="width: 150px;">                                               <input type="text" name="filter[name]" placeholder="Name" class="form-control" style="border: 1px solid black !important;position: relative;top: 10px;">&nbsp;&nbsp;&nbsp;
+                                      <select name="filter[status]" class="form-control show-tick" id="removeSlect">
+                                          <option value="">Choose One</option>
                                           <option value="Pelabuhan">Pelabuhan</option>
                                           <option value="Armada">Armada</option>
                                       </select>
                                       <div class="input-group-btn">
                                         <button type="button" class="btn btn-success searchs" style="position: relative;top: 4px;">Search </button>
+                                      </div>
+                                      <div class="input-group-btn">
+                                          <button type="reset" class="btn btn-primary reset" style="position: relative;top: 4px;">Reset </button>
                                       </div>
                                     </div><!-- /input-group -->
                                 </div>
@@ -407,9 +452,6 @@
                                                                     $nonAct = 'selected';
                                                                 }
                                                             }
-                                                            // print_r($cek->row_);
-                                                            // die();
-                                                            // print_r($nonAct);
                                                             ?>
                                                             <select name="icon[<?php echo $valuess->id; ?>]" class="form-control show-tick">
                                                                 <option value="Non Active" <?= $nonAct ?> >Non Active</option>
@@ -430,7 +472,8 @@
                                     <a href="<?=$this->uri->segment('2');?>" class="btn btn-block btn-danger">Back</a>
                                 </div>
                                 <div class="col-lg-2">
-                                    <input name="savesub" type="submit" value="Edit Sub Aspek" class="btn btn-block btn-primary">
+                                    <input name="" type="submit" value="Edit Sub Aspek" class="btn btn-block btn-primary buttonAddSub">
+                                    <input name="savesub" type="submit" value="Edit Sub Aspek" class="btn btn-block btn-primary buttonConfirm" style="display: none;">
                                 </div>
                             </div>
                         </form>

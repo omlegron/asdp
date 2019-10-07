@@ -32,7 +32,7 @@
 <script src="<?= site_url('assets/backend/plugins/jquery-datatable/buttons/buttons.html5.min.js'); ?>"></script>
 <script src="<?= site_url('assets/backend/plugins/jquery-datatable/buttons/buttons.print.min.js'); ?>"></script>
 <script src="<?= site_url('assets/backend/js/pages/tables/jquery-datatable.js'); ?>"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script> 
 
 <script type="text/javascript">
     $(document).on('click', '[class^=confirm]', function(e){
