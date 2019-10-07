@@ -13,7 +13,6 @@
 
                 </div>
 
-                <h3><?= $record->nama_aspek;  ?></h3>
                 <?php
                     $img=check_img($pelabuhan->foto);
                     // print_r($records);
