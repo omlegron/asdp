@@ -129,10 +129,28 @@
         <script type="text/javascript">
             $(document).ready(function(){
                 $('#example').dataTable( {
-                    "paging": false
+                    "paging": false,
+                    'filter': false,
+                    // processing: true,
                 } );
 
-            });          
+            });   
+            $(document).on('click','.searchs', function () {
+                var table = $('#example').DataTable();
+                table.columns( 2 ).search( $('select[name="filter[status]"]').val() ).draw();
+            } );
+            $(document).ready(function(){
+                $.fn.dataTable.ext.errMode = 'none';
+
+                $('#example').on( 'error.dt', function ( e, settings, techNote, message ) {
+                    // console.log( 'An error has been reported by DataTables: ', message );
+                }) ;
+            });   
+
+            $(document).on('click','.reset',function(e){
+                var table = $('#example').DataTable();
+                table.columns( 2 ).search("").draw();
+            });     
         </script>
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12">
@@ -142,7 +160,7 @@
                     </div>
                     <div class="body">
 
-                        <form class="form-horizontal" action="" method="post">
+                        <form class="form-horizontal" action="" method="post" id="formSubmit">
                             <div class="row clearfix">
                                                 
                                 <div class="col-lg-12">
@@ -172,14 +190,30 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-lg-6 pull-right" style="position: relative;left: 20px;top: 20px;">
+                                    <div class="input-group" style="width: 150px;">
+                                      <select name="filter[status]" class="form-control show-tick" id="removeSlect">
+                                          <option value="">Choose One</option>
+                                          <option value="Pelabuhan">Pelabuhan</option>
+                                          <option value="Armada">Armada</option>
+                                      </select>
+                                      <div class="input-group-btn">
+                                        <button type="button" class="btn btn-success searchs" style="position: relative;top: 4px;">Search </button>
+                                      </div>
+                                      <div class="input-group-btn">
+                                          <button type="reset" class="btn btn-primary reset" style="position: relative;top: 4px;">Reset </button>
+                                      </div>
+                                    </div><!-- /input-group -->
+                                </div>  
                                 <div class="col-md-12" >
                                     <table class="table table-responsive table-bordered table-striped table-hover dataTable js-basic-example" id="example" style="max-height: 350px;overflow-x: scroll;">
                                         <thead>
                                             <tr style="text-align: center">
                                                 <th style="width: 50px;text-align: center;">#</th>
                                                 <th style="width: 550px;text-align: center;">Name</th>
+                                                <th style="width: 550px;text-align: center;">Description</th>
                                                 <th style="width: 150px;text-align: center;">Icon</th>
-                                                <th style="width: 350px;text-align: center;">Description</th>
+                                                <th style="width: 350px;text-align: center;">Sub</th>
                                                 <th style="width: 100px;text-align: center;">
                                                     Action Add
                                                 </th>
@@ -194,6 +228,7 @@
                                                     <tr>
                                                         <td style="text-align: center;"><?php echo $k+1; ?></td>
                                                         <td><?php echo $value->name; ?></td>
+                                                        <td><?php echo $value->deskripsi; ?></td>
                                                         
                                                         <td style="text-align:center;">
                                                             <img src="<?=$img['path'];?>" class="img-responsive" style="cursor: pointer; max-width: 50px; max-height:50px;" data-fancybox="images<?= $k + 1; ?>" href="<?=$img['path'];?>">
@@ -203,7 +238,7 @@
                                                             if (count($iconSub) > 0) {
                                                                 foreach ($iconSub as $k1 => $value) {
                                                                     $num = $k1+1;
-                                                                    echo ''.$num.'. '.$value->value;
+                                                                    echo ''.$num.'. '.$value->value.'<br>';
                                                                 }
                                                             }else{
                                                                 echo 'Not Found';
@@ -211,8 +246,8 @@
                                                          ?></td>
                                                         <td style="text-align: center">
                                                             <select name="icon[<?php echo $value->id; ?>]" class="form-control show-tick">
-                                                                <option value="Active" selected>Active</option>
-                                                                <option value="Non Active">Non Active</option>
+                                                                <option value="Active" >Active</option>
+                                                                <option value="Non Active" selected>Non Active</option>
                                                             </select>
                                                         </td>
                                                     </tr>
@@ -230,7 +265,7 @@
                                     <a href="<?=$this->uri->segment('2');?>" class="btn btn-block btn-danger">Back</a>
                                 </div>
                                 <div class="col-lg-2">
-                                    <input name="addsubaspek" type="submit" value="Add Sub Aspek" class="btn btn-block btn-primary">
+                                    <input name="addsubaspek" type="submit" value="Add Sub Aspek" class="btn btn-block btn-primary buttonAddSub">
                                 </div>
                             </div>
                         </form>
@@ -248,7 +283,20 @@
                     "paging": false
                 } );
 
-            });          
+            });  
+
+            $(document).on('click','.searchs', function () {
+                var table = $('#example').DataTable();
+                console.log('ads',$('select[name="filter[status]"]').val())
+                table.columns( 2 ).search( $('select[name="filter[status]"]').val() ).draw();
+            } );
+            $(document).ready(function(){
+                $.fn.dataTable.ext.errMode = 'none';
+
+                $('#example').on( 'error.dt', function ( e, settings, techNote, message ) {
+                    // console.log( 'An error has been reported by DataTables: ', message );
+                }) ;
+            });        
         </script>
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12">
@@ -291,6 +339,17 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-lg-6 pull-right" style="position: relative;left: 20px;top: 60px;">
+                                    <div class="input-group" style="width: 150px;">
+                                      <select name="filter[status]" class="form-control show-tick">
+                                          <option value="Pelabuhan">Pelabuhan</option>
+                                          <option value="Armada">Armada</option>
+                                      </select>
+                                      <div class="input-group-btn">
+                                        <button type="button" class="btn btn-success searchs" style="position: relative;top: 4px;">Search </button>
+                                      </div>
+                                    </div><!-- /input-group -->
+                                </div>
                                 <div class="col-md-12">
                                     <?php
                                         $subNewId = $sub_aspek[0]->id;
@@ -301,8 +360,9 @@
                                             <tr style="text-align: center">
                                                 <th style="width: 50px;text-align: center;">#</th>
                                                 <th style="width: 550px;text-align: center;">Name</th>
+                                                <th style="width: 550px;text-align: center;">Description</th>
                                                 <th style="width: 150px;text-align: center;">Icon</th>
-                                                <th style="width: 350px;text-align: center;">Description</th>
+                                                <th style="width: 350px;text-align: center;">Sub</th>
                                                 <th style="width: 100px;text-align: center;">
                                                     Action Add
                                                 </th>
@@ -319,6 +379,7 @@
                                                     <tr>
                                                         <td style="text-align: center;"><?php echo $k+1; ?></td>
                                                         <td><?php echo $cekONe['name']; ?></td>
+                                                        <td><?php echo $cekONe['deskripsi']; ?></td>
                                                         <td style="text-align:center;">
                                                             <img src="<?=$img['path'];?>" class="img-responsive" style="cursor: pointer; max-width: 50px; max-height:50px;" data-fancybox="images<?= $k + 1; ?>" href="<?=$img['path'];?>">
                                                         </td>
@@ -327,7 +388,7 @@
                                                             if (count($iconSub) > 0) {
                                                                 foreach ($iconSub as $k1 => $value) {
                                                                     $num = $k1+1;
-                                                                    echo ''.$num.'. '.$value->value;
+                                                                    echo ''.$num.'. '.$value->value.'<br>';
                                                                 }
                                                             }else{
                                                                 echo 'Not Found';
@@ -470,7 +531,7 @@
                                                                         if (count($iconSubIndex) > 0) {
                                                                             foreach ($iconSubIndex as $k1 => $valueindex) {
                                                                                 $num = $k1+1;
-                                                                                echo ''.$num.'. '.$valueindex->value;
+                                                                                echo ''.$num.'. '.$valueindex->value.'<br>';
                                                                             }
                                                                         }else{
                                                                             echo 'Not Found';

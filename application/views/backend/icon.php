@@ -24,7 +24,7 @@
     $(document).on('click','.searchs', function () {
         var table = $('#example').DataTable();
         console.log('ads',$('select[name="filter[status]"]').val())
-        table.columns( 1 ).search( $('select[name="filter[status]"]').val() ).draw();
+        table.columns( 3 ).search( $('select[name="filter[status]"]').val() ).draw();
     } );
     $(document).ready(function(){
         $.fn.dataTable.ext.errMode = 'none';
@@ -168,9 +168,9 @@
                                         if (count($iconSub) > 0) {
                                             foreach ($iconSub as $k => $value) {
                                         ?>
-                                            <tr data-no="<?php echo $k+1; ?>">
+                                            <tr data-no="<?= $k+1; ?>">
                                                 <td>
-                                                    <input type="text" class="form-control" name="ic_desc[<?php echo $k+1; ?>]" placeholder="Input Here ..." value="<?php echo $value->value; ?>" style="height: 25px" required>
+                                                    <input type="text" class="form-control" name="ic_desc[<?= $k+1; ?>]" placeholder="Input Here ..." value="<?= $value->value; ?>" style="height: 25px" required>
                                                 </td>
                                                 <td style="text-align: center;">
                                                     <?php

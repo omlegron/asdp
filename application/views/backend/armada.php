@@ -250,10 +250,12 @@
             if (count($data) > 0) {
             foreach ($data as $key => $value) {
                 $img=check_img($value->foto);
+
         ?>
                 <div class="col-lg-4 col-md-6 col-sm-12 text-center">
                     <div class="card">
                       <a href="<?=base_url();?>panel/armada?detail=<?=$value->id;?>">
+
                         <img class="img-fluid" src="<?=$img['path'];?>" style="width:100%;max-height: 200px !important;" alt="Card image cap">
                       </a>
                       <div class="body">
@@ -324,15 +326,10 @@
             <div class="row clearfix">
                 <div class="col-lg-6">
                     <?php
-                        foreach ($data_img as $keyImg => $valueImg) {
-                            # code...
-                            $img=check_img($valueImg->path_file);
+                        $img=check_img($val[0]->foto);
                     ?>
-                            <img src="<?=$img['path'];?>" class="img-fluid" style="width: 100%; margin-bottom: 1%">
-                            <div class=" clearfix"></div>
-                    <?php
-                        }
-                    ?>
+                            <img src="<?=$img['path'];?>" class="img-responsive" style="width: 100%; margin-bottom: 1%">
+                    
                 </div>
                 <div class="col-lg-6 bg-white" style="color: #000">
                     <div class="row">
