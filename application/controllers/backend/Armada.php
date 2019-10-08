@@ -19,7 +19,7 @@ class Armada extends CI_Controller {
                     select jenis_aspeks.id, jenis_aspeks.nama_aspek, sub_aspeks.id,sub_aspeks.name 
                     from jenis_aspeks 
                     inner join sub_aspeks on jenis_aspeks.id = sub_aspeks.jenis_aspek_id 
-                    where jenis_aspeks.id="'.$id.'"
+                    where (jenis_aspeks.id="'.$id.'" AND status="Armada")
                 ')
             ]);
         } else {
@@ -36,7 +36,7 @@ class Armada extends CI_Controller {
                 select jenis_aspeks.id, jenis_aspeks.nama_aspek, sub_aspeks.id,sub_aspeks.name 
                 from jenis_aspeks 
                 inner join sub_aspeks on jenis_aspeks.id = sub_aspeks.jenis_aspek_id 
-                where jenis_aspeks.id="'.$bigId.'"
+                where (jenis_aspeks.id="'.$bigId.'" AND status="Armada")
             ')
         ]);
 

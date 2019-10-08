@@ -179,19 +179,15 @@
                                 <div class="col-lg-12">
                                     <div class="form-group form-float">
                                         <label class="form-label">Aspek</label>
-                                        <select name="jenis_aspeks" class="form-control show-tick">
-                                            <option value="">Pilih Aspek</option>
-                                            <?php $jenis_aspeks = $this->m_model->select('jenis_aspeks');
-                                            if (count($jenis_aspeks) > 0) {
-                                                $slectd = '';
-                                                foreach ($jenis_aspeks as $key => $value) {
-                                                    if($this->input->get('addsub') == $value->id){
-                                                        $slectd = 'selected';
-                                                    }
-                                                    echo '<option value="'.$value->id.'" '.$slectd.'>'.$value->nama_aspek.'</option>';
-                                                }
-                                             } ?>
-                                        </select>
+                                        <input type="hidden" name="jenis_aspeks" value="<?= $this->input->get('addsub') ?>">
+                                        <?php 
+                                            $jA = $this->m_model->selectOne('id',$this->input->get('addsub'),'jenis_aspeks');
+                                            $valueJA = '';
+                                            if(isset($jA->nama_aspek)){
+                                                $valueJA = $jA->nama_aspek;
+                                            }
+                                        ?>
+                                        <input type="text" class="form-control" name="" value="<?= $valueJA; ?>" readonly="">
                                     </div>
                                 </div>
 
@@ -355,19 +351,17 @@
                                 <div class="col-lg-12">
                                     <div class="form-group form-float">
                                         <label class="form-label">Aspek</label>
-                                        <select name="jenis_aspeks" class="form-control show-tick">
-                                            <option value="">Pilih Aspek</option>
-                                            <?php $jenis_aspeks = $this->m_model->select('jenis_aspeks');
-                                            if (count($jenis_aspeks) > 0) {
-                                                foreach ($jenis_aspeks as $key => $value) {
-                                                    $selected="";
-                                                    if($value->id == $sub_aspek[0]->jenis_aspek_id){
-                                                        $selected="selected";
-                                                    }
-                                                    echo '<option value="'.$value->id.'" '.$selected.'>'.$value->nama_aspek.'</option>';
-                                                }
-                                             } ?>
-                                        </select>
+                                        <input type="hidden" name="jenis_aspeks" value="<?= $this->input->get('addsub') ?>">
+                                        <?php 
+                                            $jA = $this->m_model->selectOne('id',$sub_aspek[0]->jenis_aspek_id,'jenis_aspeks');
+                                            $valueJA = '';
+                                            if(isset($jA->nama_aspek)){
+                                                $valueJA = $jA->nama_aspek;
+                                            }
+                                        ?>
+                                        <input type="text" class="form-control" name="" value="<?= $valueJA; ?>" readonly="">
+                                        
+                                        
                                     </div>
                                 </div>
 
