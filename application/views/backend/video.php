@@ -60,7 +60,7 @@
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card">
                     <div class="header">
-                        <h2>Edit Pelabuhan</h2>
+                        <h2>Edit Video</h2>
                     </div>
                     <div class="body">
                      <?php
@@ -72,7 +72,7 @@
                             <input name="id" type="hidden" value="<?= $val[0]->id; ?>">
                             <div class="row clearfix">
                                 <div class="form-group col-lg-6">
-                                    <label>Video Pelabuhan</label>
+                                    <label>Video</label>
                                     <input name="link" type="text" class="form-control" placeholder="http://videoaskdla.com/asjkdhaksjdhak or videos/askljfaslkd.mp4" value="<?=$val[0]->path_file;?>">
                                 </div>
                                 <div class="form-group col-lg-6">
@@ -82,7 +82,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <label>Pelabuhan</label>
+                                    <label>Cabang</label>
                                     <select name="cabang_id" class="form-control show-tick" required>
                                             <option value="">Pilih</option>
                                         <?php
@@ -174,7 +174,7 @@
                     </div>
                     <div class="col-lg-6 pull-right" style="position: relative;left: 20px;top: 20px;">
                         <div class="input-group" style="width: 150px;"> 
-                          <input type="text" name="filter[name]" placeholder="Name" class="form-control" style="border: 1px solid black !important;position: relative;top: 10px;width: 150px">&nbsp;&nbsp;&nbsp;
+                          <input type="text" name="filter[name]" placeholder="Cabang" class="form-control" style="border: 1px solid black !important;position: relative;top: 10px;width: 150px">&nbsp;&nbsp;&nbsp;
                           <select name="filter[status]" class="form-control show-tick" id="removeSlect">
                               <option value="">Choose One</option>
                               <option value="Pelabuhan">Pelabuhan</option>
@@ -193,7 +193,7 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Pelabuhan</th>
+                                    <th>Cabang</th>
                                     <th>Link Video</th>                             
                                     <th>Deskripsi</th>                             
                                     <th>Action</th>
@@ -246,14 +246,14 @@
 
                                             }else{
                                         ?>
-                                                <a class="confirm badge badge-info" msg="Do you want to Edit data?" href="<?= site_url('panel/photo?edit=').$value->id; ?>">Edit</a>
+                                                <a class="confirm badge badge-info" msg="Do you want to Edit data?" href="<?= site_url('panel/video?edit=').$value->id; ?>">Edit</a>
                                         <?php
                                             }
                                         ?>
                                     <?php
                                         if($this->session->userdata('admin_data')->roles==1){
                                     ?>
-                                        <a class="confirm badge badge-warning" msg="Are you sure to Delete data?" href="<?= site_url('panel/photo?remove=').$value->id; ?>">Delete</a>
+                                        <a class="confirm badge badge-warning" msg="Are you sure to Delete data?" href="<?= site_url('panel/video?remove=').$value->id; ?>">Delete</a>
                                     <?php
                                         }
                                     ?>
