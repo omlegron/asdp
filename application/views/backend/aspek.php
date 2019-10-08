@@ -533,23 +533,23 @@
                                 <tr>
                                     <td><?= $key + 1; ?></td>
                                     <td><b><?= $value->nama_aspek; ?></b></td>
-                                    <td colspan="5"><a class="badge badge-primary" href="<?= site_url('panel/aspek?addsub='.$value->id); ?>">Add Sub Aspek</a></td>
-                                    <td>
+                                    <td colspan="5" style="text-align: center;"><a class="btn btn-sm" style="background-color:#025aa5;color: white " href="<?= site_url('panel/aspek?addsub='.$value->id); ?>">Add Sub Aspek</a></td>
+                                    <td style="text-align: center;">
                                         <?php
                                         $statuse = '';
                                             if($value->status == 'Pelabuhan'){
-                                                $statuse = '<span class="" style="background-color:#F7FA23;color:black">Pelabuhan</span>';
+                                                $statuse = '<span class="btn btn-sm" style="background-color:#F7FA23;color:black;text-align:center;">Pelabuhan</span>';
                                             }else{
-                                                $statuse = '<span class="" style="background-color:#DAF7A6;color:black">Armada</span>';
+                                                $statuse = '<span class="btn btn-sm" style="background-color:#DAF7A6;color:black;text-align:center;">Armada</span>';
                                             }
                                         ?>
                                         <?= $statuse; ?></td>
-                                    <td>
-                                        <a class="confirm badge badge-info"  msg="Do you want to Edit data?" href="<?= site_url('panel/aspek?edit=').$value->id; ?>">Edit</a>
+                                    <td style="text-align: center;">
+                                        <a class="confirm btn btn-sm btn-primary"  msg="Do you want to Edit data?" href="<?= site_url('panel/aspek?edit=').$value->id; ?>">Edit</a>
                                         <?php
                                             if(count($subcategory)<=0 && $this->session->userdata('admin_data')->roles==1){
                                         ?>
-                                                <a class="confirm badge badge-warning" msg="Are you sure to Delete data?" href="<?= site_url('panel/aspek?remove=').$value->id; ?>">Delete</a>
+                                                <a class="confirm btn btn-sm btn-primary" msg="Are you sure to Delete data?" href="<?= site_url('panel/aspek?remove=').$value->id; ?>">Delete</a>
                                         <?php
                                             }
                                         ?>
@@ -600,12 +600,12 @@
                                         </li>
                                         
                                     </td>
-                                    <td>
-                                        <a class="badge badge-info"  msg="Do you want to Edit data?" href="<?= site_url('panel/aspek?editsub=').$valuesub->id; ?>">Edit</a>
+                                    <td style="text-align: center;">
+                                        <a class="btn btn-sm btn-info"  msg="Do you want to Edit data?" href="<?= site_url('panel/aspek?editsub=').$valuesub->id; ?>">Edit</a>
                                         <?php
                                             if($this->session->userdata('admin_data')->roles==1){
                                         ?>
-                                            <a class="badge badge-warning" msg="Are you sure to Delete data?" href="<?= site_url('panel/aspek?removesub=').$valuesub->id; ?>">Delete</a>
+                                            <a class="btn btn-sm btn-warning" msg="Are you sure to Delete data?" href="<?= site_url('panel/aspek?removesub=').$valuesub->id; ?>">Delete</a>
                                         <?php
                                         }
                                         ?>
