@@ -547,11 +547,11 @@
                                     <td style="text-align: center;">
                                         <a class="confirm btn btn-sm btn-primary"  msg="Do you want to Edit data?" href="<?= site_url('panel/aspek?edit=').$value->id; ?>">Edit</a>
                                         <?php
-                                            if(count($subcategory)<=0 && $this->session->userdata('admin_data')->roles==1){
+                                            // if($this->session->userdata('admin_data')->roles==1){
                                         ?>
-                                                <a class="confirm btn btn-sm btn-primary" msg="Are you sure to Delete data?" href="<?= site_url('panel/aspek?remove=').$value->id; ?>">Delete</a>
+                                                <a class="confirm btn btn-sm btn-danger" msg="Are you sure to Delete data?" href="<?= site_url('panel/aspek?remove=').$value->id; ?>">Delete</a>
                                         <?php
-                                            }
+                                            // }
                                         ?>
                                     </td>
                                 </tr>
@@ -601,13 +601,13 @@
                                         
                                     </td>
                                     <td style="text-align: center;">
-                                        <a class="btn btn-sm btn-info"  msg="Do you want to Edit data?" href="<?= site_url('panel/aspek?editsub=').$valuesub->id; ?>">Edit</a>
+                                        <a class="btn btn-sm btn-primary"  msg="Do you want to Edit data?" href="<?= site_url('panel/aspek?editsub=').$valuesub->id; ?>">Edit</a>
                                         <?php
-                                            if($this->session->userdata('admin_data')->roles==1){
+                                            // if($this->session->userdata('admin_data')->roles==1){
                                         ?>
-                                            <a class="btn btn-sm btn-warning" msg="Are you sure to Delete data?" href="<?= site_url('panel/aspek?removesub=').$valuesub->id; ?>">Delete</a>
+                                            <a class="btn btn-sm btn-danger" msg="Are you sure to Delete data?" href="<?= site_url('panel/aspek?removesub=').$valuesub->id; ?>">Delete</a>
                                         <?php
-                                        }
+                                        // }
                                         ?>
                                     </td>
                                 </tr>
