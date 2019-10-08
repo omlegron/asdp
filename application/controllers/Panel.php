@@ -2151,9 +2151,11 @@ class Panel extends CI_Controller {
             redirect('panel/aspek', 'refresh');
         }
         if ($this->input->post('savesub')) {
+            // print_r($this->input->post());
+            // die();
            $data = array(
-                'jenis_aspek_id' => cleartext($this->input->post('jenis_aspeks')),
-                'name'            => cleartext($this->input->post('sub_aspek')),
+                'jenis_aspek_id' => $this->input->post('jenis_aspeks'),
+                'name'            => $this->input->post('sub_aspek'),
                 'update_at' => date('Y-m-d H:i:s'),
             );
             $update = $this->m_model->updateas('id', $this->input->post('id'), $data,
