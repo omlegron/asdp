@@ -351,7 +351,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group form-float">
                                         <label class="form-label">Aspek</label>
-                                        <input type="hidden" name="jenis_aspeks" value="<?= $this->input->get('addsub') ?>">
+                                        <input type="hidden" name="jenis_aspeks" value="<?= $sub_aspek[0]->jenis_aspek_id ?>">
                                         <?php 
                                             $jA = $this->m_model->selectOne('id',$sub_aspek[0]->jenis_aspek_id,'jenis_aspeks');
                                             $valueJA = '';
