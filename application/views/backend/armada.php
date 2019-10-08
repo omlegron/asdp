@@ -312,8 +312,8 @@
                             <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> aspek <span class="caret"></span> </button>
                             <ul class="dropdown-menu" style="left: 0px">
                                 <?php 
-                                    if(count($this->m_model->all('jenis_aspeks')) > 0){
-                                        foreach ($this->m_model->all('jenis_aspeks') as $k => $value) {
+                                    if(count($this->m_model->selectwhere('status','Armada','jenis_aspeks')) > 0){
+                                        foreach ($this->m_model->selectwhere('status','Armada','jenis_aspeks') as $k => $value) {
                                         ?>
                                             <li><a href="<?php echo site_url(); ?>backend/armada/show/<?php echo slugify($value->nama_aspek); ?>/<?= $value->id; ?>/<?= $this->input->get('detail'); ?>"><?php echo $value->nama_aspek; ?></a></li>
 
