@@ -164,15 +164,7 @@
                                 <h2>List Foto</h2>
                             </div>
                             <div class="col-lg-2">
-                                <?php
-                                    if(isset($this->session->userdata('admin_data')->id_cabang)){
-
-                                    }else{
-                                ?>
-                                    <a class="btn btn-primary" href="<?= site_url('panel/photo?add=true'); ?>">Add Foto</a>
-                                <?php
-                                    }
-                                ?>
+                                <a class="btn btn-primary" href="<?= site_url('panel/photo?add=true'); ?>">Add Foto</a>
                             </div>
                         </div>
                     </div>
@@ -209,7 +201,7 @@
                             if (count($data) > 0) {
                                 foreach ($data as $key => $value) {
                                     $img=check_img($value->path_file);
-                                    //get pelabuhan
+
                                     $cabangs=$this->m_model->selectas3('id', $value->cabang_id, 'deleted_at is NULL', NULL, 'status', 1, 'cabangs');
                                     if(count($cabangs)>0){
                                         $name_cabangs= $cabangs[0]->name;
@@ -232,22 +224,22 @@
                                     </td>
                                     <td><p><?= $desk; ?></p></td>
                                     <td>
-                                    <?php
-                                    if(isset($this->session->userdata('admin_data')->id_cabang)){
-
-                                        }else{
-                                    ?>
-                                        <a class="confirm badge badge-info" msg="Do you want to Edit data?" href="<?= site_url('panel/photo?edit=').$value->id; ?>">Edit</a>
-                                    <?php
-                                    }
-                                    ?>
-                                    <?php
-                                        if($this->session->userdata('admin_data')->roles==1){
-                                    ?>
+                                        <?php
+                                            $approve = 'disabled';
+                                            $statusApprove = 'Approval';
+                                            // $cekApprove = $this->m_modal->selectOneWhere2('');
+                                            if($approve == 'disabled'){
+                                        ?>
+                                            <a class="confirm badge badge-warning" msg="Approve Terlebih Dahulu." href="<?= site_url('panel/photo?remove=').$value->id; ?>"><?= $statusApprove; ?></a>
+                                        <?php
+                                            }else{
+                                        ?>
+                                        <a class="confirm badge badge-info" msg="Do you want to Edit data?" href="<?= site_url('panel/photo?edit=').$value->id; ?>" >Edit</a>
                                         <a class="confirm badge badge-warning" msg="Are you sure to Delete data?" href="<?= site_url('panel/photo?remove=').$value->id; ?>">Delete</a>
-                                    <?php
-                                        }
-                                    ?>
+                                        <?php
+                                            }
+                                        ?>
+                                    
                                     </td>
                                 </tr>
                             <?php } } ?>

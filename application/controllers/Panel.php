@@ -2016,10 +2016,10 @@ class Panel extends CI_Controller {
         if ($this->input->post('save')) {
             $param = array(
                 'cabang_id'  => cleartext($this->input->post('cabang_id')),
-                'deskripsi'  => cleartext($this->input->post('link')),
-                'path_file'   => $pathfile,
-                'updated_at'   => date('Y-m-d H:i:s'),
-                'updated_by'   => cleartext($this->session->userdata('admin_data')->username),
+                'deskripsi'  => $this->input->post('deskripsi'),
+                'path_file'   => cleartext($this->input->post('link')),
+                // 'updated_at'   => date('Y-m-d H:i:s'),
+                // 'updated_by'   => cleartext($this->session->userdata('admin_data')->username),
             );
            
             $this->m_model->updateas('id', $this->input->post('id'), $param, 'video');
@@ -2027,11 +2027,12 @@ class Panel extends CI_Controller {
         }
         //---
         if ($this->input->get('remove')) {
-             $createdata = array(
-                'deleted_at'  => date('Y-m-d H:i:s'),
-                'deleted_by'   => cleartext($this->session->userdata('admin_data')->username),
-            );
-            $this->m_model->updateas('id', cleartext($this->input->get('remove')), $createdata, 'video');
+            //  $createdata = array(
+            //     'deleted_at'  => date('Y-m-d H:i:s'),
+            //     'deleted_by'   => cleartext($this->session->userdata('admin_data')->username),
+            // );
+            // $this->m_model->updateas('id', cleartext($this->input->get('remove')), $createdata, 'video');
+            $this->m_model->destroy($this->input->get('remove'), 'video');
             redirect('panel/video', 'refresh');
         }
     }

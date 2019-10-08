@@ -160,15 +160,7 @@
                                 <h2>List Video</h2>
                             </div>
                             <div class="col-lg-2">
-                                <?php
-                                    if(isset($this->session->userdata('admin_data')->id_cabang)){
-
-                                    }else{
-                                ?>
                                 <a class="btn btn-primary" href="<?= site_url('panel/video?add=true'); ?>">Add Video</a>
-                                <?php
-                                        }
-                                    ?>
                             </div>
                         </div>
                     </div>
@@ -241,22 +233,10 @@
                                         <?= $desk; ?>
                                     </td>
                                     <td>
-                                        <?php
-                                            if(isset($this->session->userdata('admin_data')->id_cabang)){
-
-                                            }else{
-                                        ?>
-                                                <a class="confirm badge badge-info" msg="Do you want to Edit data?" href="<?= site_url('panel/video?edit=').$value->id; ?>">Edit</a>
-                                        <?php
-                                            }
-                                        ?>
-                                    <?php
-                                        if($this->session->userdata('admin_data')->roles==1){
-                                    ?>
+                                        <a class="confirm badge badge-info" msg="Do you want to Edit data?" href="<?= site_url('panel/video?edit=').$value->id; ?>">Edit</a>
+                                    
                                         <a class="confirm badge badge-warning" msg="Are you sure to Delete data?" href="<?= site_url('panel/video?remove=').$value->id; ?>">Delete</a>
-                                    <?php
-                                        }
-                                    ?>
+                                    
                                     </td>
                                 </tr>
                             <?php } } ?>
