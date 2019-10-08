@@ -250,13 +250,9 @@
                                     <td><?= $roles; ?></td>
                                     <td>
                                         <a class="confirm badge badge-info" href="<?= site_url('panel/users?edit=').$value->id; ?>" msg="Do you want to Edit data?">Edit</a>
-                                        <!-- <?php 
-                                        if($this->session->userdata('admin_data')->roles == '1'){
-                                            //only superadmin
-                                        ?> -->
+                                       
                                         <a class="confirm badge badge-warning"  href="<?= site_url('panel/users?remove=').$value->id; ?>" msg="Are you sure to Delete data?">Delete</a>
-                                        <!-- <?php
-                                        }?> -->
+                                       
                                     </td>
                                 </tr>
                             <?php } 
