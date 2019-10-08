@@ -160,7 +160,17 @@
                                 <h2>List Video</h2>
                             </div>
                             <div class="col-lg-2">
-                                <a class="btn btn-primary" href="<?= site_url('panel/video?add=true'); ?>">Add Video</a>
+                                <?php
+                                    if($this->session->userdata('admin_data')->roles!=4){
+                                ?>
+                                    <a class="btn btn-primary" href="<?= site_url('panel/video?add=true'); ?>">Add Video</a>
+                                <?php
+
+                                    }else{
+                                    
+                                    }
+
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -233,10 +243,47 @@
                                         <?= $desk; ?>
                                     </td>
                                     <td>
-                                        <a class="confirm badge badge-info" msg="Do you want to Edit data?" href="<?= site_url('panel/video?edit=').$value->id; ?>">Edit</a>
-                                    
-                                        <a class="confirm badge badge-warning" msg="Are you sure to Delete data?" href="<?= site_url('panel/video?remove=').$value->id; ?>">Delete</a>
-                                    
+                                        <?php
+                                            if(isset($this->session->userdata('admin_data')->id_cabang)){
+
+                                            }else{
+                                        ?>
+                                                
+                                        <?php
+                                            }
+                                        ?>
+                                    <?php
+                                        if($this->session->userdata('admin_data')->roles==1){
+                                    ?>
+                                        
+                                    <?php
+                                        }
+                                    ?>
+
+                                    <?php
+                                        $statusApprove = 'Approval';
+                                        $cekApprove = $this->m_model->selectOneWhere3('form_type','video','form_id',$value->id,'user_id',$this->session->userdata('admin_data')->id,'trans_approval');
+                                        if($this->session->userdata('admin_data')->roles!=4){
+                                            if(isset($cekApprove)){
+                                            if($cekApprove->status == 'On Procces'){
+                                    ?>
+                                            <a class="confirm badge badge-warning" msg="Silahkan Tunggu Selesai Di Konfirmasi" href="javascript:void(0)"><?= $cekApprove->status; ?></a>
+                                    <?php
+                                            }else{
+                                    ?>
+                                            <a class="confirm badge badge-info" msg="Do you want to Edit data?" href="<?= site_url('panel/video?edit=').$value->id; ?>">Edit</a>
+                                            <a class="confirm badge badge-warning" msg="Are you sure to Delete data?" href="<?= site_url('panel/video?remove=').$value->id; ?>">Delete</a>
+                                    <?php
+                                            }
+                                            }else{
+                                                ?>
+                                                    <a class="confirm badge badge-warning" msg="Approve Terlebih Dahulu." href="<?= site_url('panel/approve/video/').$value->id; ?>"><?= $statusApprove; ?></a>
+                                                <?php
+                                            }
+                                        }else{
+
+                                        }
+                                    ?>
                                     </td>
                                 </tr>
                             <?php } } ?>

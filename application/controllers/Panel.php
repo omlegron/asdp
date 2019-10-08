@@ -2371,4 +2371,21 @@ class Panel extends CI_Controller {
             }
         }
     }
+
+    public function approve($type, $id) {
+        $data = array(
+            'form_type'    => $type,
+            'form_id'    => $id,
+            'user_id'    => $this->session->userdata('admin_data')->id,
+            'status'    => 'On Process',
+        );
+        
+        $create=$this->m_model->insertgetid($data, 'trans_approval');
+        if ($this->m_model->loginadmin($data) == 1) {
+            redirect('panel/'.$type, 'refresh');
+        }else{
+            $this->session->set_flashdata('gagal', 'Kesalahan Approve');
+            redirect('panel/'.$type, 'refresh');
+        }
+    }
 }
