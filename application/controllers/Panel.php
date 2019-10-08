@@ -1797,16 +1797,12 @@ class Panel extends CI_Controller {
                 'deleted_at'  => date('Y-m-d H:i:s'),
                 'deleted_by'   => cleartext($this->session->userdata('admin_data')->username),
             );
-            $this->m_model->updateas('id', cleartext($this->input->get('remove')), $param, 'armada');
+            $this->m_model->destroy($this->input->get('remove'), 'armada');
             redirect('panel/armada', 'refresh');
         }
 
         if ($this->input->get('removeElement')) {
-            $param = array(
-                'deleted_at'  => date('Y-m-d H:i:s'),
-                'deleted_by'   => cleartext($this->session->userdata('admin_data')->username),
-            );
-            $this->m_model->updateas('id', cleartext($this->input->get('removeElement')), $param, 'armada_elements');
+            $this->m_model->destroy($this->input->get('removeElement'), 'armada_elements');
             redirect($this->agent->referrer(), 'refresh');
         }
     }
@@ -1878,7 +1874,7 @@ class Panel extends CI_Controller {
                 'deleted_at'  => date('Y-m-d H:i:s'),
                 'deleted_by'   => cleartext($this->session->userdata('admin_data')->username),
             );
-            $this->m_model->updateas('id', cleartext($this->input->get('remove')), $createdata, 'photo');
+            $this->m_model->destroy($this->input->get('remove'),'photo');
             redirect('panel/photo', 'refresh');
         }
     }
@@ -2379,12 +2375,12 @@ class Panel extends CI_Controller {
             'user_id'    => $this->session->userdata('admin_data')->id,
             'status'    => 'On Process',
         );
-        
+
         $create=$this->m_model->insertgetid($data, 'trans_approval');
-        if ($this->m_model->loginadmin($data) == 1) {
+        if ($create == 1) {
             redirect('panel/'.$type, 'refresh');
         }else{
-            $this->session->set_flashdata('gagal', 'Kesalahan Approve');
+            // $this->session->set_flashdata('gagal', 'Kesalahan Approve');
             redirect('panel/'.$type, 'refresh');
         }
     }

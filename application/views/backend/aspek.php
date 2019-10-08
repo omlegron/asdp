@@ -512,7 +512,7 @@
                                 </div><!-- /input-group -->
                             </div>
                         </div>
-                        <table id="example" class="table table-bordered table-striped table-hover dataTable js-basic-example" style="font-size: 11px">
+                        <table id="example" class="table table-bordered table-striped table-hover dataTable js-basic-example" style="font-size: 12px">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -534,7 +534,16 @@
                                     <td><?= $key + 1; ?></td>
                                     <td><b><?= $value->nama_aspek; ?></b></td>
                                     <td colspan="5"><a class="badge badge-primary" href="<?= site_url('panel/aspek?addsub='.$value->id); ?>">Add Sub Aspek</a></td>
-                                    <td><?= $value->status; ?></td>
+                                    <td>
+                                        <?php
+                                        $statuse = '';
+                                            if($value->status == 'Pelabuhan'){
+                                                $statuse = '<span class="" style="background-color:#F7FA23;color:black">Pelabuhan</span>';
+                                            }else{
+                                                $statuse = '<span class="" style="background-color:#DAF7A6;color:black">Armada</span>';
+                                            }
+                                        ?>
+                                        <?= $statuse; ?></td>
                                     <td>
                                         <a class="confirm badge badge-info"  msg="Do you want to Edit data?" href="<?= site_url('panel/aspek?edit=').$value->id; ?>">Edit</a>
                                         <?php

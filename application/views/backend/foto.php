@@ -29,17 +29,45 @@
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label>Cabang</label>
-                                    <select name="cabang_id" class="form-control show-tick" required>
-                                            <option value="">Pilih</option>
-                                        <?php
-                                            foreach ($cabang as $keycabang => $valuecabang) {
-                                                # code...
-                                        ?>
-                                                <option value="<?=$valuecabang->id;?>"><?=$valuecabang->name;?></option>
-                                        <?php
+                                    <?php
+                                        if($this->session->userdata('admin_data')->roles=3){
+                                            $cabangs = $this->m_model->selectOne('id',$this->session->userdata('admin_data')->id_cabang,'cabangs');
+                                            if(isset($cabangs->name)){
+                                    ?>
+                                        <input type="hidden" class="form-control" name="cabang_id" value="<?= $this->session->userdata('admin_data')->roles; ?>">
+                                        <input type="text" class="form-control" name="" value="<?= $cabangs->name; ?>">
+                                    <?php
+                                            }else{
+                                                ?>
+                                                    <select name="cabang_id" class="form-control show-tick" required>
+                                                            <option value="">Pilih</option>
+                                                        <?php
+                                                            foreach ($cabang as $keycabang => $valuecabang) {
+                                                                # code...
+                                                        ?>
+                                                                <option value="<?=$valuecabang->id;?>"><?=$valuecabang->name;?></option>
+                                                        <?php
+                                                            }
+                                                        ?>
+                                                    </select>
+                                                <?php
                                             }
-                                        ?>
-                                    </select>
+                                        }else{
+                                    ?>
+                                        <select name="cabang_id" class="form-control show-tick" required>
+                                                <option value="">Pilih</option>
+                                            <?php
+                                                foreach ($cabang as $keycabang => $valuecabang) {
+                                                    # code...
+                                            ?>
+                                                    <option value="<?=$valuecabang->id;?>"><?=$valuecabang->name;?></option>
+                                            <?php
+                                                }
+                                            ?>
+                                        </select>
+                                    <?php
+                                        }
+                                    ?>
                                 </div>
                             </div>
                             <div class="row clearfix" style="margin-top: 20px;">
@@ -89,7 +117,32 @@
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label>Cabang</label>
-                                    <select name="cabang_id" class="form-control show-tick" required>
+                                    <?php
+                                        if($this->session->userdata('admin_data')->roles=3){
+                                            $cabangss = $this->m_model->selectOne('id',$this->session->userdata('admin_data')->id_cabang,'cabangs');
+                                            if(isset($cabangss->name)){
+                                    ?>
+                                        <input type="hidden" class="form-control" name="cabang_id" value="<?= $this->session->userdata('admin_data')->roles; ?>">
+                                        <input type="text" class="form-control" name="" value="<?= $cabangss->name; ?>">
+                                    <?php
+                                            }else{
+                                                ?>
+                                                    <select name="cabang_id" class="form-control show-tick" required>
+                                                            <option value="">Pilih</option>
+                                                        <?php
+                                                            foreach ($cabangs as $keycabangs => $valuecabangs) {
+                                                                # code...
+                                                        ?>
+                                                                <option value="<?=$valuecabangs->id;?>" <?php if($val[0]->cabang_id==$valuecabangs->id){echo 'selected="selected"';}?>><?=$valuecabangs->name;?></option>
+                                                        <?php
+                                                            }
+                                                        ?>
+                                                    </select>
+                                                <?php
+                                            }
+                                        }else{
+                                    ?>
+                                        <select name="cabang_id" class="form-control show-tick" required>
                                             <option value="">Pilih</option>
                                         <?php
                                             foreach ($cabangs as $keycabangs => $valuecabangs) {
@@ -100,6 +153,10 @@
                                             }
                                         ?>
                                     </select>
+                                    <?php
+                                        }
+                                    ?>
+                                    
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <img src="<?=$img['path'];?>" class="img-responsive" style="cursor: pointer; max-width: 200px; max-height:150px;" data-fancybox="images" href="<?=$img['path'];?>">
@@ -203,7 +260,11 @@
                             </thead>
                             <tbody>
                             <?php
-                            $data = $this->m_model->selectas('deleted_at is NULL', NULL, 'photo', 'id', 'ASC');
+                            if(isset($this->session->userdata('admin_data')->id_cabang)){
+                                $data = $this->m_model->selectwhere('cabang_id', $this->session->userdata('admin_data')->id_cabang, 'photo');
+                            }else{
+                                $data = $this->m_model->selectas('deleted_at is NULL', NULL, 'photo', 'id', 'ASC');
+                            }
                             if (count($data) > 0) {
                                 foreach ($data as $key => $value) {
                                     $img=check_img($value->path_file);
@@ -235,7 +296,7 @@
                                             $cekApprove = $this->m_model->selectOneWhere3('form_type','foto','form_id',$value->id,'user_id',$this->session->userdata('admin_data')->id,'trans_approval');
                                             if($this->session->userdata('admin_data')->roles!=4){
                                                 if(isset($cekApprove)){
-                                                if($cekApprove->status == 'On Procces'){
+                                                if($cekApprove->status == 'On Process'){
                                         ?>
                                                 <a class="confirm badge badge-warning" msg="Silahkan Tunggu Selesai Di Konfirmasi" href="javascript:void(0)"><?= $cekApprove->status; ?></a>
                                         <?php
@@ -246,9 +307,16 @@
                                         <?php
                                                 }
                                                 }else{
-                                                    ?>
-                                                        <a class="confirm badge badge-warning" msg="Approve Terlebih Dahulu." href="<?= site_url('panel/approve/foto/').$value->id; ?>"><?= $statusApprove; ?></a>
-                                                    <?php
+                                                    if(isset($this->session->userdata('admin_data')->id_cabang)){
+                                                        ?>
+                                                            <a class="confirm badge badge-warning" msg="Approve Terlebih Dahulu." href="<?= site_url('panel/approve/foto/').$value->id; ?>"><?= $statusApprove; ?></a>
+                                                        <?php
+                                                    }else{
+                                                        ?>
+                                                                <a class="confirm badge badge-info" msg="Do you want to Edit data?" href="<?= site_url('panel/photo?edit=').$value->id; ?>" >Edit</a>
+                                                                <a class="confirm badge badge-warning" msg="Are you sure to Delete data?" href="<?= site_url('panel/photo?remove=').$value->id; ?>">Delete</a>
+                                                        <?php
+                                                    }
                                                 }
                                             }else{
 

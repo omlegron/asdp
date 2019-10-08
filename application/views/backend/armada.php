@@ -246,7 +246,11 @@
         <br>
         <div class="row clearfix">
         <?php
-            $data = $this->m_model->selectas('deleted_at is NULL', NULL, 'armada', 'id', 'ASC');
+            if(isset($this->session->userdata('admin_data')->id_cabang)){
+                $data = $this->m_model->selectwhere('cabang_id', $this->session->userdata('admin_data')->id_cabang, 'armada');
+            }else{
+                $data = $this->m_model->selectas('deleted_at is NULL', NULL, 'armada', 'id', 'ASC');
+            }
             if (count($data) > 0) {
             foreach ($data as $key => $value) {
                 $img=check_img($value->foto);
@@ -302,7 +306,7 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="btn-group">
-                        <a href="<?=base_url().$this->uri->segment(2);?>"  class="btn btn-primary btn-sm" style="color: #fff">
+                        <a href="<?=base_url();?>/panel/armada"  class="btn btn-primary btn-sm" style="color: #fff">
                             Kembali
                         </a>
                     </div>
@@ -322,8 +326,41 @@
                                     }
                                 ?>
                             </ul>
-                            <a href="<?=base_url();?>panel/armada?edit=<?=$val[0]->id;?>"  class="btn btn-primary btn-sm" style="color: #fff">Edit</a>
-                            <a href="<?=base_url();?>panel/armada?remove=<?=$val[0]->id;?>"  class="confirm btn btn-danger btn-sm" msg="Are you sure to Delete data?" style="color: #fff">Delete</a>
+                            <?php
+                                $statusApprove = 'Approval';
+                                $cekApprove = $this->m_model->selectOneWhere3('form_type','armada','form_id',$val[0]->id,'user_id',$this->session->userdata('admin_data')->id,'trans_approval');
+                                if($this->session->userdata('admin_data')->roles!=4){
+                                    if(isset($cekApprove)){
+                                    if($cekApprove->status == 'On Process'){
+                            ?>
+                                    <a class="btn btn-warning btn-sm" msg="Silahkan Tunggu Selesai Di Konfirmasi" href="javascript:void(0)"><?= $cekApprove->status; ?></a>
+                            <?php
+                                    }else{
+                            ?>
+                                    <a href="<?=base_url();?>panel/armada?edit=<?=$val[0]->id;?>"  class="btn btn-primary btn-sm" style="color: #fff">Edit</a>
+                                    <a href="<?=base_url();?>panel/armada?remove=<?=$val[0]->id;?>"  class="confirm btn btn-danger btn-sm" msg="Are you sure to Delete data?" style="color: #fff">Delete</a>
+                            <?php
+                                    }
+                                    }else{
+                                        if(isset($this->session->userdata('admin_data')->id_cabang)){
+
+                                        ?>
+                                            <a class="confirm btn btn-warning btn-sm" msg="Approve Terlebih Dahulu." href="<?= site_url('panel/approve/armada/').$val[0]->id; ?>"><?= $statusApprove; ?></a>
+                                        <?php
+                                        }else{
+                                        ?>
+                                            <a href="<?=base_url();?>panel/armada?edit=<?=$val[0]->id;?>"  class="btn btn-primary btn-sm" style="color: #fff">Edit</a>
+                                            <a href="<?=base_url();?>panel/armada?remove=<?=$val[0]->id;?>"  class="confirm btn btn-danger btn-sm" msg="Are you sure to Delete data?" style="color: #fff">Delete</a>
+                                        <?php
+                                        }
+
+                                        
+                                    }
+                                }else{
+
+                                }
+                            ?>
+                           
                         </div>
                     </div>
             </div>
