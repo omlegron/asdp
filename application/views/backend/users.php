@@ -62,7 +62,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                 <div class="form-group col-lg-4 cabang">
+                                 <div class="form-group col-lg-4 cabang" style="display: none">
                                     <div class="form-line">
                                         <label >Cabang</label>
                                         <select name="id_cabang" class="form-control show-tick">
@@ -156,7 +156,7 @@
                                     </select>
                                 </div>
 
-                                 <div class="form-group col-lg-4">
+                                 <div class="form-group col-lg-4" style="display: none">
                                     <div class="form-line">
                                         <label >Cabang</label>
                                         <select name="id_cabang" class="form-control show-tick" required>

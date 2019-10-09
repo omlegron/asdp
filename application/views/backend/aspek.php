@@ -533,23 +533,23 @@
                                 <tr>
                                     <td><?= $key + 1; ?></td>
                                     <td><b><?= $value->nama_aspek; ?></b></td>
-                                    <td colspan="5" style="text-align: center;"><a class="btn btn-sm" style="background-color:#025aa5;color: white " href="<?= site_url('panel/aspek?addsub='.$value->id); ?>">Add Sub Aspek</a></td>
+                                    <td colspan="5" style="text-align: center;"><a class="badge" style="background-color:#025aa5;color: white " href="<?= site_url('panel/aspek?addsub='.$value->id); ?>">Add Sub Aspek</a></td>
                                     <td style="text-align: center;">
                                         <?php
                                         $statuse = '';
                                             if($value->status == 'Pelabuhan'){
-                                                $statuse = '<span class="btn btn-sm" style="background-color:#F7FA23;color:black;text-align:center;">Pelabuhan</span>';
+                                                $statuse = '<span class="badge" style="background-color:#F7FA23;color:black;text-align:center;">Pelabuhan</span>';
                                             }else{
-                                                $statuse = '<span class="btn btn-sm" style="background-color:#DAF7A6;color:black;text-align:center;">Armada</span>';
+                                                $statuse = '<span class="badge" style="background-color:#DAF7A6;color:black;text-align:center;">Armada</span>';
                                             }
                                         ?>
                                         <?= $statuse; ?></td>
                                     <td style="text-align: center;">
-                                        <a class="confirm btn btn-sm btn-primary"  msg="Do you want to Edit data?" href="<?= site_url('panel/aspek?edit=').$value->id; ?>">Edit</a>
+                                        <a class="confirm badge badge-primary"  msg="Do you want to Edit data?" href="<?= site_url('panel/aspek?edit=').$value->id; ?>">Edit</a>
                                         <?php
                                             // if($this->session->userdata('admin_data')->roles==1){
                                         ?>
-                                                <a class="confirm btn btn-sm btn-danger" msg="Are you sure to Delete data?" href="<?= site_url('panel/aspek?remove=').$value->id; ?>">Delete</a>
+                                                <a class="confirm badge badge-danger" msg="Are you sure to Delete data?" href="<?= site_url('panel/aspek?remove=').$value->id; ?>">Delete</a>
                                         <?php
                                             // }
                                         ?>
@@ -601,11 +601,11 @@
                                         
                                     </td>
                                     <td style="text-align: center;">
-                                        <a class="btn btn-sm btn-primary"  msg="Do you want to Edit data?" href="<?= site_url('panel/aspek?editsub=').$valuesub->id; ?>">Edit</a>
+                                        <a class="badge badge-primary"  msg="Do you want to Edit data?" href="<?= site_url('panel/aspek?editsub=').$valuesub->id; ?>">Edit</a>
                                         <?php
                                             // if($this->session->userdata('admin_data')->roles==1){
                                         ?>
-                                            <a class="btn btn-sm btn-danger" msg="Are you sure to Delete data?" href="<?= site_url('panel/aspek?removesub=').$valuesub->id; ?>">Delete</a>
+                                            <a class="badge badge-danger" msg="Are you sure to Delete data?" href="<?= site_url('panel/aspek?removesub=').$valuesub->id; ?>">Delete</a>
                                         <?php
                                         // }
                                         ?>
