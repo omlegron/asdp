@@ -2031,7 +2031,7 @@ class Panel extends CI_Controller {
            // print_r($pathfile);
            // die();
             $param = array(
-                'name'  => $this->upload->data('file_name'),
+                'name'  => $_FILES['photo']['name'],
                 'cabang_id'  => cleartext($this->input->post('cabang_id')),
                 'deskripsi'  => cleartext($this->input->post('deskripsi')),
                 'path_file'   => $pathfile,
@@ -2062,7 +2062,7 @@ class Panel extends CI_Controller {
 
 
             $param = array(
-                'name'  => $this->upload->data('file_name'),
+                'name'  => $_FILES['photo']['name'],
                 'cabang_id'  => cleartext($this->input->post('cabang_id')),
                 'deskripsi'  => $this->input->post('deskripsi'),
                 'path_file'   => $pathfile,
