@@ -284,10 +284,10 @@
 
                                     if(filter_var($value->path_file, FILTER_VALIDATE_URL) === FALSE && $value->path_file !=NULL){
                                         $path_file=base_url().$value->path_file;
-                                        $path_file='<a data-fancybox href="'.$path_file.'">'.$value->path_file.'</a>';
+                                        $path_file='<a data-fancybox href="'.$path_file.'">'.$value->name.'</a>';
                                     }
                                     else if(filter_var($value->path_file, FILTER_VALIDATE_URL) == TRUE && $value->path_file !=NULL) {
-                                        $path_file='<a data-fancybox href="'.$value->path_file.'">'.$value->path_file.'</a>';
+                                        $path_file='<a data-fancybox href="'.$value->path_file.'">'.$value->name.'</a>';
                                     }
                                     else{
                                         $path_file="-";
@@ -304,7 +304,7 @@
                                         <?= $name_cabangs; ?>
                                     </td>
                                     <td>
-                                        <?=$value->path_file;?>
+                                        <?=$path_file;?>
                                     </td>
                                     <td>
                                         <?= $desk; ?>
