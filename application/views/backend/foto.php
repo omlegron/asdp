@@ -34,7 +34,7 @@
                                             $cabangs = $this->m_model->selectOne('id',$this->session->userdata('admin_data')->id_cabang,'cabangs');
                                             if(isset($cabangs->name)){
                                     ?>
-                                        <input type="hidden" class="form-control" name="cabang_id" value="<?= $this->session->userdata('admin_data')->roles; ?>">
+                                        <input type="hidden" class="form-control" name="cabang_id" value="<?= $cabangs->id; ?>">
                                         <input type="text" class="form-control" name="" value="<?= $cabangs->name; ?>">
                                     <?php
                                             }else{
@@ -122,7 +122,7 @@
                                             $cabangss = $this->m_model->selectOne('id',$this->session->userdata('admin_data')->id_cabang,'cabangs');
                                             if(isset($cabangss->name)){
                                     ?>
-                                        <input type="hidden" class="form-control" name="cabang_id" value="<?= $this->session->userdata('admin_data')->roles; ?>">
+                                        <input type="hidden" class="form-control" name="cabang_id" value="<?= $cabangss->id; ?>">
                                         <input type="text" class="form-control" name="" value="<?= $cabangss->name; ?>">
                                     <?php
                                             }else{
@@ -261,17 +261,21 @@
                             <tbody>
                             <?php
                             if(isset($this->session->userdata('admin_data')->id_cabang)){
+                                // print_r($this->session->userdata('admin_data')->id_cabang);
+                                // die();
                                 $data = $this->m_model->selectwhere('cabang_id', $this->session->userdata('admin_data')->id_cabang, 'photo');
                             }else{
-                                $data = $this->m_model->selectas('deleted_at is NULL', NULL, 'photo', 'id', 'ASC');
+                                $data = $this->m_model->all('photo');
                             }
                             if (count($data) > 0) {
                                 foreach ($data as $key => $value) {
                                     $img=check_img($value->path_file);
-
-                                    $cabangs=$this->m_model->selectas3('id', $value->cabang_id, 'deleted_at is NULL', NULL, 'status', 1, 'cabangs');
+                                    // print_r($value);
+                                    $cabangs=$this->m_model->selectOne('id', $value->cabang_id, 'cabangs');
+                                    // print_r($cabangs);
+                                    // die();
                                     if(count($cabangs)>0){
-                                        $name_cabangs= $cabangs[0]->name;
+                                        $name_cabangs= $cabangs->name;
                                     }
                                     else{
                                         $name_cabangs= '-';
@@ -298,7 +302,7 @@
                                                 if(isset($cekApprove)){
                                                 if($cekApprove->status == 'On Process'){
                                         ?>
-                                                <a class="confirm badge badge-warning" msg="Silahkan Tunggu Selesai Di Konfirmasi" href="javascript:void(0)"><?= $cekApprove->status; ?></a>
+                                                <a class="badge badge-warning" msg="Silahkan Tunggu Selesai Di Konfirmasi" href="javascript:void(0)"><?= $cekApprove->status; ?></a>
                                         <?php
                                                 }else{
                                         ?>

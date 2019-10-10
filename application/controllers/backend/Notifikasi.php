@@ -31,4 +31,30 @@ class Notifikasi extends CI_Controller {
             redirect('backend/notifikasi', 'refresh');
         }
     }
+
+    public function reject($id){
+        if ($this->session->userdata('admin')) {
+            $this->load->view('backend/notifikasi-reject',[
+                'title' => 'Notifikasi',
+                'bcrumb' => 'Notifikasi',
+                'id' => $id,
+            ]);
+        } else {
+            redirect('panel/login', 'refresh');
+        }
+    }
+
+    public function saveReject(){
+        $data = array(
+            'status'    => 'Rejected',
+            'deskripsi'    => $this->input->post('deskripsi'),
+        );
+        $id = $this->input->post('id');
+        $create = $this->m_model->updateas('id', $id, $data, 'trans_approval');
+        if ($create == 1) {
+            redirect('backend/notifikasi', 'refresh');
+        }else{
+            redirect('backend/notifikasi', 'refresh');
+        }
+    }
 }

@@ -5,6 +5,23 @@ class Panel extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('m_model');
+        // $this->load->config('email');
+        $this->load->library('email');
+
+        $config['protocol'] = 'smtp'; 
+        $config['validate'] = 'FALSE';
+        $config['smtp_host'] = 'smtp.googlemail.com'; 
+        $config['smtp_port'] = '465';
+        $config['smtp_user'] = 'legrondhibebzky@gmail.com';
+        $config['smtp_pass'] = 'legron26801';
+        $config['smtp_crypto'] = 'ssl'; //can be 'ssl' or 'tls' for example
+        $config['mailtype'] = 'text'; //plaintext 'text' mails or 'html'
+        $config['smtp_timeout'] = '4'; //in seconds
+        $config['charset'] = 'iso-8859-1';
+        $config['wordwrap'] = 'TRUE';
+     
+        $this->email->initialize($config);
+
         if($this->session->userdata('language') !=null){
             $lang_active=$this->session->userdata('language');
             $this->lang->load('caption', $lang_active);
@@ -1870,10 +1887,7 @@ class Panel extends CI_Controller {
         }
         //---
         if ($this->input->get('remove')) {
-             $createdata = array(
-                'deleted_at'  => date('Y-m-d H:i:s'),
-                'deleted_by'   => cleartext($this->session->userdata('admin_data')->username),
-            );
+             
             $this->m_model->destroy($this->input->get('remove'),'photo');
             redirect('panel/photo', 'refresh');
         }
@@ -2085,9 +2099,9 @@ class Panel extends CI_Controller {
         }
     }
 
-    public function aspek() {
+    public function aspekArmada() {
         if ($this->session->userdata('admin')) {
-            $this->load->view('backend/aspek');
+            $this->load->view('backend/aspekArmada');
         } else {
             redirect('panel/login', 'refresh');
         }
@@ -2101,7 +2115,7 @@ class Panel extends CI_Controller {
                 'created_user'   => cleartext($this->session->userdata('admin_data')->username),
             );
             $createdata=$this->m_model->insertgetid($param, 'jenis_aspeks');
-            redirect('panel/aspek', 'refresh');
+            redirect('panel/aspekArmada', 'refresh');
         }
         //---
         if ($this->input->post('save')) {
@@ -2113,14 +2127,14 @@ class Panel extends CI_Controller {
                 'updated_by'   => cleartext($this->session->userdata('admin_data')->username),
             );
             $this->m_model->updateas('id', $this->input->post('id'), $param, 'jenis_aspeks');
-            redirect('panel/aspek', 'refresh');
+            redirect('panel/aspekArmada', 'refresh');
         }
 
         //---
         if ($this->input->get('remove')) {
             
             $this->m_model->destroy($this->input->get('remove'), 'jenis_aspeks');
-            redirect('panel/aspek', 'refresh');
+            redirect('panel/aspekArmada', 'refresh');
         }
         //---
         if ($this->input->post('addsubaspek')) {
@@ -2145,7 +2159,7 @@ class Panel extends CI_Controller {
                 $arr[$k]['status'] = $value;
             }
             $this->db->insert_batch('sub_aspeks_icon',$arr);
-            redirect('panel/aspek', 'refresh');
+            redirect('panel/aspekArmada', 'refresh');
         }
         if ($this->input->post('savesub')) {
             // print_r($this->input->post());
@@ -2165,7 +2179,7 @@ class Panel extends CI_Controller {
             }
             $this->m_model->deleteas('trans_sub_id',$this->input->post('id'),'sub_aspeks_icon');
             $this->db->insert_batch('sub_aspeks_icon',$arr);
-            redirect('panel/aspek', 'refresh');
+            redirect('panel/aspekArmada', 'refresh');
         }
         if ($this->input->get('removesub')) {
             $createdata = array(
@@ -2173,7 +2187,7 @@ class Panel extends CI_Controller {
                 'deleted_user'   => cleartext($this->session->userdata('admin_data')->username),
             );
             $this->m_model->updateas('id', cleartext($this->input->get('removesub')), $createdata, 'sub_aspeks');
-            redirect('panel/aspek', 'refresh');
+            redirect('panel/aspekArmada', 'refresh');
         }
         //---
         if ($this->input->post('addchild')) {
@@ -2186,9 +2200,9 @@ class Panel extends CI_Controller {
                 'seo' => $seo
             );
             if ($this->m_model->create($data, 'category_child') == 1) {
-                redirect('panel/aspek', 'refresh');
+                redirect('panel/aspekArmada', 'refresh');
             } else {
-                redirect('panel/aspek', 'refresh');
+                redirect('panel/aspekArmada', 'refresh');
             }
         }
         if ($this->input->post('savechild')) {
@@ -2203,14 +2217,143 @@ class Panel extends CI_Controller {
             $update = $this->m_model->updateas('id', $this->input->post('id'), $data,
                 'category_child');
             if ($update == 1) {
-                redirect('panel/aspek', 'refresh');
+                redirect('panel/aspekArmada', 'refresh');
             } else {
-                redirect('panel/aspek', 'refresh');
+                redirect('panel/aspekArmada', 'refresh');
             }
         }
         if ($this->input->get('removechild')) {
             $this->db->delete('category_child', array('id' => $this->input->get('removechild')));
-            redirect('panel/aspek', 'refresh');
+            redirect('panel/aspekArmada', 'refresh');
+        }
+    }
+
+    public function aspekPelabuhan() {
+        if ($this->session->userdata('admin')) {
+            $this->load->view('backend/aspekPelabuhan');
+        } else {
+            redirect('panel/login', 'refresh');
+        }
+        //---
+        if ($this->input->post('add')) {
+            $param = array(
+                'nama_aspek' => cleartext($this->input->post('nama_aspek')),
+                'status' => cleartext($this->input->post('status')),
+                'deskripsi'     => cleartext($this->input->post('deskripsi')),
+                'created_at'   => date('Y-m-d H:i:s'),
+                'created_user'   => cleartext($this->session->userdata('admin_data')->username),
+            );
+            $createdata=$this->m_model->insertgetid($param, 'jenis_aspeks');
+            redirect('panel/aspekPelabuhan', 'refresh');
+        }
+        //---
+        if ($this->input->post('save')) {
+            $param = array(
+                'nama_aspek' => cleartext($this->input->post('nama_aspek')),
+                'status' => cleartext($this->input->post('status')),
+                'deskripsi'     => cleartext($this->input->post('deskripsi')),
+                'updated_at'   => date('Y-m-d H:i:s'),
+                'updated_by'   => cleartext($this->session->userdata('admin_data')->username),
+            );
+            $this->m_model->updateas('id', $this->input->post('id'), $param, 'jenis_aspeks');
+            redirect('panel/aspekPelabuhan', 'refresh');
+        }
+
+        //---
+        if ($this->input->get('remove')) {
+            
+            $this->m_model->destroy($this->input->get('remove'), 'jenis_aspeks');
+            redirect('panel/aspekPelabuhan', 'refresh');
+        }
+        //---
+        if ($this->input->post('addsubaspek')) {
+            // print_r($this->input->post());
+            // die();
+            $data = array(
+                'jenis_aspek_id' => cleartext($this->input->post('jenis_aspeks')),
+                'name'            => cleartext($this->input->post('sub_aspek')),
+                'created_at' => date('Y-m-d H:i:s'),
+                'created_user' => cleartext($this->session->userdata('admin_data')->username),
+            );
+            // print_r($data);
+            // die();
+            $this->m_model->create($data,'sub_aspeks');
+            $arr = [];
+            $saves = $this->db->insert_id();
+            // print_r($this->db->insert_id());
+            // die();
+            foreach ($this->input->post('icon') as $k => $value) {
+                $arr[$k]['trans_sub_id'] = $saves;
+                $arr[$k]['trans_icon_id'] = $k;
+                $arr[$k]['status'] = $value;
+            }
+            $this->db->insert_batch('sub_aspeks_icon',$arr);
+            redirect('panel/aspekPelabuhan', 'refresh');
+        }
+        if ($this->input->post('savesub')) {
+            // print_r($this->input->post());
+            // die();
+           $data = array(
+                'jenis_aspek_id' => $this->input->post('jenis_aspeks'),
+                'name'            => $this->input->post('sub_aspek'),
+                'update_at' => date('Y-m-d H:i:s'),
+            );
+            $update = $this->m_model->updateas('id', $this->input->post('id'), $data,
+                'sub_aspeks');
+            $arr = [];
+            foreach ($this->input->post('icon') as $k => $value) {
+                $arr[$k]['trans_sub_id'] = $this->input->post('id');
+                $arr[$k]['trans_icon_id'] = $k;
+                $arr[$k]['status'] = $value;
+            }
+            $this->m_model->deleteas('trans_sub_id',$this->input->post('id'),'sub_aspeks_icon');
+            $this->db->insert_batch('sub_aspeks_icon',$arr);
+            redirect('panel/aspekPelabuhan', 'refresh');
+        }
+        if ($this->input->get('removesub')) {
+            $createdata = array(
+                'deleted_at'  => date('Y-m-d H:i:s'),
+                'deleted_user'   => cleartext($this->session->userdata('admin_data')->username),
+            );
+            $this->m_model->updateas('id', cleartext($this->input->get('removesub')), $createdata, 'sub_aspeks');
+            redirect('panel/aspekPelabuhan', 'refresh');
+        }
+        //---
+        if ($this->input->post('addchild')) {
+            $seo = str_replace('--', '-', str_replace('--', '-', strtolower(str_replace(' ', '-',
+                preg_replace('/[^A-Za-z0-9\-]/', ' ', $this->input->post('name'))))));
+            $data = array(
+                'category_sub' => $this->input->post('category_sub'),
+                'name'         => $this->input->post('name'),
+                'name_id' => $this->input->post('name_id'),
+                'seo' => $seo
+            );
+            if ($this->m_model->create($data, 'category_child') == 1) {
+                redirect('panel/aspekPelabuhan', 'refresh');
+            } else {
+                redirect('panel/aspekPelabuhan', 'refresh');
+            }
+        }
+        if ($this->input->post('savechild')) {
+            $seo = str_replace('--', '-', str_replace('--', '-', strtolower(str_replace(' ', '-',
+                preg_replace('/[^A-Za-z0-9\-]/', ' ', $this->input->post('name'))))));
+            $data   = array(
+                'category_sub' => $this->input->post('category_sub'),
+                'name'         => $this->input->post('name'),
+                'name_id' => $this->input->post('name_id'),
+                'seo' => $seo
+            );
+            $update = $this->m_model->updateas('id', $this->input->post('id'), $data,
+                'category_child');
+            if ($update == 1) {
+                redirect('panel/aspekPelabuhan', 'refresh');
+            } else {
+                redirect('panel/aspekPelabuhan', 'refresh');
+            }
+        }
+        if ($this->input->get('removechild')) {
+            $this->db->delete('category_child', array('id' => $this->input->get('removechild')));
+            redirect('panel/aspekPelabuhan', 'refresh');
         }
     }
 
@@ -2384,4 +2527,97 @@ class Panel extends CI_Controller {
             redirect('panel/'.$type, 'refresh');
         }
     }
+
+     public function file() {
+        if ($this->session->userdata('admin')) {
+            $this->load->view('backend/pdf',['title'=>'Standarisasi']);
+        } else {
+            redirect('panel/file', 'refresh');
+        }
+        //---
+        if ($this->input->post('add')) {
+            $pathfile="";
+            if (!empty($_FILES['photo']['name'])) {
+                $config['upload_path']   = FCPATH.'/images/file/pdf/';
+                $config['allowed_types'] = 'pdf';
+                $config['max_size'] = 3000000;
+                $config['file_name'] = uniqid();
+                $this->load->library('upload',$config);
+                $this->upload->initialize($config);
+                $this->upload->do_upload('photo');
+                // print_r($this->upload->data('file_name'));
+                // die();
+                $pathfile='images/file/pdf/'.$this->upload->data('file_name');
+            }
+
+            $param = array(
+                'filename'  => cleartext($this->input->post('filename')),
+                'deskripsi'  => cleartext($this->input->post('deskripsi')),
+                'fileurl'   => $pathfile,
+                'created_at'   => date('Y-m-d H:i:s'),
+                // 'created_user'   => cleartext($this->session->userdata('admin_data')->username),
+            );
+            $create=$this->m_model->insertgetid($param, 'file');
+            redirect('panel/file', 'refresh');
+        }
+        //---
+        if ($this->input->post('save')) {
+            if (!empty($_FILES['photo']['name'])) {
+                $config['upload_path']   = FCPATH.'/images/file/pdf/';
+                $config['allowed_types'] = 'pdf';
+                $config['max_size'] = 3000000;
+                $config['file_name'] = uniqid();
+                $this->load->library('upload',$config);
+                $this->upload->initialize($config);
+                $this->upload->do_upload('photo');
+                $pathfile='images/file/pdf/'.$this->upload->data('file_name');
+
+                $param = array(
+                    'filename'  => cleartext($this->input->post('filename')),
+                    'deskripsi'  => cleartext($this->input->post('deskripsi')),
+                    'fileurl'   => $pathfile,
+                    'updated_at'   => date('Y-m-d H:i:s'),
+                    'updated_by'   => cleartext($this->session->userdata('admin_data')->username),
+                );
+            }
+            else{
+                $param = array(
+                    'filename'  => cleartext($this->input->post('filename')),
+                    'deskripsi'  => cleartext($this->input->post('deskripsi')),
+                    'updated_at'   => date('Y-m-d H:i:s'),
+                    'updated_by'   => cleartext($this->session->userdata('admin_data')->username),
+                );
+            }
+            $this->m_model->updateas('id', $this->input->post('id'), $param, 'file');
+            redirect('panel/file', 'refresh');
+        }
+        //---
+        if ($this->input->get('remove')) {
+            
+            $this->m_model->destroy($this->input->get('remove'),'file');
+            redirect('panel/file', 'refresh');
+        }
+    }
+
+    public function sendsMails(){
+        $from = $this->config->item('smtp_user');
+            $to = $this->input->post('adriyanaputra017@gmail.com');
+            $subject = $this->input->post('subject');
+            $message = $this->input->post('message');
+
+            $this->email->set_newline("\r\n");
+            $this->email->from($from);
+            $this->email->to($to);
+            $this->email->subject($subject);
+            $this->email->message($message);
+
+            if ($this->email->send()) {
+                echo 'Your Email has successfully been sent.';
+            } else {
+                show_error($this->email->print_debugger());
+            }
+
+            die();
+    }
+
 }

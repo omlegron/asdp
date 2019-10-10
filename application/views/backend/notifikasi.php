@@ -78,7 +78,8 @@
                                                         <?php
                                                             if($value->status == 'On Process'){
                                                         ?>
-                                                            <a class="confirm badge badge-danger" msg="You Want Approve This Data?" href="<?= site_url('backend/notifikasi/approve/').$value->id; ?>">Approve</a>
+                                                            <a class="confirm badge badge-success" msg="You Want Approve This Data?" href="<?= site_url('backend/notifikasi/approve/').$value->id; ?>">Approve</a>
+                                                            <a class="confirm badge badge-danger" msg="You Want Reject This Data?" href="<?= site_url('backend/notifikasi/reject/').$value->id; ?>">Reject</a>
                                                         <?php
                                                             }else{
                                                         ?>

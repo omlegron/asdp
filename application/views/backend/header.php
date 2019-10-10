@@ -172,7 +172,13 @@
                     ?>          
                                 <li><a href="<?=base_url();?>panel/icon">Icon</a></li>
                                 <li><a href="<?=base_url();?>panel/cabang">Cabang</a></li>
-                                <li><a href="<?=base_url();?>panel/aspek">Aspek</a></li>
+                                <li>
+                                    <a href="javascript:void(0)" class="menu-toggle">Aspek</a>
+                                    <ul class="ml-menu">
+                                        <li><a href="<?=base_url();?>panel/aspekArmada" title="">Armada</a></li>
+                                        <li><a href="<?=base_url();?>panel/aspekPelabuhan" title="">Pelabuhan</a></li>
+                                    </ul>
+                                </li>
                                 <li><a href="<?=base_url();?>panel/pelabuhan">Pelabuhan</a></li>
                                 <li><a href="<?=base_url();?>panel/armada">Armada</a></li>
                     <?php
@@ -188,6 +194,7 @@
             ?>
                     <li> <a href="<?=base_url();?>panel/photo"><i class="zmdi zmdi-collection-image-o"></i><span>Foto</span> </a> </li>
                     <li> <a href="<?=base_url();?>panel/video"><i class="zmdi zmdi-collection-video"></i><span>Video</span> </a> </li>
+                    <li> <a href="<?=base_url();?>panel/file"><i class="zmdi zmdi-file"></i><span>Standarisasi</span> </a> </li>
                     <li> <a href="#"><i class="zmdi zmdi-file"></i><span>Laporan</span> </a> </li>
                     <li> <a href="<?=base_url();?>backend/notifikasi"><i class="zmdi zmdi-notifications-active"></i><span>Notifikasi <span class="rounded-circle text-white bg-warning mr-1" style="padding: 1px 8px;"><?= count($this->m_model->selectwhere('status','On Process','trans_approval')); ?></span></span> </a> </li>
             <?php
@@ -196,6 +203,7 @@
             ?>
                 <li> <a href="<?=base_url();?>panel/photo"><i class="zmdi zmdi-collection-image-o"></i><span>Foto</span> </a> </li>
                 <li> <a href="<?=base_url();?>panel/video"><i class="zmdi zmdi-collection-video"></i><span>Video</span> </a> </li>
+                <li> <a href="<?=base_url();?>panel/file"><i class="zmdi zmdi-file"></i><span>Standarisasi</span> </a> </li>
             <?php
                     }
                 }

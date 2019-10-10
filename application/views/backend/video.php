@@ -30,7 +30,7 @@
                                             $cabangss = $this->m_model->selectOne('id',$this->session->userdata('admin_data')->id_cabang,'cabangs');
                                             if(isset($cabangss->name)){
                                     ?>
-                                        <input type="hidden" class="form-control" name="cabang_id" value="<?= $this->session->userdata('admin_data')->roles; ?>">
+                                        <input type="hidden" class="form-control" name="cabang_id" value="<?= $cabangss->id; ?>">
                                         <input type="text" class="form-control" name="" value="<?= $cabangss->name; ?>">
                                     <?php
                                             }else{
@@ -118,7 +118,7 @@
                                             $cabangss = $this->m_model->selectOne('id',$this->session->userdata('admin_data')->id_cabang,'cabangs');
                                             if(isset($cabangss->name)){
                                     ?>
-                                        <input type="hidden" class="form-control" name="cabang_id" value="<?= $this->session->userdata('admin_data')->roles; ?>">
+                                        <input type="hidden" class="form-control" name="cabang_id" value="<?= $cabangss->id; ?>">
                                         <input type="text" class="form-control" name="" value="<?= $cabangss->name; ?>">
                                     <?php
                                             }else{
@@ -314,7 +314,7 @@
                                             if(isset($cekApprove)){
                                             if($cekApprove->status == 'On Process'){
                                     ?>
-                                            <a class="confirm badge badge-warning" msg="Silahkan Tunggu Selesai Di Konfirmasi" href="javascript:void(0)"><?= $cekApprove->status; ?></a>
+                                            <a class="badge badge-warning" msg="Silahkan Tunggu Selesai Di Konfirmasi" href="javascript:void(0)"><?= $cekApprove->status; ?></a>
                                     <?php
                                             }else{
                                     ?>
@@ -330,7 +330,7 @@
                                                 }else{
                                                     ?>
                                                         <a class="confirm badge badge-info" msg="Do you want to Edit data?" href="<?= site_url('panel/video?edit=').$value->id; ?>">Edit</a>
-                                            <a class="confirm badge badge-warning" msg="Are you sure to Delete data?" href="<?= site_url('panel/video?remove=').$value->id; ?>">Delete</a>
+                                                        <a class="confirm badge badge-warning" msg="Are you sure to Delete data?" href="<?= site_url('panel/video?remove=').$value->id; ?>">Delete</a>
                                                     <?php
                                                 }
                                                 
