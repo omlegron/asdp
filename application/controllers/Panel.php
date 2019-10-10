@@ -9,11 +9,11 @@ class Panel extends CI_Controller {
 
         $config['protocol'] = 'smtp'; 
         // $config['validate'] = 'FALSE';
-        $config['smtp_host'] = 'smtp.gmail.com'; 
+        $config['smtp_host'] = 'mail.ayokulakan.com'; 
         $config['smtp_port'] = '587';
-        $config['smtp_user'] = 'legrondhibebzky@gmail.com';
+        $config['smtp_user'] = 'admin@ayokulakan.com';
         $config['_smtp_auth'] = TRUE;
-        $config['smtp_pass'] = 'legron26801';
+        $config['smtp_pass'] = 'adminayokulakan123';
         $config['smtp_crypto'] = 'tls'; //can be 'ssl' or 'tls' for example
         $config['mailtype'] = 'html'; //plaintext 'text' mails or 'html'
         $config['charset'] = 'utf-8';
