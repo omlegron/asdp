@@ -9,13 +9,13 @@ class Panel extends CI_Controller {
         $this->load->library('email');
 
         $config['protocol'] = 'smtp'; 
-        $config['validate'] = 'FALSE';
-        $config['smtp_host'] = 'smtp.gmail.com'; 
+        // $config['validate'] = 'FALSE';
+        $config['smtp_host'] = 'smtp.googlemail.com'; 
         $config['smtp_port'] = '465';
         $config['smtp_user'] = 'legrondhibebzky@gmail.com';
         $config['smtp_pass'] = 'legron26801';
         $config['smtp_crypto'] = 'ssl'; //can be 'ssl' or 'tls' for example
-        $config['mailtype'] = 'text'; //plaintext 'text' mails or 'html'
+        $config['mailtype'] = 'html'; //plaintext 'text' mails or 'html'
         $config['smtp_timeout'] = '4'; //in seconds
         $config['charset'] = 'iso-8859-1';
         $config['wordwrap'] = 'TRUE';
