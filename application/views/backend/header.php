@@ -132,7 +132,7 @@
             <?php
                 if(!isset($this->session->userdata('admin_data')->id_cabang)){
             ?>
-            <div class="email" ><?= substr($this->session->userdata('admin_data')->email,0,20);?></div>
+            <div class="email" style="font-size: 9px"><?= $this->session->userdata('admin_data')->email;?></div>
             <?php
                 }
             ?>
