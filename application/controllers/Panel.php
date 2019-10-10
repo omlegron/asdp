@@ -1,12 +1,17 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 class Panel extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('m_model');
         // $this->load->config('email');
-
+        $this->_ci = &get_instance(); 
+        require_once(APPPATH.'third_party/phpmailer/Exception.php');        
+        require_once(APPPATH.'third_party/phpmailer/PHPMailer.php');        
+        require_once(APPPATH.'third_party/phpmailer/SMTP.php');
         $config['protocol'] = 'smtp'; 
         $config['sendmail'] = '/usr/sbin/sendmail -bs';
         // $config['validate'] = 'FALSE';
@@ -64,6 +69,36 @@ class Panel extends CI_Controller {
 
             die();
     }
+
+        protected $_ci;    
+        protected $email_pengirim = 'legrondhibebzky@gmail.com'; 
+        protected $nama_pengirim = 'Rizaldi Maulidia Achmad';
+        protected $password = 'legron26801';
+        
+        public function send(){        
+            $mail = new PHPMailer;        
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->Username = $this->email_pengirim; 
+            $mail->Password = $this->password;
+            $mail->Port = 465;
+            $mail->SMTPAuth = true;
+            $mail->SMTPSecure = 'ssl';
+            $mail->setFrom($this->email_pengirim, $this->nama_pengirim);        
+            $mail->addAddress('adriyanaputra017@gmail.com', '');        
+            $mail->isHTML(true); // Aktifkan jika isi emailnya berupa html        
+            $mail->Subject = 'cel';        
+            $mail->Body = 'asi';        
+            // $mail->AddEmbeddedImage('image/logo.png', 'logo_mynotescode', 'logo.png'); // Aktifkan jika ingin menampilkan gambar dalam email        
+            $send = $mail->send();        
+            if($send){ 
+                $response = array('status'=>'Sukses', 'message'=>'Email berhasil dikirim');        
+            }else{ 
+                $response = array('status'=>'Gagal', 'message'=>'Email gagal dikirim');        
+            }        
+             print_r($response);   
+             die();
+        }
     public function index() {
         if ($this->session->userdata('admin')) {
             $this->load->view('backend/home');
