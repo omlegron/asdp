@@ -6,7 +6,6 @@ class Panel extends CI_Controller {
         parent::__construct();
         $this->load->model('m_model');
         // $this->load->config('email');
-        $this->load->library('email');
 
         $config['protocol'] = 'smtp'; 
         // $config['validate'] = 'FALSE';
@@ -29,6 +28,8 @@ class Panel extends CI_Controller {
     //       'verify_peer_name' => false,
     //    ],
     // ],
+        $this->load->library('email',$config);
+
         $this->email->initialize($config);
 
         if($this->session->userdata('language') !=null){
