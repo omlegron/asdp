@@ -7,39 +7,6 @@ class Panel extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('m_model');
-        // $this->load->config('email');
-        $this->_ci = &get_instance(); 
-        require_once(APPPATH.'third_party/phpmailer/Exception.php');        
-        require_once(APPPATH.'third_party/phpmailer/PHPMailer.php');        
-        require_once(APPPATH.'third_party/phpmailer/SMTP.php');
-        $config['protocol'] = 'smtp'; 
-        $config['sendmail'] = '/usr/sbin/sendmail -bs';
-        // $config['validate'] = 'FALSE';
-        $config['smtp_host'] = 'mail.ayokulakan.com'; 
-        $config['smtp_port'] = 587;
-        $config['smtp_user'] = 'admin@ayokulakan.com';
-        $config['smtp_pass'] = 'adminayokulakan123';
-        $config['smtp_crypto'] = 'tls'; //can be 'ssl' or 'tls' for example
-        $config['mailtype'] = 'html'; //plaintext 'text' mails or 'html'
-        $config['charset'] = 'utf-8';
-        // $config['smtp_timeout'] = '30'; //in seconds
-        $config['charset'] = 'iso-8859-1';
-        $config['wordwrap'] = TRUE;
-        $config['newline']      = "\r\n";    
-        // $config['stream']['ssl']['allow_self_signed'] = true;
-        // $config['stream']['ssl']['verify_peer'] = false;
-        // $config['stream']['ssl']['verify_peer_name'] = false;
-    //     'stream' => [
-    //     'ssl' => [
-    //       'allow_self_signed' => true,
-    //       'verify_peer' => false,
-    //       'verify_peer_name' => false,
-    //    ],
-    // ],
-        $this->load->library('email',$config);
-        // $this->email->set_newline("\r\n");
-
-        // $this->email->initialize($config);
 
         if($this->session->userdata('language') !=null){
             $lang_active=$this->session->userdata('language');
@@ -50,55 +17,65 @@ class Panel extends CI_Controller {
         }
         //if (!$this->session->userdata('mask')) { redirect('mask'); }
     }
-    public function sendsMails(){
-            $from = $this->config->item('smtp_user');
-            $to = $this->input->post('adriyanaputra017@gmail.com');
-            $subject = 'sad';
-            $message = 'ampas';
+    
+    
 
-            $this->email->from($from);
-            $this->email->to($to);
-            $this->email->subject($subject);
-            $this->email->message($message);
+    // public function sendsMails(){
+    //     $data = '{
+    //               "email" : "adriyanaputra017@gmail.com",
+    //                 "nama" : "adriyana",
+    //                 "password" : "ok",
+    //                 "pesan" : "pesanla"
+    //             }';
+    //     sendsMaiils($data);
+    //         // $from = $this->config->item('smtp_user');
+    //         // $to = $this->input->post('adriyanaputra017@gmail.com');
+    //         // $subject = 'sad';
+    //         // $message = 'ampas';
 
-            if ($this->email->send()) {
-                echo 'Your Email has successfully been sent.';
-            } else {
-                show_error($this->email->print_debugger());
-            }
+    //         // $this->email->from($from);
+    //         // $this->email->to($to);
+    //         // $this->email->subject($subject);
+    //         // $this->email->message($message);
 
-            die();
-    }
+    //         // if ($this->email->send()) {
+    //         //     echo 'Your Email has successfully been sent.';
+    //         // } else {
+    //         //     show_error($this->email->print_debugger());
+    //         // }
 
-        protected $_ci;    
-        protected $email_pengirim = 'legrondhibebzky@gmail.com'; 
-        protected $nama_pengirim = 'Rizaldi Maulidia Achmad';
-        protected $password = 'legron26801';
+    //         die();
+    // }
+
+        // protected $_ci;    
+        // protected $email_pengirim = 'legrondhibebzky@gmail.com'; 
+        // protected $nama_pengirim = 'Rizaldi Maulidia Achmad';
+        // protected $password = 'legron26801';
         
-        public function send(){        
-            $mail = new PHPMailer;        
-            $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
-            $mail->Username = $this->email_pengirim; 
-            $mail->Password = $this->password;
-            $mail->Port = 465;
-            $mail->SMTPAuth = true;
-            $mail->SMTPSecure = 'ssl';
-            $mail->setFrom($this->email_pengirim, $this->nama_pengirim);        
-            $mail->addAddress('adriyanaputra017@gmail.com', '');        
-            $mail->isHTML(true); // Aktifkan jika isi emailnya berupa html        
-            $mail->Subject = 'cel';        
-            $mail->Body = 'asi';        
-            // $mail->AddEmbeddedImage('image/logo.png', 'logo_mynotescode', 'logo.png'); // Aktifkan jika ingin menampilkan gambar dalam email        
-            $send = $mail->send();        
-            if($send){ 
-                $response = array('status'=>'Sukses', 'message'=>'Email berhasil dikirim');        
-            }else{ 
-                $response = array('status'=>$send, 'message'=>'Email gagal dikirim');        
-            }        
-             print_r($response);   
-             die();
-        }
+        // public function send(){        
+        //     $mail = new PHPMailer;        
+        //     $mail->isSMTP();
+        //     $mail->Host = 'smtp.gmail.com';
+        //     $mail->Username = $this->email_pengirim; 
+        //     $mail->Password = $this->password;
+        //     $mail->Port = 465;
+        //     $mail->SMTPAuth = true;
+        //     $mail->SMTPSecure = 'ssl';
+        //     $mail->setFrom($this->email_pengirim, $this->nama_pengirim);        
+        //     $mail->addAddress('adriyanaputra017@gmail.com', '');        
+        //     $mail->isHTML(true); // Aktifkan jika isi emailnya berupa html        
+        //     $mail->Subject = 'cel';        
+        //     $mail->Body = 'asi';        
+        //     // $mail->AddEmbeddedImage('image/logo.png', 'logo_mynotescode', 'logo.png'); // Aktifkan jika ingin menampilkan gambar dalam email        
+        //     $send = $mail->send();        
+        //     if($send){ 
+        //         $response = array('status'=>'Sukses', 'message'=>'Email berhasil dikirim');        
+        //     }else{ 
+        //         $response = show_error($email->print_debugger());        
+        //     }        
+        //      print_r($response);   
+        //      die();
+        // }
     public function index() {
         if ($this->session->userdata('admin')) {
             $this->load->view('backend/home');
@@ -1607,6 +1584,14 @@ class Panel extends CI_Controller {
                     }
                 }
             }*/
+             $data = '{
+                    "email" : "'.$this->input->post('email').'",
+                    "username" : "'.$this->input->post('username').'",
+                    "roles" : "'.$this->input->post('roles').'",
+                    "password" : "'.$this->input->post('password').'",
+                    "pesan" : "Email Registrasi Baru Untuk Anda"
+                }';
+            sendsMaiils($data);
             if ($this->m_model->create($data, 'users') == 1) {
                 redirect('panel/users', 'refresh');
             } else {
@@ -1633,6 +1618,14 @@ class Panel extends CI_Controller {
                     'roles' => $this->input->post('roles'),
                     'id_cabang' => $idCab,
                 );
+                $dataJ = '{
+                    "email" : "'.$this->input->post('email').'",
+                    "username" : "'.$this->input->post('username').'",
+                    "roles" : "'.$this->input->post('roles').'",
+                    "password" : "'.$this->input->post('password').'",
+                    "pesan" : "Ada Perubahan Akun Baru Untuk Anda"
+                }';
+                sendsMaiils($dataJ);
             }else{
                 $data = array(
                     'username' => $this->input->post('username'),
@@ -1640,6 +1633,13 @@ class Panel extends CI_Controller {
                     'roles' => $this->input->post('roles'),
                     'id_cabang' => $idCab,
                 );
+                $dataJ = '{
+                        "email" : "'.$this->input->post('email').'",
+                        "username" : "'.$this->input->post('username').'",
+                        "roles" : "'.$this->input->post('roles').'",
+                        "pesan" : "Ada Perubahan Akun Baru Untuk Anda"
+                    }';
+                    sendsMaiils($dataJ);
             }
             
             /*if (!empty($_FILES['logo']['name'])) {
@@ -2642,6 +2642,33 @@ class Panel extends CI_Controller {
             'user_id'    => $this->session->userdata('admin_data')->id,
             'status'    => 'On Process',
         );
+
+        $cab = $this->m_model->selectOne('id',$this->session->userdata('admin_data')->id_cabang,'cabangs');
+        $dataJ = '{
+            "PIC Peminta" : "'.$this->session->userdata('admin_data')->username.'",
+            "email" : "'.$this->session->userdata('admin_data')->email.'",
+            "Cabang" : "'.$cab->name.'",
+            "Tipe Permintaan" : "'.$type.'",
+            "Status" : "On Process",
+            "pesan" : "Ada Permintaan Approval Terbaru Untuk Anda Akun Baru Untuk Anda"
+        }';
+        sendsMaiils($dataJ);
+        $admSuper = $this->m_model->selectOne('roles','1','users');
+        $admCab = $this->m_model->selectOne('roles','2','users');
+        $collAdm = [$admSuper->email,$admCab->email];
+        if(count($collAdm) > 0){
+            foreach ($collAdm as $value) {
+                $dataJ = '{
+                    "PIC Peminta" : "'.$this->session->userdata('admin_data')->username.'",
+                    "email" : "'.$value.'",
+                    "Cabang" : "'.$cab->name.'",
+                    "Tipe Permintaan" : "'.$type.'",
+                    "Status" : "On Process",
+                    "pesan" : "Ada Permintaan Approval Terbaru Untuk Anda Akun Baru Untuk Anda"
+                }';
+                sendsMaiils($dataJ);
+            }
+        }
 
         $create=$this->m_model->insertgetid($data, 'trans_approval');
         if ($create == 1) {
