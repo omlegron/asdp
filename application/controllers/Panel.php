@@ -14,13 +14,13 @@ class Panel extends CI_Controller {
         $config['smtp_user'] = 'legrondhibebzky@gmail.com';
         $config['smtp_pass'] = 'legron26801';
         $config['smtp_crypto'] = 'ssl'; //can be 'ssl' or 'tls' for example
-        $config['mailtype'] = 'text'; //plaintext 'text' mails or 'html'
+        $config['mailtype'] = 'html'; //plaintext 'text' mails or 'html'
         $config['smtp_timeout'] = '30'; //in seconds
         $config['charset'] = 'iso-8859-1';
         $config['wordwrap'] = TRUE;
-        $config['stream']['ssl']['allow_self_signed'] = true;
-        $config['stream']['ssl']['verify_peer'] = false;
-        $config['stream']['ssl']['verify_peer_name'] = false;
+        // $config['stream']['ssl']['allow_self_signed'] = true;
+        // $config['stream']['ssl']['verify_peer'] = false;
+        // $config['stream']['ssl']['verify_peer_name'] = false;
     //     'stream' => [
     //     'ssl' => [
     //       'allow_self_signed' => true,
@@ -29,8 +29,9 @@ class Panel extends CI_Controller {
     //    ],
     // ],
         $this->load->library('email',$config);
+        $this->email->set_newline("\r\n");
 
-        $this->email->initialize($config);
+        // $this->email->initialize($config);
 
         if($this->session->userdata('language') !=null){
             $lang_active=$this->session->userdata('language');
@@ -2672,7 +2673,6 @@ class Panel extends CI_Controller {
             $subject = 'sad';
             $message = 'ampas';
 
-            $this->email->set_newline("\r\n");
             $this->email->from($from);
             $this->email->to($to);
             $this->email->subject($subject);
