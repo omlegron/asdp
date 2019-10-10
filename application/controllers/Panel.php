@@ -9,15 +9,18 @@ class Panel extends CI_Controller {
 
         $config['protocol'] = 'smtp'; 
         // $config['validate'] = 'FALSE';
-        $config['smtp_host'] = 'ssl://smtp.googlemail.com'; 
-        $config['smtp_port'] = 465;
+        $config['smtp_host'] = 'smtp.gmail.com'; 
+        $config['smtp_port'] = '587';
         $config['smtp_user'] = 'legrondhibebzky@gmail.com';
+        $config['_smtp_auth'] = TRUE;
         $config['smtp_pass'] = 'legron26801';
-        // $config['smtp_crypto'] = 'ssl'; //can be 'ssl' or 'tls' for example
+        $config['smtp_crypto'] = 'tls'; //can be 'ssl' or 'tls' for example
         $config['mailtype'] = 'html'; //plaintext 'text' mails or 'html'
+        $config['charset'] = 'utf-8';
         // $config['smtp_timeout'] = '30'; //in seconds
         $config['charset'] = 'iso-8859-1';
-        // $config['wordwrap'] = TRUE;
+        $config['wordwrap'] = TRUE;
+        $config['newline']      = "\r\n";    
         // $config['stream']['ssl']['allow_self_signed'] = true;
         // $config['stream']['ssl']['verify_peer'] = false;
         // $config['stream']['ssl']['verify_peer_name'] = false;
@@ -29,7 +32,7 @@ class Panel extends CI_Controller {
     //    ],
     // ],
         $this->load->library('email',$config);
-        $this->email->set_newline("\r\n");
+        // $this->email->set_newline("\r\n");
 
         // $this->email->initialize($config);
 
