@@ -301,10 +301,10 @@
                                 <tr>
                                     <td><?= $key + 1; ?></td>
                                     <td>
-                                        <?= $value->path_file; ?>
+                                        <?= $name_cabangs; ?>
                                     </td>
                                     <td>
-                                        <?=$path_file;?>
+                                        <?=$value->path_file;?>
                                     </td>
                                     <td>
                                         <?= $desk; ?>
