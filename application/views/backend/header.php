@@ -195,9 +195,8 @@
                     <li> <a href="<?=base_url();?>panel/photo"><i class="zmdi zmdi-collection-image-o"></i><span>Foto</span> </a> </li>
                     <li> <a href="<?=base_url();?>panel/video"><i class="zmdi zmdi-collection-video"></i><span>Video</span> </a> </li>
                     <li> <a href="<?=base_url();?>panel/file"><i class="zmdi zmdi-file"></i><span>Standarisasi</span> </a> </li>
-                    <li> <a href="#"><i class="zmdi zmdi-file"></i><span>Laporan</span> </a> </li>
-                    <li> <a href="<?=base_url();?>backend/notifikasi"><i class="zmdi zmdi-notifications-active"></i><span>Notifikasi <span class="rounded-circle text-white bg-warning mr-1" style="padding: 1px 8px;"><?= count($this->m_model->selectwhere('status','On Process','trans_approval')); ?></span></span> </a> </li>
             <?php
+
                 }else{
                     if($this->session->userdata('admin_data')->roles != 5){
             ?>
@@ -205,6 +204,17 @@
                 <li> <a href="<?=base_url();?>panel/video"><i class="zmdi zmdi-collection-video"></i><span>Video</span> </a> </li>
                 <li> <a href="<?=base_url();?>panel/file"><i class="zmdi zmdi-file"></i><span>Standarisasi</span> </a> </li>
             <?php
+                        if(($this->session->userdata('admin_data')->roles == 1 || 2)){
+                        ?>
+                             <li> <a href="#"><i class="zmdi zmdi-file"></i><span>Laporan</span> </a> </li>
+                            <li> <a href="<?=base_url();?>backend/notifikasi"><i class="zmdi zmdi-notifications-active"></i><span>Notifikasi <span class="rounded-circle text-white bg-warning mr-1" style="padding: 1px 8px;"><?= count($this->m_model->selectwhere('status','On Process','trans_approval')); ?></span></span> </a> </li>
+                        <?php
+                        }       
+                    }elseif(($this->session->userdata('admin_data')->roles == 1) && ($this->session->userdata('admin_data')->roles == 2)){
+                        ?>
+                             <li> <a href="#"><i class="zmdi zmdi-file"></i><span>Laporan</span> </a> </li>
+                    <li> <a href="<?=base_url();?>backend/notifikasi"><i class="zmdi zmdi-notifications-active"></i><span>Notifikasi <span class="rounded-circle text-white bg-warning mr-1" style="padding: 1px 8px;"><?= count($this->m_model->selectwhere('status','On Process','trans_approval')); ?></span></span> </a> </li>
+                        <?php
                     }
                 }
             ?>
