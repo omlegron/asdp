@@ -8,11 +8,11 @@ class Panel extends CI_Controller {
         // $this->load->config('email');
 
         $config['protocol'] = 'smtp'; 
+        $config['sendmail'] = '/usr/sbin/sendmail -bs';
         // $config['validate'] = 'FALSE';
         $config['smtp_host'] = 'mail.ayokulakan.com'; 
-        $config['smtp_port'] = '587';
+        $config['smtp_port'] = 587;
         $config['smtp_user'] = 'admin@ayokulakan.com';
-        $config['_smtp_auth'] = TRUE;
         $config['smtp_pass'] = 'adminayokulakan123';
         $config['smtp_crypto'] = 'tls'; //can be 'ssl' or 'tls' for example
         $config['mailtype'] = 'html'; //plaintext 'text' mails or 'html'
