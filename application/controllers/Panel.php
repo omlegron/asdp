@@ -11,7 +11,7 @@ class Panel extends CI_Controller {
         $config['protocol'] = 'smtp'; 
         // $config['validate'] = 'FALSE';
         $config['smtp_host'] = 'smtp.gmail.com'; 
-        $config['smtp_port'] = 587;
+        $config['smtp_port'] = 465;
         $config['smtp_user'] = 'legrondhibebzky@gmail.com';
         $config['smtp_pass'] = 'legron26801';
         $config['smtp_crypto'] = 'ssl'; //can be 'ssl' or 'tls' for example
