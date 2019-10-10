@@ -60,9 +60,9 @@
                                                     </td>
                                                     <td>
                                                         <?php
-                                                            $userNam = $this->m_model->selectOne('id',$value->user_id,'users')->username; 
-                                                            if(isset($userNam)){
-                                                                echo $userNam;
+                                                            $userNam = $this->m_model->selectOne('id',$value->user_id,'users'); 
+                                                            if($userNam){
+                                                                echo $userNam->username;
                                                             }else{
                                                                 echo '-';
                                                             }
