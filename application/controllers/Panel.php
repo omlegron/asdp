@@ -8,14 +8,14 @@ class Panel extends CI_Controller {
         // $this->load->config('email');
         $this->load->library('email');
 
-        $config['protocol'] = 'smtp'; 
+        $config['protocol'] = 'mail'; 
         // $config['validate'] = 'FALSE';
-        $config['smtp_host'] = 'smtp.googlemail.com'; 
-        $config['smtp_port'] = 465;
+        $config['smtp_host'] = 'smtp.gmail.com'; 
+        $config['smtp_port'] = 587;
         $config['smtp_user'] = 'legrondhibebzky@gmail.com';
         $config['smtp_pass'] = 'legron26801';
         $config['smtp_crypto'] = 'ssl'; //can be 'ssl' or 'tls' for example
-        $config['mailtype'] = 'html'; //plaintext 'text' mails or 'html'
+        $config['mailtype'] = 'text'; //plaintext 'text' mails or 'html'
         $config['smtp_timeout'] = '4'; //in seconds
         $config['charset'] = 'iso-8859-1';
         $config['wordwrap'] = TRUE;
@@ -2605,7 +2605,7 @@ class Panel extends CI_Controller {
             $subject = 'sad';
             $message = 'ampas';
 
-            $this->email->set_newline("\r\n");
+            $this->email->set_newline('\r\n');
             $this->email->from($from);
             $this->email->to($to);
             $this->email->subject($subject);
