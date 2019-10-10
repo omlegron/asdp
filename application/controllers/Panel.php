@@ -2017,7 +2017,7 @@ class Panel extends CI_Controller {
             $pathfile="";
             if (!empty($_FILES['photo']['name'])) {
                 $config['upload_path']   = FCPATH.'/images/file/pdf/';
-                // $config['allowed_types'] = 'pdf';
+                $config['allowed_types'] = 'mp4|mkv|avi|3gp|mpg|mpeg|flv|mdi';
                 // $config['max_size'] = 3000000;
                 $config['file_name'] = uniqid();
                 $this->load->library('upload',$config);
@@ -2028,7 +2028,8 @@ class Panel extends CI_Controller {
                 $pathfile='images/file/pdf/'.$this->upload->data('file_name');
             }
 
-           
+           // print_r($pathfile);
+           // die();
             $param = array(
                 'cabang_id'  => cleartext($this->input->post('cabang_id')),
                 'deskripsi'  => cleartext($this->input->post('deskripsi')),
@@ -2037,7 +2038,7 @@ class Panel extends CI_Controller {
                 'created_user'   => cleartext($this->session->userdata('admin_data')->username),
             );
             $create=$this->m_model->insertgetid($param, 'video');
-            // redirect('panel/video', 'refresh');
+            redirect('panel/video', 'refresh');
 
         }
         //---
@@ -2046,6 +2047,8 @@ class Panel extends CI_Controller {
             if (!empty($_FILES['photo']['name'])) {
                 $config['upload_path']   = FCPATH.'/images/file/pdf/';
                 // $config['allowed_types'] = 'pdf';
+                $config['allowed_types'] = 'mp4|mkv|avi|3gp|mpg|mpeg|flv|mdi';
+
                 // $config['max_size'] = 3000000;
                 $config['file_name'] = uniqid();
                 $this->load->library('upload',$config);
@@ -2066,7 +2069,7 @@ class Panel extends CI_Controller {
             );
            
             $this->m_model->updateas('id', $this->input->post('id'), $param, 'video');
-            // redirect('panel/video', 'refresh');
+            redirect('panel/video', 'refresh');
         }
         //---
         if ($this->input->get('remove')) {
