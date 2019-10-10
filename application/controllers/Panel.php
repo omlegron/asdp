@@ -2602,8 +2602,8 @@ class Panel extends CI_Controller {
     public function sendsMails(){
         $from = $this->config->item('smtp_user');
             $to = $this->input->post('adriyanaputra017@gmail.com');
-            $subject = $this->input->post('subject');
-            $message = $this->input->post('message');
+            $subject = 'sad';
+            $message = 'ampas';
 
             $this->email->set_newline("\r\n");
             $this->email->from($from);
