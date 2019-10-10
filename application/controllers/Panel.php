@@ -94,7 +94,7 @@ class Panel extends CI_Controller {
             if($send){ 
                 $response = array('status'=>'Sukses', 'message'=>'Email berhasil dikirim');        
             }else{ 
-                $response = array('status'=>'Gagal', 'message'=>'Email gagal dikirim');        
+                $response = array('status'=>$send, 'message'=>'Email gagal dikirim');        
             }        
              print_r($response);   
              die();
