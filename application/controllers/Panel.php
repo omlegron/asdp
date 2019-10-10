@@ -1979,7 +1979,7 @@ class Panel extends CI_Controller {
                 'deleted_at'  => date('Y-m-d H:i:s'),
                 'deleted_user'   => cleartext($this->session->userdata('admin_data')->username),
             );
-            $this->m_model->updateas('id', cleartext($this->input->get('remove')), $createdata, 'cabangs');
+            $this->m_model->destroy($this->input->get('remove'), 'cabangs');
             redirect('panel/cabang', 'refresh');
         }
 
