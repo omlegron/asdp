@@ -13,9 +13,10 @@
                     <div class="body">
                         <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
                             <div class="row clearfix">
-                                <div class="form-group col-lg-6">
-                                    <label>Video</label>
-                                    <input name="link" type="text" class="form-control" placeholder="http://videoaskdla.com/asjkdhaksjdhak or videos/askljfaslkd.mp4">
+                                <div class="col-lg-6">
+                                    <label>File Video</label>
+                                    <label>*click below to browse file</label>
+                                    <input name="photo" type="file" class="form-control" style="cursor: pointer;" accept="video/mp4,video/x-m4v,video/*">
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <div class="form-line">
@@ -101,10 +102,12 @@
                         <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
                             <input name="id" type="hidden" value="<?= $val[0]->id; ?>">
                             <div class="row clearfix">
-                                <div class="form-group col-lg-6">
-                                    <label>Video</label>
-                                    <input name="link" type="text" class="form-control" placeholder="http://videoaskdla.com/asjkdhaksjdhak or videos/askljfaslkd.mp4" value="<?=$val[0]->path_file;?>">
+                                <div class="col-lg-6">
+                                    <label>File Video</label>
+                                    <label>*click below to browse file</label>
+                                    <input name="photo" type="file" class="form-control" style="cursor: pointer;" accept="video/mp4,video/x-m4v,video/*">
                                 </div>
+                                
                                 <div class="form-group col-lg-6">
                                     <div class="form-line">
                                         <label for="deskripsi">Deskripsi</label>

@@ -2012,28 +2012,61 @@ class Panel extends CI_Controller {
         }
         //---
         if ($this->input->post('add')) {
+            // print_r('expression');
+            // die();
+            $pathfile="";
+            if (!empty($_FILES['photo']['name'])) {
+                $config['upload_path']   = FCPATH.'/images/file/pdf/';
+                // $config['allowed_types'] = 'pdf';
+                // $config['max_size'] = 3000000;
+                $config['file_name'] = uniqid();
+                $this->load->library('upload',$config);
+                $this->upload->initialize($config);
+                $this->upload->do_upload('photo');
+                // print_r($this->upload->data('file_name'));
+                // die();
+                $pathfile='images/file/pdf/'.$this->upload->data('file_name');
+            }
+
+           
             $param = array(
                 'cabang_id'  => cleartext($this->input->post('cabang_id')),
                 'deskripsi'  => cleartext($this->input->post('deskripsi')),
-                'path_file'   => cleartext($this->input->post('link')),
+                'path_file'   => $pathfile,
                 'created_at'   => date('Y-m-d H:i:s'),
                 'created_user'   => cleartext($this->session->userdata('admin_data')->username),
             );
             $create=$this->m_model->insertgetid($param, 'video');
-            redirect('panel/video', 'refresh');
+            // redirect('panel/video', 'refresh');
+
         }
         //---
         if ($this->input->post('save')) {
+             $pathfile="";
+            if (!empty($_FILES['photo']['name'])) {
+                $config['upload_path']   = FCPATH.'/images/file/pdf/';
+                // $config['allowed_types'] = 'pdf';
+                // $config['max_size'] = 3000000;
+                $config['file_name'] = uniqid();
+                $this->load->library('upload',$config);
+                $this->upload->initialize($config);
+                $this->upload->do_upload('photo');
+                // print_r($this->upload->data('file_name'));
+                // die();
+                $pathfile='images/file/pdf/'.$this->upload->data('file_name');
+            }
+
+
             $param = array(
                 'cabang_id'  => cleartext($this->input->post('cabang_id')),
                 'deskripsi'  => $this->input->post('deskripsi'),
-                'path_file'   => cleartext($this->input->post('link')),
+                'path_file'   => $pathfile,
                 // 'updated_at'   => date('Y-m-d H:i:s'),
                 // 'updated_by'   => cleartext($this->session->userdata('admin_data')->username),
             );
            
             $this->m_model->updateas('id', $this->input->post('id'), $param, 'video');
-            redirect('panel/video', 'refresh');
+            // redirect('panel/video', 'refresh');
         }
         //---
         if ($this->input->get('remove')) {
@@ -2540,7 +2573,7 @@ class Panel extends CI_Controller {
             if (!empty($_FILES['photo']['name'])) {
                 $config['upload_path']   = FCPATH.'/images/file/pdf/';
                 $config['allowed_types'] = 'pdf';
-                $config['max_size'] = 3000000;
+                // $config['max_size'] = 3000000;
                 $config['file_name'] = uniqid();
                 $this->load->library('upload',$config);
                 $this->upload->initialize($config);
