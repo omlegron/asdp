@@ -175,7 +175,7 @@
                                     <td>
                                         <a class="confirm badge badge-info" msg="Do you want to Edit data?" href="<?= site_url('panel/cabang?edit=').$value->id; ?>">Edit</a>
                                         <?php
-                                              if(($this->session->userdata('admin_data')->roles == 1) || ($this->session->userdata('admin_data')->roles == 2)){
+                                              if(($this->session->userdata('admin_data')->roles == 1 || 2)){
                                         ?>
                                                 <a class="confirm badge badge-warning" msg="Are you sure to Delete data?" href="<?= site_url('panel/cabang?remove=').$value->id; ?>">Delete</a>
                                         <?php
