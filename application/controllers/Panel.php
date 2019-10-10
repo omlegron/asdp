@@ -9,15 +9,15 @@ class Panel extends CI_Controller {
 
         $config['protocol'] = 'smtp'; 
         // $config['validate'] = 'FALSE';
-        $config['smtp_host'] = 'smtp.gmail.com'; 
+        $config['smtp_host'] = 'ssl://smtp.googlemail.com'; 
         $config['smtp_port'] = 465;
         $config['smtp_user'] = 'legrondhibebzky@gmail.com';
         $config['smtp_pass'] = 'legron26801';
-        $config['smtp_crypto'] = 'ssl'; //can be 'ssl' or 'tls' for example
+        // $config['smtp_crypto'] = 'ssl'; //can be 'ssl' or 'tls' for example
         $config['mailtype'] = 'html'; //plaintext 'text' mails or 'html'
-        $config['smtp_timeout'] = '30'; //in seconds
+        // $config['smtp_timeout'] = '30'; //in seconds
         $config['charset'] = 'iso-8859-1';
-        $config['wordwrap'] = TRUE;
+        // $config['wordwrap'] = TRUE;
         // $config['stream']['ssl']['allow_self_signed'] = true;
         // $config['stream']['ssl']['verify_peer'] = false;
         // $config['stream']['ssl']['verify_peer_name'] = false;
@@ -42,7 +42,25 @@ class Panel extends CI_Controller {
         }
         //if (!$this->session->userdata('mask')) { redirect('mask'); }
     }
+    public function sendsMails(){
+            $from = $this->config->item('smtp_user');
+            $to = $this->input->post('adriyanaputra017@gmail.com');
+            $subject = 'sad';
+            $message = 'ampas';
 
+            $this->email->from($from);
+            $this->email->to($to);
+            $this->email->subject($subject);
+            $this->email->message($message);
+
+            if ($this->email->send()) {
+                echo 'Your Email has successfully been sent.';
+            } else {
+                show_error($this->email->print_debugger());
+            }
+
+            die();
+    }
     public function index() {
         if ($this->session->userdata('admin')) {
             $this->load->view('backend/home');
@@ -2667,24 +2685,6 @@ class Panel extends CI_Controller {
         }
     }
 
-    public function sendsMails(){
-        $from = $this->config->item('smtp_user');
-            $to = $this->input->post('adriyanaputra017@gmail.com');
-            $subject = 'sad';
-            $message = 'ampas';
-
-            $this->email->from($from);
-            $this->email->to($to);
-            $this->email->subject($subject);
-            $this->email->message($message);
-
-            if ($this->email->send()) {
-                echo 'Your Email has successfully been sent.';
-            } else {
-                show_error($this->email->print_debugger());
-            }
-
-            die();
-    }
+    
 
 }
