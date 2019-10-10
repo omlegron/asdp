@@ -16,7 +16,7 @@ class Panel extends CI_Controller {
         $config['smtp_pass'] = 'legron26801';
         $config['smtp_crypto'] = 'ssl'; //can be 'ssl' or 'tls' for example
         $config['mailtype'] = 'text'; //plaintext 'text' mails or 'html'
-        $config['smtp_timeout'] = '4'; //in seconds
+        $config['smtp_timeout'] = '30'; //in seconds
         $config['charset'] = 'iso-8859-1';
         $config['wordwrap'] = TRUE;
      

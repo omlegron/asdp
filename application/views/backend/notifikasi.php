@@ -59,7 +59,14 @@
                                                         <?= $value->form_type; ?>
                                                     </td>
                                                     <td>
-                                                        <?= $this->m_model->selectOne('id',$value->user_id,'users')->username; ?>
+                                                        <?php
+                                                            $userNam = $this->m_model->selectOne('id',$value->user_id,'users')->username; 
+                                                            if(isset($userNam)){
+                                                                echo $userNam;
+                                                            }else{
+                                                                echo '-';
+                                                            }
+                                                        ?>
                                                     </td>
                                                     <td>
                                                         <?php
