@@ -8,7 +8,7 @@ class Panel extends CI_Controller {
         // $this->load->config('email');
         $this->load->library('email');
 
-        $config['protocol'] = 'mail'; 
+        $config['protocol'] = 'smtp'; 
         // $config['validate'] = 'FALSE';
         $config['smtp_host'] = 'smtp.gmail.com'; 
         $config['smtp_port'] = 587;
@@ -19,7 +19,16 @@ class Panel extends CI_Controller {
         $config['smtp_timeout'] = '30'; //in seconds
         $config['charset'] = 'iso-8859-1';
         $config['wordwrap'] = TRUE;
-     
+        $config['stream']['ssl']['allow_self_signed'] = true;
+        $config['stream']['ssl']['verify_peer'] = false;
+        $config['stream']['ssl']['verify_peer_name'] = false;
+    //     'stream' => [
+    //     'ssl' => [
+    //       'allow_self_signed' => true,
+    //       'verify_peer' => false,
+    //       'verify_peer_name' => false,
+    //    ],
+    // ],
         $this->email->initialize($config);
 
         if($this->session->userdata('language') !=null){
@@ -1497,16 +1506,27 @@ class Panel extends CI_Controller {
         }
         //---
         if ($this->input->post('add')) {
+            // print_r($this->input->post());
+            // die();
             $seo = str_replace('--', '-', str_replace('--', '-', strtolower(str_replace(' ', '-',
                 preg_replace('/[^A-Za-z0-9\-]/', ' ', $this->input->post('name'))))));
+            $idCab = NULL;
+
+            if($this->input->post('id_cabang') != null){
+                // print_r('expression');
+                // die();
+                $idCab = $this->input->post('id_cabang');
+            }
+
             $data = array(
                 'username' => $this->input->post('username'),
                 'email' => $this->input->post('email'),
                 'password' => md5($this->input->post('password')),
                 'roles' => $this->input->post('roles'),
-                'id_cabang' => $this->input->post('id_cabang'),
+                'id_cabang' => $idCab,
             );
-            
+            // print_r($data);
+            // die();
             /*if (!empty($_FILES['logo']['name'])) {
                 $config['upload_path']   = FCPATH.'/assets/frontend/img/users/';
                 $config['allowed_types'] = 'jpg|png|jpeg';
@@ -1539,20 +1559,28 @@ class Panel extends CI_Controller {
         if ($this->input->post('save')) {
             $seo = str_replace('--', '-', str_replace('--', '-', strtolower(str_replace(' ', '-',
                 preg_replace('/[^A-Za-z0-9\-]/', ' ', $this->input->post('name'))))));
+
+             $idCab = NULL;
+
+            if(!is_null($this->input->post('id_cabang'))){
+                $idCab = $this->input->post('id_cabang');
+            }
+
+
             if($this->input->post('password')){
                 $data = array(
                     'username' => $this->input->post('username'),
                     'email' => $this->input->post('email'),
                     'password' => md5($this->input->post('password')),
                     'roles' => $this->input->post('roles'),
-                    'id_cabang' => $this->input->post('id_cabang'),
+                    'id_cabang' => $idCab,
                 );
             }else{
                 $data = array(
                     'username' => $this->input->post('username'),
                     'email' => $this->input->post('email'),
                     'roles' => $this->input->post('roles'),
-                    'id_cabang' => $this->input->post('id_cabang'),
+                    'id_cabang' => $idCab,
                 );
             }
             
@@ -2643,7 +2671,7 @@ class Panel extends CI_Controller {
             $subject = 'sad';
             $message = 'ampas';
 
-            $this->email->set_newline('\r\n');
+            $this->email->set_newline("\r\n");
             $this->email->from($from);
             $this->email->to($to);
             $this->email->subject($subject);
