@@ -190,7 +190,7 @@
             <?php
                 }
 
-                if(($this->session->userdata('admin_data')->roles != 5) && (!isset($this->session->userdata('admin_data')->id_cabang))){
+                if(($this->session->userdata('admin_data')->roles != 5) && ($this->session->userdata('admin_data')->id_cabang != null)){
             ?>
                     <li> <a href="<?=base_url();?>panel/photo"><i class="zmdi zmdi-collection-image-o"></i><span>Foto</span> </a> </li>
                     <li> <a href="<?=base_url();?>panel/video"><i class="zmdi zmdi-collection-video"></i><span>Video</span> </a> </li>
