@@ -28,7 +28,7 @@
                                 <div class="form-group col-lg-6">
                                     <label>Cabang</label>
                                     <?php 
-                                        if(isset($this->session->userdata('admin_data')->id_cabang)){
+                                        if(($this->session->userdata('admin_data')->id_cabang) && ($this->session->userdata('admin_data')->id_cabang != 0)){
                                     ?>
                                         <input type="text" readonly="" class="form-control" value="<?php echo $this->m_model->getOne($this->session->userdata('admin_data')->id_cabang, 'cabangs')['name'] ?>">
                                         <input type="hidden" name="cabang" class="form-control" value="<?php echo $this->session->userdata('admin_data')->id_cabang; ?>">
@@ -199,6 +199,8 @@
                             ?>
                                     <a class="btn btn-warning btn-sm" msg="Silahkan Tunggu Selesai Di Konfirmasi" href="javascript:void(0)"><?= $cekApprove->status; ?></a>
                             <?php
+                                    }elseif($cekApprove->status == 'Rejected'){
+                                        echo $cekApprove->deskripsi;
                                     }else{
                             ?>
                                     <a href="<?=base_url();?>panel/pelabuhan?edit=<?=$val['id'];?>"  class="btn btn-primary btn-sm" style="color: #fff">Edit</a>
@@ -206,7 +208,7 @@
                             <?php
                                     }
                                     }else{
-                                        if(isset($this->session->userdata('admin_data')->id_cabang)){
+                                        if(($this->session->userdata('admin_data')->id_cabang) && ($this->session->userdata('admin_data')->id_cabang != 0)){
 
                                         ?>
                                             <a class="confirm btn btn-warning btn-sm" msg="Approve Terlebih Dahulu." href="<?= site_url('panel/approve/pelabuhan/').$value->id; ?>"><?= $statusApprove; ?></a>
@@ -266,7 +268,7 @@
         <br>
         <div class="row clearfix">
         <?php
-            if(isset($this->session->userdata('admin_data')->id_cabang)){
+            if(isset($this->session->userdata('admin_data')->id_cabang) && ($this->session->userdata('admin_data')->id_cabang != 0)){
                 $data = $this->m_model->selectwhere('cabang_id', $this->session->userdata('admin_data')->id_cabang, 'pelabuhans');
             }else{
                 $data = $this->m_model->selectas('deleted_at is NULL', NULL, 'pelabuhans', 'id', 'ASC');

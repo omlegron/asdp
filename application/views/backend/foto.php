@@ -260,7 +260,7 @@
                             </thead>
                             <tbody>
                             <?php
-                            if(isset($this->session->userdata('admin_data')->id_cabang)){
+                            if(isset($this->session->userdata('admin_data')->id_cabang) && ($this->session->userdata('admin_data')->id_cabang != 0)){
                                 // print_r($this->session->userdata('admin_data')->id_cabang);
                                 // die();
                                 $data = $this->m_model->selectwhere('cabang_id', $this->session->userdata('admin_data')->id_cabang, 'photo');
@@ -311,7 +311,7 @@
                                         <?php
                                                 }
                                                 }else{
-                                                    if(isset($this->session->userdata('admin_data')->id_cabang)){
+                                                    if(isset($this->session->userdata('admin_data')->id_cabang) && ($this->session->userdata('admin_data')->id_cabang != 0)){
                                                         ?>
                                                             <a class="confirm badge badge-warning" msg="Approve Terlebih Dahulu." href="<?= site_url('panel/approve/foto/').$value->id; ?>"><?= $statusApprove; ?></a>
                                                         <?php

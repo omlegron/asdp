@@ -115,7 +115,7 @@
                             </div>
                             <div class="col-lg-2">
                                 <?php
-                                    if(isset($this->session->userdata('admin_data')->id_cabang)){
+                                    if(isset($this->session->userdata('admin_data')->id_cabang) && ($this->session->userdata('admin_data')->id_cabang != 0)){
                                 ?>
                                 <?php
                                     }else{
@@ -140,7 +140,7 @@
                             <tbody>
                             <?php
                             $cabang = $this->session->userdata("admin_data")->id_cabang;
-                            if(isset($this->session->userdata("admin_data")->id_cabang)){
+                            if(isset($this->session->userdata("admin_data")->id_cabang) && ($this->session->userdata("admin_data")->id_cabang != 0)){
                                 $data = $this->m_model->selectcustom("select * from cabangs where id ='$cabang'");
                             }else{
                                 $data = $this->m_model->selectcustom("select * from cabangs");
@@ -175,7 +175,7 @@
                                     <td>
                                         <a class="confirm badge badge-info" msg="Do you want to Edit data?" href="<?= site_url('panel/cabang?edit=').$value->id; ?>">Edit</a>
                                         <?php
-                                            if($this->session->userdata('admin_data')->roles==1){
+                                              if(($this->session->userdata('admin_data')->roles == 1) || ($this->session->userdata('admin_data')->roles == 2)){
                                         ?>
                                                 <a class="confirm badge badge-warning" msg="Are you sure to Delete data?" href="<?= site_url('panel/cabang?remove=').$value->id; ?>">Delete</a>
                                         <?php

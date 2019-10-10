@@ -67,26 +67,19 @@
 							</div>
 							<div class="col-md-8 " style="text-align: right">
 								<h3><?= $armada->name; ?></h3>
+								<h6><?= $armadaElments->name; ?></h6>
 							</div>
 							<div class="showAppendArmada">
 								<div class="col-lg-12 col-md-4">
 									<div class="card">
 										<div id="demo2" class="carousel slide" data-ride="carousel">
-											
-											<ul class="carousel-indicators">
-												<li data-target="#demo2" data-slide-to="2" class="active"></li>
-											</ul>
-
-											
 											<div class="carousel-inner" style="width:100%;max-height: 350px !important;">
 												<div class="carousel-item active">
 													<?php 
 													$imgs=check_img($armadaElments->path_file);
 													?>
 													<img src="<?= $imgs['path']; ?>" class="img-fluid center" style="width:100%;max-height: 350px !important;" alt="">
-													<div class="carousel-caption">
-														<h3><?= $armadaElments->name; ?></h3>
-													</div>
+													
 												</div>
 											</div>
 
@@ -94,7 +87,7 @@
 										</div>
 									</div>
 								</div>   
-								<div class="col-lg-12 mb-3 p-0" style="background: #dadada">
+								<div class="col-lg-12 mb-3 p-0" style="background: #fffafa">
 									<div class="bg-warning text-center py-1">
 										<h3 class="text-white font-weight-bold"><span style="font-weight: 1"><?= $record->nama_aspek; ?></span></h3>
 									</div>

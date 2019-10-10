@@ -25,7 +25,7 @@
                         <div class="col-lg-8 mb-3 pr-0">
                           <img src="<?=$img['path'];?>" class="img-fluid" style="width: 100%;">
                         </div>
-                        <div class="col-lg-4 mb-3 p-0" style="background: #dadada">
+                        <div class="col-lg-4 mb-3 p-0" style="background: #fffafa">
                           <div class="bg-warning text-center py-1">
                             <h3 class="text-white font-weight-bold"><span style="font-weight: 1"><?= $record->nama_aspek;  ?></span></h3>
                           </div>
