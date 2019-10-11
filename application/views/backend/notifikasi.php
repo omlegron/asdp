@@ -43,6 +43,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Module</th>                             
+                                            <th>Cabang</th>                             
                                             <th>User</th>                             
                                             <th>Status</th>                             
                                             <th>Action</th>
@@ -57,6 +58,17 @@
                                                     <td><?= $key + 1; ?></td>
                                                     <td>
                                                         <?= $value->form_type; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php
+                                                            $userNam = $this->m_model->selectOne('id',$value->user_id,'users'); 
+                                                            if($userNam){
+                                                                $cekCabs = $this->m_model->selectOne('id',$userNam->id_cabang,'cabangs');
+                                                                echo $cekCabs->name;
+                                                            }else{
+                                                                echo '-';
+                                                            }
+                                                        ?>
                                                     </td>
                                                     <td>
                                                         <?php

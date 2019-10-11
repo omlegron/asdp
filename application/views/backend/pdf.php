@@ -206,6 +206,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Filename</th>
+                                    <th>Kategori</th>
                                     <th>Deskripsi</th>                             
                                     <th style="width: 120px">Action</th>
                                 </tr>
@@ -225,6 +226,9 @@
                                     <td><?= $key + 1; ?></td>
                                     <td>
                                         <?= $value->filename; ?>
+                                    </td>
+                                    <td>
+                                        <?= $value->kategori; ?>
                                     </td>
                                     <td><p><?= $desk; ?></p></td>
                                     <td>

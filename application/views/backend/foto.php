@@ -35,7 +35,7 @@
                                             if(isset($cabangs->name)){
                                     ?>
                                         <input type="hidden" class="form-control" name="cabang_id" value="<?= $cabangs->id; ?>">
-                                        <input type="text" class="form-control" name="" value="<?= $cabangs->name; ?>">
+                                        <input type="text" class="form-control" name="" value="<?= $cabangs->name; ?>" readonly>
                                     <?php
                                             }else{
                                                 ?>

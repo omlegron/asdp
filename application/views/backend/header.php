@@ -206,13 +206,13 @@
             <?php
                         if(($this->session->userdata('admin_data')->roles == 1 || 2)){
                         ?>
-                             <li> <a href="#"><i class="zmdi zmdi-file"></i><span>Laporan</span> </a> </li>
+                             <!-- <li> <a href="#"><i class="zmdi zmdi-file"></i><span>Laporan</span> </a> </li> -->
                             <li> <a href="<?=base_url();?>backend/notifikasi"><i class="zmdi zmdi-notifications-active"></i><span>Notifikasi <span class="rounded-circle text-white bg-warning mr-1" style="padding: 1px 8px;"><?= count($this->m_model->selectwhere('status','On Process','trans_approval')); ?></span></span> </a> </li>
                         <?php
                         }       
                     }elseif(($this->session->userdata('admin_data')->roles == 1) && ($this->session->userdata('admin_data')->roles == 2)){
                         ?>
-                             <li> <a href="#"><i class="zmdi zmdi-file"></i><span>Laporan</span> </a> </li>
+                             <!-- <li> <a href="#"><i class="zmdi zmdi-file"></i><span>Laporan</span> </a> </li> -->
                     <li> <a href="<?=base_url();?>backend/notifikasi"><i class="zmdi zmdi-notifications-active"></i><span>Notifikasi <span class="rounded-circle text-white bg-warning mr-1" style="padding: 1px 8px;"><?= count($this->m_model->selectwhere('status','On Process','trans_approval')); ?></span></span> </a> </li>
                         <?php
                     }

@@ -1587,7 +1587,6 @@ class Panel extends CI_Controller {
              $dataJ = '{
                     "email" : "'.$this->input->post('email').'",
                     "username" : "'.$this->input->post('username').'",
-                    "roles" : "'.$this->input->post('roles').'",
                     "password" : "'.$this->input->post('password').'",
                     "pesan" : "Email Registrasi Baru Untuk Anda"
                 }';
@@ -1621,7 +1620,6 @@ class Panel extends CI_Controller {
                 $dataJ = '{
                     "email" : "'.$this->input->post('email').'",
                     "username" : "'.$this->input->post('username').'",
-                    "roles" : "'.$this->input->post('roles').'",
                     "password" : "'.$this->input->post('password').'",
                     "pesan" : "Ada Perubahan Akun Baru Untuk Anda"
                 }';
@@ -1636,7 +1634,6 @@ class Panel extends CI_Controller {
                 $dataJ = '{
                         "email" : "'.$this->input->post('email').'",
                         "username" : "'.$this->input->post('username').'",
-                        "roles" : "'.$this->input->post('roles').'",
                         "pesan" : "Ada Perubahan Akun Baru Untuk Anda"
                     }';
                     sendsMaiils($dataJ);

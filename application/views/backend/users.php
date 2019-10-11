@@ -159,7 +159,7 @@
                                  <div class="form-group col-lg-4" style="display: none">
                                     <div class="form-line">
                                         <label >Cabang</label>
-                                        <select name="id_cabang" class="form-control show-tick" required>
+                                        <select name="id_cabang" class="form-control show-tick">
                                             <option value="">Pilih Cabang</option>
                                             <?php
                                                 foreach ($this->m_model->all('cabangs') as $key => $vals) {
@@ -178,12 +178,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <br>
-                            <div class="row clearfix pull-right" style="margin-top: 20px;">
+                            <div class="row clearfix" style="margin-top: 20px;">
                                 <div class="col-lg-2">
                                     <a href="<?=$this->uri->segment('2');?>" class="btn btn-block btn-danger">Back</a>
                                 </div>
                                 <div class="col-lg-2">
+                                   
                                     <input name="save" type="submit" value="Save" class="btn btn-block btn-primary">
                                 </div>
                             </div>
