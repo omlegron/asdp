@@ -2704,6 +2704,7 @@ class Panel extends CI_Controller {
             $param = array(
                 'filename'  => cleartext($this->input->post('filename')),
                 'deskripsi'  => cleartext($this->input->post('deskripsi')),
+                'kategori'  => cleartext($this->input->post('kategori')),
                 'fileurl'   => $pathfile,
                 'created_at'   => date('Y-m-d H:i:s'),
                 // 'created_user'   => cleartext($this->session->userdata('admin_data')->username),
@@ -2726,6 +2727,7 @@ class Panel extends CI_Controller {
                 $param = array(
                     'filename'  => cleartext($this->input->post('filename')),
                     'deskripsi'  => cleartext($this->input->post('deskripsi')),
+                    'kategori'  => cleartext($this->input->post('kategori')),
                     'fileurl'   => $pathfile,
                     'updated_at'   => date('Y-m-d H:i:s'),
                     'updated_by'   => cleartext($this->session->userdata('admin_data')->username),
@@ -2735,6 +2737,7 @@ class Panel extends CI_Controller {
                 $param = array(
                     'filename'  => cleartext($this->input->post('filename')),
                     'deskripsi'  => cleartext($this->input->post('deskripsi')),
+                    'kategori'  => cleartext($this->input->post('kategori')),
                     'updated_at'   => date('Y-m-d H:i:s'),
                     'updated_by'   => cleartext($this->session->userdata('admin_data')->username),
                 );

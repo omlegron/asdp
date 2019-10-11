@@ -51,9 +51,4 @@ function sendsMaiils($dataJ = []){
     $data = curl_exec($ch);
     curl_close($ch);
 
-    // return $data;
-   
-    print_r($data);
-
-    die();
 }

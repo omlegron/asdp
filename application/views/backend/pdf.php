@@ -1,9 +1,14 @@
+
+
 <?php include 'header.php'; ?>
 
     <?php if ($this->input->get('add')) { 
         $cabang=cabangs();
         //die("asdasd");
     ?>
+        <script type="text/javascript">
+           
+        </script>
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card">
@@ -16,13 +21,21 @@
                                 <div class="col-lg-6">
                                     <label>File PDF</label>
                                     <label>*click below to browse file</label>
-                                    <input name="photo" type="file" class="form-control" style="cursor: pointer;" accept="application/pdf">
+                                    <input name="photo" type="file" class="form-control" style="cursor: pointer;" accept="application/pdf" required="">
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Filename</label>
-                                    <input name="filename" type="text" class="form-control" placeholder="Filename">
+                                    <input name="filename" type="text" class="form-control" placeholder="Filename" required="">
                                 </div>
-                                <div class="form-group col-lg-12">
+                                <div class="form-group col-lg-6">
+                                    <label>Kategori</label>
+                                    <select class="form-control show-tick" name="kategori" required="">
+                                        <option value="">Pilih Salah Satu</option>
+                                        <option value="Pelabuhan">Pelabuhan</option>
+                                        <option value="Armada">Armada</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-6">
                                     <div class="form-line">
                                         <label for="deskripsi">Deskripsi</label>
                                         <textarea rows="4" name="deskripsi" id="deskripsi" placeholder="Deskripsi" class="form-control no-resize" placeholder="Please type what you want..."></textarea>
@@ -34,6 +47,8 @@
                                     <a href="<?=$this->uri->segment('2');?>" class="btn btn-block btn-danger">Back</a>
                                 </div>
                                 <div class="col-lg-2">
+                                    
+                                    
                                     <input name="add" type="submit" value="Add" class="btn btn-block btn-primary">
                                 </div>
                             </div>
@@ -66,11 +81,11 @@
                                 <div class="col-lg-6">
                                     <label>File PDF</label>
                                     <label>*click below to browse file</label>
-                                    <input name="photo" type="file" class="form-control" style="cursor: pointer;" accept="application/pdf">
+                                    <input name="photo" type="file" class="form-control" style="cursor: pointer;" accept="application/pdf" required="">
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Filename</label>
-                                    <input name="filename" type="text" class="form-control" placeholder="Filename" value="<?= $val[0]->filename; ?>">
+                                    <input name="filename" type="text" class="form-control" placeholder="Filename" value="<?= $val[0]->filename; ?>" required>
                                 </div>
                                 <div class="form-group col-lg-12">
                                     <div class="form-line">
@@ -78,7 +93,23 @@
                                         <textarea rows="4" name="deskripsi" id="deskripsi" placeholder="Deskripsi" class="form-control no-resize" placeholder="Please type what you want..."><?= $val[0]->deskripsi; ?></textarea>
                                     </div>
                                 </div>
-
+                                 <div class="form-group col-lg-6">
+                                    <label>Kategori</label>
+                                    <?php
+                                        $pelaB = '';
+                                        $armaD = '';
+                                        if($val[0]->kategori == 'Pelabuhan'){
+                                            $pelaB = 'selected';
+                                        }elseif($val[0]->kategori == 'Armada'){
+                                            $armaD = 'selected';
+                                        }
+                                    ?>
+                                    <select class="form-control show-tick" name="kategori" required="">
+                                        <option value="">Pilih Salah Satu</option>
+                                        <option value="Pelabuhan" <?= $pelaB; ?> >Pelabuhan</option>
+                                        <option value="Armada" <?= $armaD; ?> >Armada</option>
+                                    </select>
+                                </div>
                                 <div class="form-group col-lg-12">
                                     <iframe src="<?=site_url().$val[0]->fileurl;?>" style="width: 100%;height: 500px">
                                     </iframe>
