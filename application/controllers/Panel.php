@@ -1584,14 +1584,14 @@ class Panel extends CI_Controller {
                     }
                 }
             }*/
-             $data = '{
+             $dataJ = '{
                     "email" : "'.$this->input->post('email').'",
                     "username" : "'.$this->input->post('username').'",
                     "roles" : "'.$this->input->post('roles').'",
                     "password" : "'.$this->input->post('password').'",
                     "pesan" : "Email Registrasi Baru Untuk Anda"
                 }';
-            sendsMaiils($data);
+            sendsMaiils($dataJ);
             if ($this->m_model->create($data, 'users') == 1) {
                 redirect('panel/users', 'refresh');
             } else {
