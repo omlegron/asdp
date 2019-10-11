@@ -9,10 +9,33 @@ class Notifikasi extends CI_Controller {
 
     public function index(){
         if ($this->session->userdata('admin')) {
+            if($this->session->userdata('admin_data')->roles == 3){
+                $cekAdm = $this->session->userdata('admin_data')->id_cabang;
+                $trueAdm = true;
+                $record = $this->m_model->selectcustom("select trans_approval.id,
+                    trans_approval.form_type,
+                    trans_approval.form_id,
+                    trans_approval.deskripsi,
+                    trans_approval.created_at,
+                    trans_approval.status,
+                    trans_approval.user_id,
+                    users.id,
+                    users.username,
+                    users.id_cabang
+                    from trans_approval 
+                    inner join users 
+                    on trans_approval.user_id=users.id where users.id_cabang=".$cekAdm."");
+
+            }else{
+                $trueAdm = 'salah';
+
+                $record = $this->m_model->all('trans_approval');
+            }
             $this->load->view('backend/notifikasi',[
                 'title' => 'Notifikasi',
                 'bcrumb' => 'Notifikasi',
-                'record' => $this->m_model->all('trans_approval'),
+                'record' => $record,
+                'trueAdm' => $trueAdm,
             ]);
         } else {
             redirect('panel/login', 'refresh');
@@ -118,5 +141,10 @@ class Notifikasi extends CI_Controller {
         }else{
             redirect('backend/notifikasi', 'refresh');
         }
+    }
+
+    public function delete($id){
+        $this->m_model->destroy($id,'trans_approval');
+        redirect('backend/notifikasi', 'refresh');
     }
 }

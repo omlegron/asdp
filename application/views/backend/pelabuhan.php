@@ -200,7 +200,9 @@
                                     <a class="btn btn-warning btn-sm" msg="Silahkan Tunggu Selesai Di Konfirmasi" href="javascript:void(0)"><?= $cekApprove->status; ?></a>
                             <?php
                                     }elseif($cekApprove->status == 'Rejected'){
-                                        echo $cekApprove->deskripsi;
+                                        ?>
+                                            <a class="confirm btn btn-danger btn-sm" msg="Pesan Rejected (`<?= $cekApprove->deskripsi; ?>`), Status Anda Telah Direject Approve Kembali?." href="<?= site_url('panel/approve/pelabuhan/').$value->id; ?>"><?= $cekApprove->status; ?></a>
+                                        <?php
                                     }else{
                             ?>
                                     <a href="<?=base_url();?>panel/pelabuhan?edit=<?=$val['id'];?>"  class="btn btn-primary btn-sm" style="color: #fff">Edit</a>

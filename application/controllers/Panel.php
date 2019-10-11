@@ -2666,7 +2666,7 @@ class Panel extends CI_Controller {
                 sendsMaiils($dataJ);
             }
         }
-
+        $this->m_model->deleteas2('form_id',$id,'form_type',$type,'trans_approval');
         $create=$this->m_model->insertgetid($data, 'trans_approval');
         if ($create == 1) {
             redirect('panel/'.$type, 'refresh');

@@ -251,10 +251,11 @@
                         <table class="table table-bordered table-striped table-hover dataTable js-basic-example" id="example">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th>No</th>
                                     <th>Cabang</th>
                                     <th>Photo</th>                             
                                     <th>Deskripsi</th>                             
+                                    <th>Tanggal</th>                             
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -294,6 +295,7 @@
                                         <img src="<?=$img['path'];?>" class="img-responsive" style="cursor: pointer; max-width: 200px; max-height:150px;" data-fancybox="images<?= $key + 1; ?>" href="<?=$img['path'];?>">
                                     </td>
                                     <td><p><?= $desk; ?></p></td>
+                                    <td><?= $value->created_at; ?></td>
                                     <td>
                                         <?php
                                             $statusApprove = 'Approval';
@@ -304,6 +306,10 @@
                                         ?>
                                                 <a class="badge badge-warning" msg="Silahkan Tunggu Selesai Di Konfirmasi" href="javascript:void(0)"><?= $cekApprove->status; ?></a>
                                         <?php
+                                                }elseif($cekApprove->status == 'Rejected'){
+                                                    ?>
+                                                         <a class="confirm btn btn-danger btn-sm" msg="Pesan Rejected (`<?= $cekApprove->deskripsi; ?>`), Status Anda Telah Direject Approve Kembali?." href="<?= site_url('panel/approve/photo/').$value->id; ?>"><?= $cekApprove->status; ?></a>
+                                                    <?php
                                                 }else{
                                         ?>
                                                 <a class="confirm badge badge-info" msg="Do you want to Edit data?" href="<?= site_url('panel/photo?edit=').$value->id; ?>" >Edit</a>

@@ -257,10 +257,11 @@
                         <table class="table table-bordered table-striped table-hover dataTable js-basic-example" id="example">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th>No</th>
                                     <th>Cabang</th>
                                     <th>Link Video</th>                             
                                     <th>Deskripsi</th>                             
+                                    <th>Tanggal</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -310,6 +311,9 @@
                                         <?= $desk; ?>
                                     </td>
                                     <td>
+                                        <?= $value->created_at; ?>
+                                    </td>
+                                    <td>
                                     <?php
                                         $statusApprove = 'Approval';
                                         $cekApprove = $this->m_model->selectOneWhere3('form_type','video','form_id',$value->id,'user_id',$this->session->userdata('admin_data')->id,'trans_approval');
@@ -319,6 +323,10 @@
                                     ?>
                                             <a class="badge badge-warning" msg="Silahkan Tunggu Selesai Di Konfirmasi" href="javascript:void(0)"><?= $cekApprove->status; ?></a>
                                     <?php
+                                            }elseif($cekApprove->status == 'Rejected'){
+                                                ?>
+                                                     <a class="confirm btn btn-danger btn-sm" msg="Pesan Rejected (`<?= $cekApprove->deskripsi; ?>`), Status Anda Telah Direject Approve Kembali?." href="<?= site_url('panel/approve/video/').$value->id; ?>"><?= $cekApprove->status; ?></a>
+                                                <?php
                                             }else{
                                     ?>
                                             <a class="confirm badge badge-info" msg="Do you want to Edit data?" href="<?= site_url('panel/video?edit=').$value->id; ?>">Edit</a>

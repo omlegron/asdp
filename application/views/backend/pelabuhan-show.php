@@ -1,3 +1,6 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> 
+<script src="https://unpkg.com/konva@4.0.0/konva.min.js"></script>
+
 <?php include 'header.php'; ?>
 
 <div class="row clearfix">
@@ -22,8 +25,7 @@
                     <div class="container-fluid">
                       <h3><?= $record->nama_aspek;  ?> <?= $pelabuhan->name; ?></h3>
                       <div class="row">
-                        <div class="col-lg-8 mb-3 pr-0">
-                          <img src="<?=$img['path'];?>" class="img-fluid" style="width: 100%;">
+                        <div class="col-lg-8 mb-3 pr-0" id="container" style="background-image: url('<?=$img['path'];?>');">
                         </div>
                         <div class="col-lg-4 mb-3 p-0" style="background: #fffafa">
                           <div class="bg-warning text-center py-1">
@@ -48,8 +50,8 @@
                                                         $cekReal = $this->m_model->getOne($valueSubIco->trans_icon_id,'icon');
                                                         $imgs=check_img($cekReal['path_file']);
                                             ?>
-                                                        <li style="font-size: 13px">
-                                                            <img src="<?=$imgs['path'];?>" class="img-responsive" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;padding-bottom: 3px" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>">&nbsp;
+                                                        <li style="font-size: 13px" id="drag-items">
+                                                            <img src="<?=$imgs['path'];?>" class="img-responsive" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;padding-bottom: 3px" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" draggable="true">&nbsp;
                                                             <span style="font-size: 13px"><?= $cekReal['name']; ?></span>
                                                             <ul style="font-size: 13px">
                                                                 <?php 
@@ -83,5 +85,50 @@
         </div>
     </div>
 </div>
+<script>
 
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+
+      var stage = new Konva.Stage({
+        container: 'container',
+        width: width,
+        height: height
+      });
+      var layer = new Konva.Layer();
+      stage.add(layer);
+
+      // what is url of dragging element?
+      var itemURL = '';
+      document
+        .getElementById('drag-items')
+        .addEventListener('dragstart', function(e) {
+            console.log('asd',e.target.src)
+          itemURL = e.target.src;
+        });
+
+      var con = stage.container();
+      con.addEventListener('dragover', function(e) {
+        e.preventDefault(); // !important
+      });
+
+      con.addEventListener('drop', function(e) {
+        e.preventDefault();
+        // now we need to find pointer position
+        // we can't use stage.getPointerPosition() here, because that event
+        // is not registered by Konva.Stage
+        // we can register it manually:
+        stage.setPointersPositions(e);
+
+        Konva.Image.fromURL(itemURL, function(image) {
+          layer.add(image);
+
+          image.position(stage.getPointerPosition());
+          image.draggable(true);
+
+          layer.draw();
+        });
+      });
+
+    </script>
 <?php include 'footer.php'; ?>

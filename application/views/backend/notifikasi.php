@@ -41,12 +41,20 @@
                                 <table class="table table-bordered table-striped table-hover dataTable js-basic-example" id="example">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
+                                            <th>No</th>
                                             <th>Module</th>                             
                                             <th>Cabang</th>                             
                                             <th>User</th>                             
-                                            <th>Status</th>                             
+                                            <th>Status</th>  
+                                            <th>Tanggal</th>                             
+
+                                            <?php
+                                                if($trueAdm == 'salah'){
+                                            ?>                           
                                             <th>Action</th>
+                                            <?php
+                                                }
+                                            ?>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -56,6 +64,7 @@
                                                 ?>
                                                 <tr>
                                                     <td><?= $key + 1; ?></td>
+                                                   
                                                     <td>
                                                         <?= $value->form_type; ?>
                                                     </td>
@@ -80,6 +89,7 @@
                                                             }
                                                         ?>
                                                     </td>
+
                                                     <td>
                                                         <?php
                                                             if($value->status == 'On Process'){
@@ -94,6 +104,13 @@
                                                         ?>
                                                     </td>
                                                     <td>
+                                                        <?= $value->created_at; ?>
+                                                    </td>
+                                                    <?php
+                                                        if($trueAdm == 'salah'){
+
+                                                    ?>
+                                                    <td>
                                                         <?php
                                                             if($value->status == 'On Process'){
                                                         ?>
@@ -102,11 +119,14 @@
                                                         <?php
                                                             }else{
                                                         ?>
-                                                            
+                                                            <a class="confirm badge badge-danger" msg="You Want Delete This Data?" href="<?= site_url('backend/notifikasi/delete/').$value->id; ?>">Delete</a>
                                                         <?php
                                                             }
                                                         ?>
                                                     </td>
+                                                    <?php
+                                                        }
+                                                    ?>
                                                 </tr>
                                                 <?php 
                                             } 

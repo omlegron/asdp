@@ -204,10 +204,11 @@
                         <table class="table table-bordered table-striped table-hover dataTable js-basic-example" id="example">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th>No</th>
                                     <th>Filename</th>
                                     <th>Kategori</th>
                                     <th>Deskripsi</th>                             
+                                    <th>Tanggal</th>
                                     <th style="width: 120px">Action</th>
                                 </tr>
                             </thead>
@@ -231,6 +232,7 @@
                                         <?= $value->kategori; ?>
                                     </td>
                                     <td><p><?= $desk; ?></p></td>
+                                    <td><?= $value->created_at; ?></td>
                                     <td>
                                         <?php
                                             if(($this->session->userdata('admin_data')->roles != 4) && ($this->session->userdata('admin_data')->roles != 3)){
