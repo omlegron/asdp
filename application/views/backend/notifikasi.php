@@ -26,10 +26,10 @@
         $('#example_filter').hide()
     });   
     $(document).on('click','.searchs', function () {
+        console.log('sad',$('input[name="filter[tanggal]"]').val());   
         var table = $('#example').DataTable();
         table.columns( 2 ).search( $('input[name="filter[cabang]"]').val() ).draw();
-        // table.columns( 3 ).search( $('select[name="filter[user]"]').val() ).draw();
-        table.columns( 5 ).search( $('select[name="filter[tanggal]"]').val() ).draw();
+        table.columns( 5 ).search( $('input[name="filter[tanggal]"]').val() ).draw();
     } );
     $(document).ready(function(){
         $.fn.dataTable.ext.errMode = 'none';
@@ -41,7 +41,6 @@
     $(document).on('click','.reset',function(e){
         var table = $('#example').DataTable();
         table.columns( 2 ).search("").draw();
-        // table.columns( 3 ).search("").draw();
         table.columns( 5 ).search("").draw();
     });
 </script>
@@ -67,11 +66,11 @@
                                 </div>
                             </div>
                             <div class="body">
-                                <div class="col-lg-6 pull-right" style="position: relative;left: 20px;top: 20px;">
+                                <div class="col-lg-12" style="position: relative;left: 11px;top: 20px;">
                                     <div class="input-group" >                                               
-                                        <input type="text" name="filter[cabang]" class="form-control" placeholder="Cabang" style="border: 1px solid black !important;position: relative;top: 10px;width: 150px;">&nbsp;&nbsp;&nbsp;
-                                        <!-- <input type="text" name="filter[user]" placeholder="User" class="form-control" style="border: 1px solid black !important;position: relative;top: 10px;width: 150px;">&nbsp;&nbsp;&nbsp; -->
-                                        <input type="text" name="filter[tanggal]" placeholder="Tanggal" class="form-control" style="border: 1px solid black !important;position: relative;top: 10px;width: 150px;">&nbsp;&nbsp;&nbsp;
+                                        <input type="text" name="filter[cabang]" class="form-control" placeholder="Cabang" style="border: 1px solid black !important;position: relative;top: 5px;width: 150px;">&nbsp;&nbsp;&nbsp;
+                                        <!-- <input type="text" name="filter[user]" placeholder="User" class="form-control" style="border: 1px solid black !important;position: relative;top: 5px;width: 150px;">&nbsp;&nbsp;&nbsp; -->
+                                        <input type="date" name="filter[tanggal]" placeholder="Tanggal" class="form-control date" style="border: 1px solid black !important;position: relative;top: 5px;width: 150px;">&nbsp;
                                       
                                       <div class="input-group-btn">
                                         <button type="button" class="btn btn-success searchs" style="position: relative;top: 4px;">Search </button>
