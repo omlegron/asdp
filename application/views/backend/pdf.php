@@ -81,7 +81,7 @@
                                 <div class="col-lg-6">
                                     <label>File PDF</label>
                                     <label>*click below to browse file</label>
-                                    <input name="photo" type="file" class="form-control" style="cursor: pointer;" accept="application/pdf" required="">
+                                    <input name="photo" type="file" class="form-control" style="cursor: pointer;" accept="application/pdf">
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Filename</label>
