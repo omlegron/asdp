@@ -101,8 +101,12 @@
                                     </thead>
                                     <tbody>
                                         <?php
+                                        
                                         if (count($record) > 0) {
                                             foreach ($record as $key => $value) {
+                                                $userNam = $this->m_model->selectOne('id',$value->user_id,'users'); 
+                                                $cekCabs = $this->m_model->selectOne('id',$userNam->id_cabang,'cabangs');
+                                                if($this->session->userdata('admin_data')->id_cabang == $cekCabs->id){
                                                 ?>
                                                 <tr>
                                                     <td><?= $key + 1; ?></td>
@@ -112,9 +116,7 @@
                                                     </td>
                                                     <td>
                                                         <?php
-                                                            $userNam = $this->m_model->selectOne('id',$value->user_id,'users'); 
                                                             if($userNam){
-                                                                $cekCabs = $this->m_model->selectOne('id',$userNam->id_cabang,'cabangs');
                                                                 echo $cekCabs->name;
                                                             }else{
                                                                 echo '-';
@@ -171,8 +173,77 @@
                                                     ?>
                                                 </tr>
                                                 <?php 
-                                            } 
-                                        } 
+                                                }else{
+                                            ?>
+                                                 <tr>
+                                                    <td><?= $key + 1; ?></td>
+                                                   
+                                                    <td>
+                                                        <?= $value->form_type; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php
+                                                            if($userNam){
+                                                                echo $cekCabs->name;
+                                                            }else{
+                                                                echo '-';
+                                                            }
+                                                        ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php
+                                                            $userNam = $this->m_model->selectOne('id',$value->user_id,'users'); 
+                                                            if($userNam){
+                                                                echo $userNam->username;
+                                                            }else{
+                                                                echo '-';
+                                                            }
+                                                        ?>
+                                                    </td>
+
+                                                    <td>
+                                                        <?php
+                                                            if($value->status == 'On Process'){
+                                                        ?>
+                                                            <span class="badge badge-warning"><?= $value->status; ?></span>
+                                                        <?php
+                                                            }else{
+                                                        ?>
+                                                            <span class="badge badge-primary"><?= $value->status; ?></span>
+                                                        <?php
+                                                            }
+                                                        ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $value->created_at; ?>
+                                                    </td>
+                                                    <?php
+
+                                                        if($trueAdm == 'salah'){
+
+                                                    ?>
+                                                    <td>
+                                                        <?php
+                                                            if($value->status == 'On Process'){
+                                                        ?>
+                                                            <a class="confirm badge badge-success" msg="You Want Approve This Data?" href="<?= site_url('backend/notifikasi/approve/').$value->id; ?>">Approve</a>
+                                                            <a class="confirm badge badge-danger" msg="You Want Reject This Data?" href="<?= site_url('backend/notifikasi/reject/').$value->id; ?>">Reject</a>
+                                                        <?php
+                                                            }else{
+                                                        ?>
+                                                            <a class="confirm badge badge-danger" msg="You Want Delete This Data?" href="<?= site_url('backend/notifikasi/delete/').$value->id; ?>">Delete</a>
+                                                        <?php
+                                                            }
+                                                        ?>
+                                                    </td>
+                                                    <?php
+                                                        }
+                                                    ?>
+                                                </tr>
+                                            <?php
+                                        }  
+                                            }
+                                        }
                                         ?>
                                     </tbody>
                                 </table>

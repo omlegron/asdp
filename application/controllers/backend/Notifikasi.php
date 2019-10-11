@@ -11,7 +11,7 @@ class Notifikasi extends CI_Controller {
         if ($this->session->userdata('admin')) {
             if($this->session->userdata('admin_data')->roles == 3){
                 $cekAdm = $this->session->userdata('admin_data')->id_cabang;
-                $trueAdm = true;
+                $trueAdm = 'benar';
                 // $record = $this->m_model->selectcustom("select trans_approval.id,
                 //     trans_approval.form_type,
                 //     trans_approval.form_id,
@@ -26,7 +26,7 @@ class Notifikasi extends CI_Controller {
                 //     inner join users 
                 //     on trans_approval.user_id=users.id where users.id_cabang=".$cekAdm."");
                 $record = $this->m_model->all('trans_approval');
-                
+
 
             }else{
                 $trueAdm = 'salah';
