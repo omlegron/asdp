@@ -206,8 +206,9 @@
                         <h2>Users</h2>
                     </div>
                     <div class="body">
-
-                    <a class="btn btn-primary" href="<?= site_url('panel/users?add=true'); ?>">Add User</a><br>
+                    <div class="col-md-12">
+                    <a class="btn btn-primary pull-right float-right" href="<?= site_url('panel/users?add=true'); ?>" style="text-align: right">Add User</a><br><br>
+                    </div>
 
                         <table class="table table-bordered table-striped table-hover dataTable js-basic-example">
                             <thead>
