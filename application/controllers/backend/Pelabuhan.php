@@ -38,4 +38,8 @@ class Pelabuhan extends CI_Controller {
         }
     }
 
+    public function store(){
+        print_r($this->input->post());
+        die();
+    }
 }
