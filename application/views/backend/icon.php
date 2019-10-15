@@ -69,7 +69,7 @@
                                 </div>
                                 
                             </div>
-                            <table class="table table-responsive table-bordered" id="tabIc">
+                            <!-- <table class="table table-responsive table-bordered" id="tabIc">
                                 <thead>
                                     <tr>
                                         <th style="width: 800px">Deskripsi Icon</th>
@@ -90,7 +90,7 @@
                                         </td>
                                     </tr>
                                 </tbody>
-                            </table>
+                            </table> -->
                             <div class="row clearfix" style="margin-top: 20px;">
                                 <div class="col-lg-2">
                                     <a href="<?=$this->uri->segment('2');?>" class="btn btn-block btn-danger">Back</a>
@@ -151,7 +151,7 @@
                                 
                             </div>
                             <div class="row">
-                                <table class="table table-responsive table-bordered" id="tabIc">
+                               <!--  <table class="table table-responsive table-bordered" id="tabIc">
                                     <thead>
                                         <tr>
                                             <th style="width: 800px">Deskripsi Icon</th>
@@ -190,7 +190,7 @@
                                         ?>
                                         
                                     </tbody>
-                                </table>
+                                </table> -->
                             </div>
                             <div class="row clearfix" style="margin-top: 20px;">
                                 <div class="col-lg-2">

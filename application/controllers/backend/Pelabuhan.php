@@ -106,10 +106,7 @@ class Pelabuhan extends CI_Controller {
                 'fileurl' => $pathfile,
             );
             $this->m_model->updateas('id', $this->input->post('id'), $saveArr, 'trans_pelabuhans_hasil');
-            echo json_encode([
-                'status' => true,
-                'message' => 'Sukses Menyimpan Data'
-            ]);
+            redirect('backend/pelabuhan/show/show/'.$this->input->post('id_jenis_aspek').'/'.$this->input->post('id_pelabuhan'));
         }else{
              $pathfile = '';
             // print_r($_FILES['icon']['name']);
@@ -144,10 +141,7 @@ class Pelabuhan extends CI_Controller {
                 'fileurl' => $pathfile,
             );
             if ($this->m_model->create($saveArr, 'trans_pelabuhans_hasil') == 1) {
-                echo json_encode([
-                    'status' => true,
-                    'message' => 'Sukses Menyimpan Data'
-                ]);
+                redirect('backend/pelabuhan/show/show/'.$this->input->post('id_jenis_aspek').'/'.$this->input->post('id_pelabuhan'));
             }
         }
     }
@@ -162,5 +156,47 @@ class Pelabuhan extends CI_Controller {
                     'message' => 'Sukses Menghapus Data'
                 ]);
         // }
+    }
+
+     public function subtitle(){
+        $cekData = $this->m_model->selectOneWhere3('id_pelabuhan',$this->input->post('id_pelabuhan'),'id_jenis_aspek',$this->input->post('idaspek'),'id_icon',$this->input->post('id_icon'),'trans_pelabuhans_hasil_sub');
+        if($cekData){
+            $data = array(
+                'id_pelabuhan' => $this->input->post('id_pelabuhan') ,
+                'id_jenis_aspek' => $this->input->post('idaspek') ,
+                'id_icon' => $this->input->post('id_icon') ,
+                'title' => $this->input->post('title')
+            );
+            $this->m_model->updateas('id', $cekData->id, $data, 'trans_pelabuhans_hasil_sub');
+        }else{
+            $data = array(
+                'id_pelabuhan' => $this->input->post('id_pelabuhan') ,
+                'id_jenis_aspek' => $this->input->post('idaspek') ,
+                'id_icon' => $this->input->post('id_icon') ,
+                'title' => $this->input->post('title')
+            );
+            $this->m_model->create($data, 'trans_pelabuhans_hasil_sub');
+        }
+    }
+
+    public function subvalue(){
+        $cekData = $this->m_model->selectOneWhere3('id_pelabuhan',$this->input->post('id_pelabuhan'),'id_jenis_aspek',$this->input->post('idaspek'),'id_icon',$this->input->post('id_icon'),'trans_pelabuhans_hasil_sub');
+        if($cekData){
+            $data = array(
+                'id_pelabuhan' => $this->input->post('id_pelabuhan') ,
+                'id_jenis_aspek' => $this->input->post('idaspek') ,
+                'id_icon' => $this->input->post('id_icon') ,
+                'value' => $this->input->post('value')
+            );
+            $this->m_model->updateas('id', $cekData->id, $data, 'trans_pelabuhans_hasil_sub');
+        }else{
+            $data = array(
+                'id_pelabuhan' => $this->input->post('id_pelabuhan') ,
+                'id_jenis_aspek' => $this->input->post('idaspek') ,
+                'id_icon' => $this->input->post('id_icon') ,
+                'value' => $this->input->post('value')
+            );
+            $this->m_model->create($data, 'trans_pelabuhans_hasil_sub');
+        }
     }
 }

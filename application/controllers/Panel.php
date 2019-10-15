@@ -2514,11 +2514,11 @@ class Panel extends CI_Controller {
             $saves = $this->db->insert_id();
             // print_r($this->db->insert_id());
             // die();
-            foreach ($this->input->post('ic_desc') as $k => $value) {
-                $arr[$k]['trans_id'] = $saves;
-                $arr[$k]['value'] = $value;
-            }
-            $this->db->insert_batch('icon_sub',$arr);
+            // foreach ($this->input->post('ic_desc') as $k => $value) {
+            //     $arr[$k]['trans_id'] = $saves;
+            //     $arr[$k]['value'] = $value;
+            // }
+            // $this->db->insert_batch('icon_sub',$arr);
 
             redirect('panel/icon', 'refresh');
         }
@@ -2556,15 +2556,15 @@ class Panel extends CI_Controller {
 
             $this->m_model->updateas('id', $this->input->post('id'), $param, 'icon');
             $arr = [];
-            $this->m_model->deleteas('trans_id',$this->input->post('id'),'icon_sub');
-            if(count($this->input->post('ic_desc'))){
-                foreach ($this->input->post('ic_desc') as $k => $value) {
-                    $arr[$k]['trans_id'] = $this->input->post('id');
-                    $arr[$k]['value'] = $value;
-                }
-                $this->db->insert_batch('icon_sub',$arr);
+            // $this->m_model->deleteas('trans_id',$this->input->post('id'),'icon_sub');
+            // if(count($this->input->post('ic_desc'))){
+            //     foreach ($this->input->post('ic_desc') as $k => $value) {
+            //         $arr[$k]['trans_id'] = $this->input->post('id');
+            //         $arr[$k]['value'] = $value;
+            //     }
+            //     $this->db->insert_batch('icon_sub',$arr);
 
-            }
+            // }
 
             redirect('panel/icon', 'refresh');
         }

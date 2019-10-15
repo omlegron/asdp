@@ -208,7 +208,7 @@
                                                 <th style="width: 550px;text-align: center;">Name</th>
                                                 <th style="width: 550px;text-align: center;">Description</th>
                                                 <th style="width: 150px;text-align: center;">Icon</th>
-                                                <th style="width: 350px;text-align: center;">Sub</th>
+                                                <!-- <th style="width: 350px;text-align: center;">Sub</th> -->
                                                 <th style="width: 100px;text-align: center;">
                                                     Action Add
                                                 </th>
@@ -228,7 +228,7 @@
                                                         <td style="text-align:center;">
                                                             <img src="<?=$img['path'];?>" class="img-responsive" style="cursor: pointer; max-width: 50px; max-height:50px;" data-fancybox="images<?= $k + 1; ?>" href="<?=$img['path'];?>">
                                                         </td>
-                                                        <td><?php 
+                                                       <!--  <td><?php 
                                                             $iconSub = $this->m_model->selectas('trans_id', $value->id, 'icon_sub');
                                                             if (count($iconSub) > 0) {
                                                                 foreach ($iconSub as $k1 => $value) {
@@ -238,7 +238,7 @@
                                                             }else{
                                                                 echo 'Tidak Ada Deskripsi';
                                                             }
-                                                         ?></td>
+                                                         ?></td> -->
                                                         <td style="text-align: center">
                                                             <select name="icon[<?php echo $value->id; ?>]" class="form-control show-tick">
                                                                 <option value="Active" >Active</option>
@@ -383,7 +383,7 @@
                                                 <th style="width: 550px;text-align: center;">Name</th>
                                                 <th style="width: 550px;text-align: center;">Description</th>
                                                 <th style="width: 150px;text-align: center;">Icon</th>
-                                                <th style="width: 350px;text-align: center;">Sub</th>
+                                                <!-- <th style="width: 350px;text-align: center;">Sub</th> -->
                                                 <th style="width: 100px;text-align: center;">
                                                     Action Add
                                                 </th>
@@ -406,7 +406,7 @@
                                                         <td style="text-align:center;">
                                                             <img src="<?=$img['path'];?>" class="img-responsive" style="cursor: pointer; max-width: 50px; max-height:50px;" data-fancybox="images<?= $k + 1; ?>" href="<?=$img['path'];?>">
                                                         </td>
-                                                        <td><?php 
+                                                        <!-- <td><?php 
                                                             $iconSub = $this->m_model->selectas('trans_id', $valuess->id, 'icon_sub');
                                                             if (count($iconSub) > 0) {
                                                                 foreach ($iconSub as $k1 => $value) {
@@ -416,7 +416,7 @@
                                                             }else{
                                                                 echo 'Tidak Ada Deskripsi';
                                                             }
-                                                         ?></td>
+                                                         ?></td> -->
                                                         <td style="text-align: center">
                                                             <?php
                                                             $active = '';
@@ -559,7 +559,7 @@
                                                             <img src="<?=$imgs['path'];?>" class="img-responsive" style="cursor: pointer; max-width: 50px; max-height:50px;" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>">&nbsp;
                                                             <p class="list-group-item-header">  <?php echo $cekReal['name']; ?>. <br></p>&nbsp;&nbsp;&nbsp; 
                                                             <p class="list-group-item-text"><?php echo $cekReal['deskripsi'] ?></p> 
-                                                            <div class="col-md-12">
+                                                            <!-- <div class="col-md-12">
                                                                 <p class="list-group-item-text" style="position: relative;left: 60px">
                                                                     <?php 
                                                                         $iconSubIndex = $this->m_model->selectas('trans_id', $cekReal['id'], 'icon_sub');
@@ -573,7 +573,7 @@
                                                                         }
                                                                      ?>
                                                                 </p> 
-                                                            </div>
+                                                            </div> -->
                                                         </a>
                                                     </div>
                                                 </li>

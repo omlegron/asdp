@@ -13,7 +13,7 @@
                     <div class="col-lg-8">
                         <div class="btn-group">
                             <a href="<?=base_url();?>panel/pelabuhan"  class="btn btn-primary btn-sm" style="color: #fff">Kembali</a>
-
+                            
                             
                         </div>
                     </div>
@@ -24,8 +24,6 @@
 
                 <?php
                     $img=check_img($pelabuhan->foto);
-                    // print_r($records);
-                    // die();
                 ?>
                 <div class="wrapper content">
                     <div class="container-fluid">
@@ -57,21 +55,34 @@
                                                             
                                                         $cekReal = $this->m_model->getOne($valueSubIco->trans_icon_id,'icon');
                                                         $imgs=check_img($cekReal['path_file']);
+
+                                                        // $cekSubHasil = $this->m_model->selectOneWhere3('id_pelabuhan',$pelabuhan->id,'id_jenis_aspek',$record->id,'id_icon',$cekReal['id'],'trans_pelabuhans_hasil_sub');
                                             ?>
                                                         <li style="font-size: 13px" id="drag-items">
                                                             <img src="<?=$imgs['path'];?>" class="img-responsive drag" data-key="<?= $keySubIco + 1; ?>" data-id="<?= $cekReal['id']; ?>" data-aspek="<?= $value->name; ?>" data-name="<?= $cekReal['name']; ?>" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;padding-bottom: 3px" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" draggable="true">&nbsp;
                                                             <span style="font-size: 13px"><?= $cekReal['name']; ?></span>
-                                                            <ul style="font-size: 13px">
-                                                                <?php 
-                                                                    $iconSubIndex = $this->m_model->selectas('trans_id', $cekReal['id'], 'icon_sub');
-                                                                    if (count($iconSubIndex) > 0) {
-                                                                        foreach ($iconSubIndex as $k1 => $valueindex) {
-                                                                            $num = $k1+1;
-                                                                            echo '<li>'.$num.'. '.$valueindex->value.'</li>';
-                                                                        }
-                                                                    }
-                                                                 ?>
-                                                            </ul>
+                                                            <table>
+                                                              <tbody class="appendChildSub<?= $pelabuhan->id; ?>-<?= $cekReal['id']; ?>">
+                                                              <tr>
+                                                                <td colspan="" rowspan="" headers="">
+                                                                  <input type="text" name="sub_text[]" id="subText" data-pelabuhanid="<?= $pelabuhan->id; ?>" data-idaspek="<?= $record->id; ?>" data-icon="<?= $cekReal['id']; ?>" class="form-control" style="width: 150px;height:25px;border:1px solid black !important;font-size: 11px">
+                                                                </td>
+                                                                <td colspan="" rowspan="" headers="">
+                                                                  <input type="text" name="sub_value[]" class="form-control" style="width: 100px;height:25px;border:1px solid black !important;font-size: 11px" id="subValue" data-pelabuhanid="<?= $pelabuhan->id; ?>" data-idaspek="<?= $record->id; ?>" data-icon="<?= $cekReal['id']; ?>">
+                                                                </td>
+                                                                <!-- <td colspan="" rowspan="" headers="">
+                                                                  <a href="javascript:void(0)" class="btn btn-sm btn-danger" style="position:relative;top:-3px;height:25px;width: 15px">
+                                                                    <i class="zmdi zmdi-close appendDelete" style="position: relative;right: 5px;top: -2px;"></i>
+                                                                  </a>
+                                                                </td> -->
+                                                                <td colspan="" rowspan="" headers="">
+                                                                  <a href="javascript:void(0)" data-id1="<?= $pelabuhan->id; ?>" data-cekreal="<?= $cekReal['id']; ?>" class="btn btn-sm btn-success appendAdd" id="appendAdd" style="position:relative;top:-3px;height:25px;width: 15px">
+                                                                    <i class="zmdi zmdi-plus" style="position: relative;right: 5px;top:-2px;"></i>
+                                                                  </a>
+                                                                </td>
+                                                              </tr>
+                                                              </tbody>
+                                                            </table>
                                                         </li>
                                             <?php
                                                     }
@@ -112,27 +123,48 @@
       //   { x: '371', y: '180.46665954589844' , img:'https://localhost/application/images/icon/5d91934c8f569.png' }
       // ];
       
-      // $.each(GetData,function(k,v){
-      //   console.log('v',v,'k',k);
-      //   var group = new Konva.Group({
-      //           x: v.x,
-      //           y: v.y,
-      //   });
+        $.ajax({
+            url: '<?= site_url('backend/pelabuhan/getData'); ?>',
+            type: 'post',
+            data: {id_jenis_aspek: '<?= $record->id; ?>',id_pelabuhan:'<?= $pelabuhan->id; ?>'},
+            dataType: 'json',
+            success:function(response){
+                if(response.length > 0){
+                  $.each(response,function(k,v){
+                    var group = new Konva.Group({
+                            x: v.pointer_x,
+                            y: v.pointer_y,
+                    });
 
-      //   layer.add(group);
-      //   // 3. Create an Image node and add it to group
-      //   Konva.Image.fromURL(v.img, function(yoda) {
-      //     console.log('YODA',yoda);
-      //     yoda.setAttrs({
-      //       width: 30,
-      //       height: 30
-      //     });
-      //     // 4. Add it to group.
-      //     group.add(yoda);
-      //     layer.batchDraw(); // It
-      //   });
+                    layer.add(group);
+                    // 3. Create an Image node and add it to group
+                    Konva.Image.fromURL(v.url, function(yoda) {
+                      yoda.setAttrs({
+                        width: 30,
+                        height: 30,
+                        id_pelabuhan: v.id_pelabuhan,
+                        id_jenis_aspek: v.id_jenis_aspek,
+                        primary_key: v.primary_key,
+                        cek_target:'true'
+                      });
+                      // 4. Add it to group.
+                      group.add(yoda);
+                      layer.batchDraw(); // It
+                    });
 
-      // });  
+                  });  
+                }
+            },
+            error: function() {
+              $('.alertLah').html(`
+                <div class="alert alert-danger">
+                  Terjadi Kesalahan!
+                </div>
+              `);
+            }
+          });
+
+      
       // END ADD FOTO DARI KUMPULAN ARRAY
       
       // what is url of dragging element?
@@ -148,10 +180,6 @@
           $('input[name="aspek"]').val(e.target.dataset.aspek);
           $('input[name="nama"]').val(e.target.dataset.name);
         });
-
-      stage.on('click', function() {
-        console.log('click',itemURL);
-      });
 
       var con = stage.container();
       con.addEventListener('dragover', function(e) {
@@ -178,11 +206,55 @@
           $('input[name="pointer_x"]').val(stage.getPointerPosition().x);
           $('input[name="pointer_y"]').val(stage.getPointerPosition().y);
           $('input[name="primary_key"]').val(arrayHasil.length);
+          $('.deletesData').hide();
         });
       });
 
-      stage.on('click', function() {
-        console.log('click',itemURL);
+      stage.on('click', function(e) {
+        if(e.target.attrs.cek_target === 'true'){
+             $.ajax({
+              url: '<?= site_url('backend/pelabuhan/getDataOne/'); ?>',
+              type: 'post',
+              data: {id_jenis_aspek: e.target.attrs.id_jenis_aspek, id_pelabuhan:e.target.attrs.id_pelabuhan, primary_key:e.target.attrs.primary_key},
+              dataType: 'json',
+              success:function(response){
+                console.log('response',response)
+                if(response){
+                  $("#add-panel").modal("show");
+                    $('.modal-backdrop').removeClass();
+                   
+                    $('input[name="id"]').val(response.id);
+                    $('input[name="id_pelabuhan"]').val(response.id_pelabuhan);
+                    $('input[name="id_jenis_aspek"]').val(response.id_jenis_aspek);
+                    $('input[name="icon_id"]').val(response.icon_id);
+                    $('input[name="url"]').val(response.url);
+                    $('input[name="pointer_x"]').val(response.pointer_x);
+                    $('input[name="pointer_y"]').val(response.pointer_y);
+                    $('input[name="primary_key"]').val(response.primary_key);
+                    $('input[name="kategori"]').val(response.kategori);
+                    $('input[name="nama"]').val(response.nama);
+                    $('input[name="aspek"]').val(response.aspek);
+                    $('input[name="nomor"]').val(response.nomor);
+                    $('input[name="kondisi"]').val(response.kondisi);
+                    $('input[name="posisi"]').val(response.posisi);
+                    $('input[name="tahun"]').val(response.tahun);
+                    $('.deletesData').show();
+                    if(response.fileurl){
+                      $('.showImg').html(`
+                        <img src="<?php echo base_url(); ?>`+response.fileurl+`" class="img-responsive" alt="" style="width:250px;height:150px">
+                      `);
+                    }
+                }
+              },
+              error: function() {
+                $('.alertLah').html(`
+                  <div class="alert alert-danger">
+                    Terjadi Kesalahan!
+                  </div>
+                `);
+              }
+            });
+        }
       });
 
 
@@ -193,10 +265,10 @@
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
             </button>
-            <h4 class="modal-title" style="text-align: left">Buat Keterangan Data</h4>
+            <h4 class="modal-title">Keterangan Data Jenis Aspek</h4>
           </div>
           <div class="modal-body">
-              <form id="formModals" action="<?= base_url('pelabuhan/store'); ?>" method="POST" accept-charset="utf-8">
+              <form id="formModals form-horizontal" action="<?= base_url('backend/pelabuhan/store'); ?>" method="POST" enctype="multipart/form-data">
                 <div class="row">
                   <input type="hidden" name="id">
                   <input type="hidden" name="id_pelabuhan" value="<?= $pelabuhan->id; ?>">
@@ -243,42 +315,86 @@
                       <input name="tahun" placeholder="Tahun Pengadaan" type="text" class="form-control" />
                     </div>
                   </div>
-                   <div class="col-lg-12">
+                  <div class="col-lg-12">
                     <div class="form-line">
                         <div class="clearfix"></div>
                         <label>*click below to browse file</label>
                         <input name="icon" type="file" class="form-control" style="cursor: pointer;" accept="image/*">
                     </div>
                   </div>
+                  <div class="col-lg-12 showImg">
+                
+                  </div><br>
+                  <div class="col-md-12 pull-right" style="text-align: right;">
+                    <button type="button" class="btn btn-default" id="cancel-button" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger deleteDatak deletesData" id="cancel-button" data-dismiss="modal" style="display: none">Delete</button>
+                    <button type="submit" class="btn btn-primary saveBtn" id="confirm-button">Save</button>
+                  </div>
                 </div>
               </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" id="cancel-button" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary saveBtn" id="confirm-button">Save</button>
+            
           </div>
         </div>
       </div>
+
+      <!-- EDIT MODAL -->
+      
+
       <script type="text/javascript">
-        $(document).on('click','.saveBtn',function(){
+        // $(document).on('click','.saveBtn',function(){
+        //   var data = $('#formModals').serializeArray();
+        //   console.log('data',data)
+        //   $.ajax({
+        //     url: '<?= site_url('backend/pelabuhan/store'); ?>',
+        //     type: 'post',
+        //     data: data,
+        //     dataType: 'json',
+        //     success:function(response){
+        //         if(response.status == true){
+        //           $('.alertLah').html(`
+        //             <div class="alert alert-success">
+        //               `+ response.message +`
+        //             </div>
+        //           `);
+        //         }else{
+        //           $('.alertLah').html(`
+        //             <div class="alert alert-danger">
+        //               Gagal Menyimpan Data
+        //             </div>
+        //           `);
+        //         }
+        //         $("#add-panel").modal("hide");
+
+        //     },
+        //     error: function() {
+        //       $('.alertLah').html(`
+        //         <div class="alert alert-danger">
+        //           Terjadi Kesalahan!
+        //         </div>
+        //       `);
+        //         $("#add-panel").modal("hide");
+
+        //     }
+        //   });
+        // });
+
+        $(document).on('click','.deleteDatak',function(){
           var data = $('#formModals').serializeArray();
           console.log('data',data)
           $.ajax({
-            url: '<?= site_url('backend/pelabuhan/store'); ?>',
+            url: '<?= site_url('backend/pelabuhan/delete'); ?>',
             type: 'post',
             data: data,
             dataType: 'json',
             success:function(response){
                 if(response.status == true){
-                  $('.alertLah').html(`
-                    <div class="alert alert-success">
-                      `+ response.message +`
-                    </div>
-                  `);
+                  window.location.reload();
                 }else{
                   $('.alertLah').html(`
                     <div class="alert alert-danger">
-                      Gagal Menyimpan Data
+                      Gagal Menghapus Data
                     </div>
                   `);
                 }
@@ -293,6 +409,68 @@
               `);
                 $("#add-panel").modal("hide");
 
+            }
+          });
+        });
+
+        $(document).on('click','#appendAdd',function(){
+          console.log('asd');
+          console.log($(this).data('id1'),$(this).data('cekreal'));
+          var id = '.appendChildSub'+$(this).data('id1')+'-'+$(this).data('cekreal');
+          console.log('id',id);
+          $('.appendChildSub'+$(this).data('id1')+'-'+$(this).data('cekreal')).append(`
+            <tr>
+               <td colspan="" rowspan="" headers="">
+                  <input type="text" name="sub_text[]" id="subText" data-pelabuhanid="<?= $pelabuhan->id; ?>" data-idaspek="<?= $record->id; ?>" data-icon="<?= $cekReal['id']; ?>" class="form-control" style="width: 150px;height:25px;border:1px solid black !important;font-size: 11px">
+                </td>
+                <td colspan="" rowspan="" headers="">
+                  <input type="text" name="sub_value[]" class="form-control" style="width: 100px;height:25px;border:1px solid black !important;font-size: 11px" id="subValue" data-pelabuhanid="<?= $pelabuhan->id; ?>" data-idaspek="<?= $record->id; ?>" data-icon="<?= $cekReal['id']; ?>">
+                </td>
+              <td colspan="" rowspan="" headers="">
+                <a href="javascript:void(0)" class="btn btn-sm btn-danger appendDelete" id="appendDelete" style="position:relative;top:-3px;height:25px;width: 15px">
+                  <i class="zmdi zmdi-close" style="position: relative;right: 5px;top: -2px;"></i>
+                </a>
+              </td>
+              
+            </tr>
+          `);
+        });
+
+        $(document).on('click','#appendDelete',function(){
+          $(this).closest('tr').remove();
+        });
+
+        $(document).on('keypress keydown keyup','#subText',function(){
+          var data = {title:$(this).val(),id_pelabuhan:$(this).data('pelabuhanid'),idaspek:$(this).data('idaspek'),id_icon:$(this).data('icon')};
+
+          $.ajax({
+            url: '<?= site_url('backend/pelabuhan/subtitle'); ?>',
+            type: 'post',
+            data: data,
+            dataType: 'json',
+            success:function(response){
+              console.log('success')
+            },
+            error: function() {
+              console.log('error')
+            }
+          });
+          
+        });
+
+        $(document).on('keypress keydown keyup','#subValue',function(){
+          var data = {value:$(this).val(),id_pelabuhan:$(this).data('pelabuhanid'),idaspek:$(this).data('idaspek'),id_icon:$(this).data('icon')};
+
+          $.ajax({
+            url: '<?= site_url('backend/pelabuhan/subvalue'); ?>',
+            type: 'post',
+            data: data,
+            dataType: 'json',
+            success:function(response){
+              console.log('success')
+            },
+            error: function() {
+              console.log('error')
             }
           });
         });
