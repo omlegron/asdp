@@ -50,9 +50,9 @@ class Armada extends CI_Controller {
     public function store(){
          // print_r($this->input->post());
          //    die();
-        header('Content-Type: application/json');
-        // print_r($this->input->post());
-        // die();
+        // header('Content-Type: application/json');
+        print_r($_FILES['icon']['name']);
+        die();
         $cekData = $this->m_model->selectOne('id',$this->input->post('id'),'trans_armada_hasil');
         if($cekData){
             $this->m_model->updateas('id', $this->input->post('id'), $this->input->post(), 'trans_armada_hasil');

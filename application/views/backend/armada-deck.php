@@ -2,7 +2,11 @@
 <script src="<?=base_url();?>assets/frontend/js/konva.min.js"></script>
 
 <style type="text/css">
+	.color-red{
+		background-color: red;
+		color: white;
 
+	}
 </style>
 
 
@@ -92,7 +96,7 @@
 								</div>   
 								<div class="col-lg-12 mb-3 p-0" style="background: #fffafa">
 									<div class="bg-warning text-center py-1">
-										<h3 class="text-white font-weight-bold"><span style="font-weight: 1"><?= $record->nama_aspek; ?></span></h3>
+										<h3 class="text-white font-weight-bold"><span style="font-weight: 1;" ><?= $record->nama_aspek; ?></span></h3>
 									</div>
 									<div class="row">
 										<?php
@@ -115,16 +119,16 @@
 																		$cekReal = $this->m_model->getOne($valueSubIco->trans_icon_id,'icon');
 																		$imgs=check_img($cekReal['path_file']);
 																		?>
-																		<li style="padding-bottom: 5px" id="drag-items">
-																			<img src="<?=$imgs['path'];?>" class="img-responsive drag" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" data-key="<?= $keySubIco + 1; ?>" data-id="<?= $cekReal['id']; ?>" data-aspek="<?= $value->name; ?>" data-name="<?= $cekReal['name']; ?>" data-elment="<?= $armadaElments->id; ?>">&nbsp;
-																			<span style="font-size: 12px"><?= $cekReal['name']; ?></span>
+																		<li style="padding-bottom: 5px;" id="drag-items">
+																			<img src="<?=$imgs['path'];?>" class="img-responsive drag color-red" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" data-key="<?= $keySubIco + 1; ?>" data-id="<?= $cekReal['id']; ?>" data-aspek="<?= $value->name; ?>" data-name="<?= $cekReal['name']; ?>" data-elment="<?= $armadaElments->id; ?>">&nbsp;
+																			<span style="font-size: 12px" class="color-red"><?= $cekReal['name']; ?></span>
 																			<ul>
 																				<?php 
 																				$iconSubIndex = $this->m_model->selectas('trans_id', $cekReal['id'], 'icon_sub');
 																				if (count($iconSubIndex) > 0) {
 																					foreach ($iconSubIndex as $k1 => $valueindex) {
 																						$num = $k1+1;
-																						echo '<li>'.$num.'. '.$valueindex->value.'</li>';
+																						echo '<li >'.$num.'. '.$valueindex->value.'</li>';
 																					}
 																				}
 																				?>
@@ -156,7 +160,7 @@
 	</div>
 </div>
 <script type="text/javascript">
-	  var width = 613;
+	  var width = 900;
       var height = 1250;
       console.log('width(integer)',width,'height',height)
       var stage = new Konva.Stage({
@@ -310,7 +314,7 @@
         <h4 class="modal-title" style="text-align: left">Buat Keterangan Data</h4>
       </div>
       <div class="modal-body">
-          <form id="formModals" action="<?= base_url('armada/store'); ?>" method="POST" accept-charset="utf-8">
+          <form id="formModals" action="<?= site_url('backend/armada/store'); ?>" method="POST" accept-charset="utf-8">
             <div class="row">
               <input type="hidden" name="id">
               <input type="hidden" name="id_armada" value="<?= $armada->id; ?>">
@@ -368,54 +372,57 @@
               <div class="col-lg-12 showImg">
               	
               </div>
+              <div class="col-md-12 floted-right pull-right" style="text-align: right;"><br>
+              	 <button type="button" class="btn btn-default" id="cancel-button" data-dismiss="modal">Cancel</button>
+        			<button type="button" class="btn btn-danger deleteDatak deletesData" id="cancel-button" data-dismiss="modal" style="display: none">Delete</button>
+        			<button name="store" type="submit" class="btn btn-primary saveBtn" id="confirm-button">Save</button>
+              </div>
             </div>
           </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" id="cancel-button" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-danger deleteDatak deletesData" id="cancel-button" data-dismiss="modal" style="display: none">Delete</button>
-        <button type="button" class="btn btn-primary saveBtn" id="confirm-button">Save</button>
+       
       </div>
     </div>
   </div>
   <script type="text/javascript">
-        $(document).on('click','.saveBtn',function(){
-          var data = $('#formModals').serializeArray();
-          console.log('data',data)
-          $.ajax({
-            url: '<?= site_url('backend/armada/store'); ?>',
-            type: 'post',
-            data: data,
-            dataType: 'json',
-            success:function(response){
-                if(response.status == true){
-                  // $('.alertLah').html(`
-                  //   <div class="alert alert-success">
-                  //     `+ response.message +`
-                  //   </div>
-                  // `);
-                  window.location.reload();
-                }else{
-                  $('.alertLah').html(`
-                    <div class="alert alert-danger">
-                      Gagal Menyimpan Data
-                    </div>
-                  `);
-                }
-                $("#add-panel").modal("hide");
+        // $(document).on('click','.saveBtn',function(){
+        //   var data = $('#formModals').serializeArray();
+        //   console.log('data',data)
+        //   $.ajax({
+        //     url: '<?= site_url('backend/armada/store'); ?>',
+        //     type: 'post',
+        //     data: data,
+        //     dataType: 'json',
+        //     success:function(response){
+        //         if(response.status == true){
+        //           // $('.alertLah').html(`
+        //           //   <div class="alert alert-success">
+        //           //     `+ response.message +`
+        //           //   </div>
+        //           // `);
+        //           window.location.reload();
+        //         }else{
+        //           $('.alertLah').html(`
+        //             <div class="alert alert-danger">
+        //               Gagal Menyimpan Data
+        //             </div>
+        //           `);
+        //         }
+        //         $("#add-panel").modal("hide");
 
-            },
-            error: function() {
-              $('.alertLah').html(`
-                <div class="alert alert-danger">
-                  Terjadi Kesalahan!
-                </div>
-              `);
-                $("#add-panel").modal("hide");
+        //     },
+        //     error: function() {
+        //       $('.alertLah').html(`
+        //         <div class="alert alert-danger">
+        //           Terjadi Kesalahan!
+        //         </div>
+        //       `);
+        //         $("#add-panel").modal("hide");
 
-            }
-          });
-        });
+        //     }
+        //   });
+        // });
 
         $(document).on('click','.deleteDatak',function(){
           var data = $('#formModals').serializeArray();
