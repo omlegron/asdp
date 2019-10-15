@@ -243,7 +243,13 @@
                       <input name="tahun" placeholder="Tahun Pengadaan" type="text" class="form-control" />
                     </div>
                   </div>
-
+                   <div class="col-lg-12">
+                    <div class="form-line">
+                        <div class="clearfix"></div>
+                        <label>*click below to browse file</label>
+                        <input name="icon" type="file" class="form-control" style="cursor: pointer;" accept="image/*">
+                    </div>
+                  </div>
                 </div>
               </form>
           </div>

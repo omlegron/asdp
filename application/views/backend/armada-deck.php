@@ -260,7 +260,7 @@
                     $('input[name="tahun"]').val(response.tahun);
                     $('.deletesData').show();
                     $('.showImg').html(`
-                    	<img src="`+response.fileurl+`" class="img-responsive" alt="">
+                    	<img src="<?php echo base_url(); ?>`+response.fileurl+`" class="img-responsive" alt="" style="width:250px;height:150px">
                     `);
                 }
               },
@@ -314,7 +314,7 @@
         <h4 class="modal-title" style="text-align: left">Buat Keterangan Data</h4>
       </div>
       <div class="modal-body">
-          <form id="formModals" action="<?= site_url('backend/armada/store'); ?>" method="POST" accept-charset="utf-8">
+          <form id="formModals form-horizontal" action="<?= site_url('backend/armada/store'); ?>" method="POST" enctype="multipart/form-data">
             <div class="row">
               <input type="hidden" name="id">
               <input type="hidden" name="id_armada" value="<?= $armada->id; ?>">

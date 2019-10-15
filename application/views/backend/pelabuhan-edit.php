@@ -226,6 +226,11 @@
                     $('input[name="posisi"]').val(response.posisi);
                     $('input[name="tahun"]').val(response.tahun);
                     $('.deletesData').show();
+                    if(response.fileurl){
+                      $('.showImg').html(`
+                        <img src="<?php echo base_url(); ?>`+response.fileurl+`" class="img-responsive" alt="" style="width:250px;height:150px">
+                      `);
+                    }
                 }
               },
               error: function() {
@@ -297,7 +302,9 @@
                       <input name="tahun" placeholder="Tahun Pengadaan" type="text" class="form-control" />
                     </div>
                   </div>
-
+                  <div class="col-lg-12 showImg">
+                
+                  </div>
                 </div>
               </form>
           </div>

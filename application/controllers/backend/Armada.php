@@ -48,41 +48,88 @@ class Armada extends CI_Controller {
     }
 
     public function store(){
-         // print_r($this->input->post());
-         //    die();
-        // header('Content-Type: application/json');
-        // print_r($_FILES['icon']['name']);
+        // print_r($_FILES['icon']);
+        //     die();
+         // print_r($_FILES['icon']['name']);
+            // die();
+        // print_r($this->input->post());
         // die();
         $cekData = $this->m_model->selectOne('id',$this->input->post('id'),'trans_armada_hasil');
         if($cekData){
-            $this->m_model->updateas('id', $this->input->post('id'), $this->input->post(), 'trans_armada_hasil');
-            echo json_encode([
-                'status' => true,
-                'message' => 'Sukses Menyimpan Data'
-            ]);
-        }else{
             $pathfile = '';
-            // print_r($this->input->post('icon'));
+            // print_r($_FILES['icon']['name']);
             // die();
-            if ($this->input->post('icon')) {
-                $config['upload_path']   = FCPATH.'/images/foto-armada/';
+            if (!empty($_FILES['icon']['name'])) {
+                $config['upload_path']   = FCPATH.'/images/icon/';
                 $config['allowed_types'] = 'jpg|png|jpeg';
                 $config['max_size'] = 3000000;
                 $config['file_name'] = uniqid();
                 $this->load->library('upload',$config);
                 $this->upload->initialize($config);
                 $this->upload->do_upload('icon');
-                $pathfile='images/foto-armada/'.$this->input->post('icon');
+                $pathfile='images/icon/'.$this->upload->data('file_name');
                 // print_r($pathfile);
                 // die();
             }
-
-            if ($this->m_model->create($this->input->post(), 'trans_armada_hasil') == 1) {
-                $this->m_model->updateas('id', $this->db->insert_id(), ['fileurl' => $pathfile], 'trans_armada_hasil');
-                echo json_encode([
-                    'status' => true,
-                    'message' => 'Sukses Menyimpan Data'
-                ]);
+            $saveArr = array(
+                'id_armada' => $this->input->post('id_armada'),
+                'id_armada_elments' => $this->input->post('id_armada_elments'),
+                'id_jenis_aspek' => $this->input->post('id_jenis_aspek'),
+                'icon_id' => $this->input->post('icon_id'),
+                'url' => $this->input->post('url'),
+                'pointer_x' => $this->input->post('pointer_x'),
+                'pointer_y' => $this->input->post('pointer_y'),
+                'primary_key' => $this->input->post('primary_key'),
+                'kategori' => $this->input->post('kategori'),
+                'nama' => $this->input->post('nama'),
+                'aspek' => $this->input->post('aspek'),
+                'nomor' => $this->input->post('nomor'),
+                'kondisi' => $this->input->post('kondisi'),
+                'posisi' => $this->input->post('posisi'),
+                'tahun' => $this->input->post('tahun'),
+                'fileurl' => $pathfile,
+            );
+            $this->m_model->updateas('id', $this->input->post('id'), $saveArr, 'trans_armada_hasil');
+            echo json_encode([
+                'status' => true,
+                'message' => 'Sukses Menyimpan Data'
+            ]);
+        }else{
+            $pathfile = '';
+            // print_r($_FILES['icon']['name']);
+            // die();
+            if (!empty($_FILES['icon']['name'])) {
+                $config['upload_path']   = FCPATH.'/images/icon/';
+                $config['allowed_types'] = 'jpg|png|jpeg';
+                $config['max_size'] = 3000000;
+                $config['file_name'] = uniqid();
+                $this->load->library('upload',$config);
+                $this->upload->initialize($config);
+                $this->upload->do_upload('icon');
+                $pathfile='images/icon/'.$this->upload->data('file_name');
+                // print_r($pathfile);
+                // die();
+            }
+            $saveArr = array(
+                'id_armada' => $this->input->post('id_armada'),
+                'id_armada_elments' => $this->input->post('id_armada_elments'),
+                'id_jenis_aspek' => $this->input->post('id_jenis_aspek'),
+                'icon_id' => $this->input->post('icon_id'),
+                'url' => $this->input->post('url'),
+                'pointer_x' => $this->input->post('pointer_x'),
+                'pointer_y' => $this->input->post('pointer_y'),
+                'primary_key' => $this->input->post('primary_key'),
+                'kategori' => $this->input->post('kategori'),
+                'nama' => $this->input->post('nama'),
+                'aspek' => $this->input->post('aspek'),
+                'nomor' => $this->input->post('nomor'),
+                'kondisi' => $this->input->post('kondisi'),
+                'posisi' => $this->input->post('posisi'),
+                'tahun' => $this->input->post('tahun'),
+                'fileurl' => $pathfile,
+            );
+            if ($this->m_model->create($saveArr, 'trans_armada_hasil') == 1) {
+                return redirect('backend/armada/showDetail/'.$this->input->post('id_jenis_aspek').'/'.$this->input->post('id_armada_elments').'/'.$this->input->post('id_armada'));
             }
         }
     }

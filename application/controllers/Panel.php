@@ -2486,6 +2486,8 @@ class Panel extends CI_Controller {
         }
         //---
         if ($this->input->post('add')) {
+            // print_r($_FILES['icon']);
+            // die();
             $pathfile="";
             if (!empty($_FILES['icon']['name'])) {
                 $config['upload_path']   = FCPATH.'/images/icon/';
@@ -2522,6 +2524,7 @@ class Panel extends CI_Controller {
         }
         //---
         if ($this->input->post('save')) {
+            
             if (!empty($_FILES['icon']['name'])) {
                 $config['upload_path']   = FCPATH.'/images/icon/';
                 $config['allowed_types'] = 'jpg|png|jpeg';
