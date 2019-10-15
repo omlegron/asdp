@@ -147,10 +147,10 @@ class Pelabuhan extends CI_Controller {
     }
 
     public function delete(){
-        header('Content-Type: application/json');
         // $cekData = $this->m_model->selectOne('id',$this->input->post('id_pelabuhans_hasil'),'trans_pelabuhans_hasil');
         // if($cekData){
-            $this->db->delete('trans_pelabuhans_hasil', array('id' => $this->input->post('id')));
+            $this->m_model->deleteas('id', $this->input->post('id'),'trans_pelabuhans_hasil');
+                header('Content-Type: application/json');
                 echo json_encode([
                     'status' => true,
                     'message' => 'Sukses Menghapus Data'
