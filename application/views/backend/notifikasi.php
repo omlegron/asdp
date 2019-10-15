@@ -106,10 +106,9 @@
                                             $cekCabs = '-';
                                             foreach ($record as $key => $value) {
                                                 $userNam = $this->m_model->selectOne('id',$value->user_id,'users'); 
-                                                print_r($userNam);
-                                                die();
                                                 $cekCabs = $this->m_model->selectOne('id',$userNam->id_cabang,'cabangs');
-
+                                                print_r($cekCabs);
+                                                die();
                                                 if($this->session->userdata('admin_data')->id_cabang == $cekCabs->id){
                                                 ?>
                                                 <tr>
