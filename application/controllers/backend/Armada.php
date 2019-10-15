@@ -73,8 +73,8 @@ class Armada extends CI_Controller {
                 $this->upload->initialize($config);
                 $this->upload->do_upload('icon');
                 $pathfile='images/foto-armada/'.$this->input->post('icon');
-                print_r($pathfile);
-                die();
+                // print_r($pathfile);
+                // die();
             }
 
             if ($this->m_model->create($this->input->post(), 'trans_armada_hasil') == 1) {
