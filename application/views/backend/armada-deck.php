@@ -314,7 +314,7 @@
         <h4 class="modal-title" style="text-align: left">Buat Keterangan Data</h4>
       </div>
       <div class="modal-body">
-          <form id="formModals form-horizontal" action="<?= site_url('backend/armada/store'); ?>" method="POST" enctype="multipart/form-data">
+          <form id="formModals" class="form-horizontal" action="<?= site_url('backend/armada/store'); ?>" method="POST" enctype="multipart/form-data">
             <div class="row">
               <input type="hidden" name="id">
               <input type="hidden" name="id_armada" value="<?= $armada->id; ?>">

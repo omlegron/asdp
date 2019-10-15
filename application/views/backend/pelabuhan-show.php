@@ -268,7 +268,7 @@
             <h4 class="modal-title">Keterangan Data Jenis Aspek</h4>
           </div>
           <div class="modal-body">
-              <form id="formModals form-horizontal" action="<?= base_url('backend/pelabuhan/store'); ?>" method="POST" enctype="multipart/form-data">
+              <form id="formModals" action="<?= base_url('backend/pelabuhan/store'); ?>" method="POST" enctype="multipart/form-data">
                 <div class="row">
                   <input type="hidden" name="id">
                   <input type="hidden" name="id_pelabuhan" value="<?= $pelabuhan->id; ?>">
