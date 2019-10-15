@@ -66,10 +66,11 @@
                                 </div>
                             </div>
                             <div class="body">
-                                <div class="col-lg-12" style="position: relative;left: 11px;top: 20px;">
+                                <div class="row">
+                                    
+                                <div class="col-lg-8" style="position: relative;left: 11px;top: 20px;">
                                     <div class="input-group" >                                               
                                         <input type="text" name="filter[cabang]" class="form-control" placeholder="Cabang" style="border: 1px solid black !important;position: relative;top: 5px;width: 150px;">&nbsp;&nbsp;&nbsp;
-                                        <!-- <input type="text" name="filter[user]" placeholder="User" class="form-control" style="border: 1px solid black !important;position: relative;top: 5px;width: 150px;">&nbsp;&nbsp;&nbsp; -->
                                         <input type="date" name="filter[tanggal]" placeholder="Tanggal" class="form-control date" style="border: 1px solid black !important;position: relative;top: 5px;width: 150px;">&nbsp;
                                       
                                       <div class="input-group-btn">
@@ -79,7 +80,9 @@
                                           <button type="reset" class="btn btn-primary reset" style="position: relative;top: 4px;">Reset </button>
                                       </div>
                                     </div><!-- /input-group -->
-                                </div>  
+                                </div> 
+                                </div>
+
                                 <table class="table table-bordered table-striped table-hover dataTable js-basic-example" id="example">
                                     <thead>
                                         <tr>

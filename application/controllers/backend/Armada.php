@@ -51,8 +51,8 @@ class Armada extends CI_Controller {
          // print_r($this->input->post());
          //    die();
         // header('Content-Type: application/json');
-        print_r($_FILES['icon']['name']);
-        die();
+        // print_r($_FILES['icon']['name']);
+        // die();
         $cekData = $this->m_model->selectOne('id',$this->input->post('id'),'trans_armada_hasil');
         if($cekData){
             $this->m_model->updateas('id', $this->input->post('id'), $this->input->post(), 'trans_armada_hasil');
@@ -64,7 +64,7 @@ class Armada extends CI_Controller {
             $pathfile = '';
             // print_r($this->input->post('icon'));
             // die();
-            if (!empty($_FILES['icon']['name'])) {
+            if ($this->input->post('icon')) {
                 $config['upload_path']   = FCPATH.'/images/foto-armada/';
                 $config['allowed_types'] = 'jpg|png|jpeg';
                 $config['max_size'] = 3000000;
@@ -72,7 +72,7 @@ class Armada extends CI_Controller {
                 $this->load->library('upload',$config);
                 $this->upload->initialize($config);
                 $this->upload->do_upload('icon');
-                $pathfile='images/foto-armada/'.$this->upload->data('file_name');
+                $pathfile='images/foto-armada/'.$this->input->post('icon');
                 print_r($pathfile);
                 die();
             }

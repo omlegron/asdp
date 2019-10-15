@@ -232,7 +232,7 @@
                                                                     echo ''.$num.'. '.$value->value.'<br>';
                                                                 }
                                                             }else{
-                                                                echo 'Not Found';
+                                                                echo 'Tidak Ada Deskripsi';
                                                             }
                                                          ?></td>
                                                         <td style="text-align: center">
@@ -410,7 +410,7 @@
                                                                     echo ''.$num.'. '.$value->value.'<br>';
                                                                 }
                                                             }else{
-                                                                echo 'Not Found';
+                                                                echo 'Tidak Ada Deskripsi';
                                                             }
                                                          ?></td>
                                                         <td style="text-align: center">
@@ -565,7 +565,7 @@
                                                                                 echo ''.$num.'. '.$valueindex->value.'<br>';
                                                                             }
                                                                         }else{
-                                                                            echo 'Not Found';
+                                                                            echo 'Tidak Ada Deskripsi';
                                                                         }
                                                                      ?>
                                                                 </p> 
