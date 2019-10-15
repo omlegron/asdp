@@ -107,8 +107,8 @@
                                             foreach ($record as $key => $value) {
                                                 $userNam = $this->m_model->selectOne('id',$value->user_id,'users'); 
                                                 $cekCabs = $this->m_model->selectOne('id',$userNam->id_cabang,'cabangs');
-                                                // print_r($cekCabs);
-                                                // die();
+                                                print_r($this->session->userdata('admin_data')->id_cabang);
+                                                die();
                                                 if($this->session->userdata('admin_data')->id_cabang == $cekCabs->id){
                                                 ?>
                                                 <tr>
