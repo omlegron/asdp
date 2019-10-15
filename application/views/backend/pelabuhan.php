@@ -181,10 +181,19 @@
                                 <?php 
                                     if(count($this->m_model->selectwhere('status','Pelabuhan','jenis_aspeks')) > 0){
                                         foreach ($this->m_model->selectwhere('status','Pelabuhan','jenis_aspeks') as $k => $value) {
+                                            $getLink = $this->m_model->selectOneWhere2('id_pelabuhan',$val['id'],'id_jenis_aspek',$value->id,'trans_pelabuhans_hasil');
+                                            if($getLink){
+
                                         ?>
-                                            <li><a href="<?php echo site_url(); ?>backend/pelabuhan/show/<?php echo slugify($value->nama_aspek); ?>/<?= $value->id; ?>/<?= $this->input->get('detail'); ?>"><?php echo $value->nama_aspek; ?></a></li>
+                                            <li><a href="<?php echo site_url(); ?>backend/pelabuhan/edit/<?php echo slugify($value->nama_aspek); ?>/<?= $value->id; ?>/<?= $this->input->get('detail'); ?>"><?php echo $value->nama_aspek; ?></a></li>
 
                                         <?php                
+                                            }else{
+                                        ?>
+                                                <li><a href="<?php echo site_url(); ?>backend/pelabuhan/show/<?php echo slugify($value->nama_aspek); ?>/<?= $value->id; ?>/<?= $this->input->get('detail'); ?>"><?php echo $value->nama_aspek; ?></a></li>
+
+                                        <?php
+                                            }
                                         }
                                     }
                                 ?>

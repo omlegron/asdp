@@ -13,7 +13,7 @@
                     <div class="col-lg-8">
                         <div class="btn-group">
                             <a href="<?=base_url();?>panel/pelabuhan"  class="btn btn-primary btn-sm" style="color: #fff">Kembali</a>
-
+                            
                             
                         </div>
                     </div>
@@ -24,8 +24,6 @@
 
                 <?php
                     $img=check_img($pelabuhan->foto);
-                    // print_r($records);
-                    // die();
                 ?>
                 <div class="wrapper content">
                     <div class="container-fluid">
@@ -112,27 +110,48 @@
       //   { x: '371', y: '180.46665954589844' , img:'https://localhost/application/images/icon/5d91934c8f569.png' }
       // ];
       
-      // $.each(GetData,function(k,v){
-      //   console.log('v',v,'k',k);
-      //   var group = new Konva.Group({
-      //           x: v.x,
-      //           y: v.y,
-      //   });
+        $.ajax({
+            url: '<?= site_url('backend/pelabuhan/getData'); ?>',
+            type: 'post',
+            data: {id_jenis_aspek: '<?= $record->id; ?>',id_pelabuhan:'<?= $pelabuhan->id; ?>'},
+            dataType: 'json',
+            success:function(response){
+                if(response.length > 0){
+                  $.each(response,function(k,v){
+                    var group = new Konva.Group({
+                            x: v.pointer_x,
+                            y: v.pointer_y,
+                    });
 
-      //   layer.add(group);
-      //   // 3. Create an Image node and add it to group
-      //   Konva.Image.fromURL(v.img, function(yoda) {
-      //     console.log('YODA',yoda);
-      //     yoda.setAttrs({
-      //       width: 30,
-      //       height: 30
-      //     });
-      //     // 4. Add it to group.
-      //     group.add(yoda);
-      //     layer.batchDraw(); // It
-      //   });
+                    layer.add(group);
+                    // 3. Create an Image node and add it to group
+                    Konva.Image.fromURL(v.url, function(yoda) {
+                      yoda.setAttrs({
+                        width: 30,
+                        height: 30,
+                        id_pelabuhan: v.id_pelabuhan,
+                        id_jenis_aspek: v.id_jenis_aspek,
+                        primary_key: v.primary_key,
+                        cek_target:'true'
+                      });
+                      // 4. Add it to group.
+                      group.add(yoda);
+                      layer.batchDraw(); // It
+                    });
 
-      // });  
+                  });  
+                }
+            },
+            error: function() {
+              $('.alertLah').html(`
+                <div class="alert alert-danger">
+                  Terjadi Kesalahan!
+                </div>
+              `);
+            }
+          });
+
+      
       // END ADD FOTO DARI KUMPULAN ARRAY
       
       // what is url of dragging element?
@@ -148,10 +167,6 @@
           $('input[name="aspek"]').val(e.target.dataset.aspek);
           $('input[name="nama"]').val(e.target.dataset.name);
         });
-
-      stage.on('click', function() {
-        console.log('click',itemURL);
-      });
 
       var con = stage.container();
       con.addEventListener('dragover', function(e) {
@@ -178,11 +193,50 @@
           $('input[name="pointer_x"]').val(stage.getPointerPosition().x);
           $('input[name="pointer_y"]').val(stage.getPointerPosition().y);
           $('input[name="primary_key"]').val(arrayHasil.length);
+          $('.deletesData').hide();
         });
       });
 
-      stage.on('click', function() {
-        console.log('click',itemURL);
+      stage.on('click', function(e) {
+        if(e.target.attrs.cek_target === 'true'){
+             $.ajax({
+              url: '<?= site_url('backend/pelabuhan/getDataOne/'); ?>',
+              type: 'post',
+              data: {id_jenis_aspek: e.target.attrs.id_jenis_aspek, id_pelabuhan:e.target.attrs.id_pelabuhan, primary_key:e.target.attrs.primary_key},
+              dataType: 'json',
+              success:function(response){
+                console.log('response',response)
+                if(response){
+                  $("#add-panel").modal("show");
+                    $('.modal-backdrop').removeClass();
+                   
+                    $('input[name="id"]').val(response.id);
+                    $('input[name="id_pelabuhan"]').val(response.id_pelabuhan);
+                    $('input[name="id_jenis_aspek"]').val(response.id_jenis_aspek);
+                    $('input[name="icon_id"]').val(response.icon_id);
+                    $('input[name="url"]').val(response.url);
+                    $('input[name="pointer_x"]').val(response.pointer_x);
+                    $('input[name="pointer_y"]').val(response.pointer_y);
+                    $('input[name="primary_key"]').val(response.primary_key);
+                    $('input[name="kategori"]').val(response.kategori);
+                    $('input[name="nama"]').val(response.nama);
+                    $('input[name="aspek"]').val(response.aspek);
+                    $('input[name="nomor"]').val(response.nomor);
+                    $('input[name="kondisi"]').val(response.kondisi);
+                    $('input[name="posisi"]').val(response.posisi);
+                    $('input[name="tahun"]').val(response.tahun);
+                    $('.deletesData').show();
+                }
+              },
+              error: function() {
+                $('.alertLah').html(`
+                  <div class="alert alert-danger">
+                    Terjadi Kesalahan!
+                  </div>
+                `);
+              }
+            });
+        }
       });
 
 
@@ -193,7 +247,7 @@
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
             </button>
-            <h4 class="modal-title" style="text-align: left">Buat Keterangan Data</h4>
+            <h4 class="modal-title">Keterangan Data Jenis Aspek</h4>
           </div>
           <div class="modal-body">
               <form id="formModals" action="<?= base_url('pelabuhan/store'); ?>" method="POST" accept-charset="utf-8">
@@ -249,10 +303,15 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" id="cancel-button" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger deleteDatak deletesData" id="cancel-button" data-dismiss="modal" style="display: none">Delete</button>
             <button type="button" class="btn btn-primary saveBtn" id="confirm-button">Save</button>
           </div>
         </div>
       </div>
+
+      <!-- EDIT MODAL -->
+      
+
       <script type="text/javascript">
         $(document).on('click','.saveBtn',function(){
           var data = $('#formModals').serializeArray();
@@ -273,6 +332,39 @@
                   $('.alertLah').html(`
                     <div class="alert alert-danger">
                       Gagal Menyimpan Data
+                    </div>
+                  `);
+                }
+                $("#add-panel").modal("hide");
+
+            },
+            error: function() {
+              $('.alertLah').html(`
+                <div class="alert alert-danger">
+                  Terjadi Kesalahan!
+                </div>
+              `);
+                $("#add-panel").modal("hide");
+
+            }
+          });
+        });
+
+        $(document).on('click','.deleteDatak',function(){
+          var data = $('#formModals').serializeArray();
+          console.log('data',data)
+          $.ajax({
+            url: '<?= site_url('backend/pelabuhan/delete'); ?>',
+            type: 'post',
+            data: data,
+            dataType: 'json',
+            success:function(response){
+                if(response.status == true){
+                  window.location.reload();
+                }else{
+                  $('.alertLah').html(`
+                    <div class="alert alert-danger">
+                      Gagal Menghapus Data
                     </div>
                   `);
                 }
