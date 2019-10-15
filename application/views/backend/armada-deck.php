@@ -73,7 +73,7 @@
 								<h6><?= $armadaElments->name; ?></h6>
 							</div>
 							<div class="showAppendArmada">
-								<div class="col-lg-12 col-md-4">
+								<div class="col-lg-12 col-md-12">
 									<div class="card">
 										<div id="demo2" class="carousel slide" data-ride="carousel">
 											<div class="carousel-inner" style="width:100%;max-height: 350px !important;">
@@ -394,7 +394,7 @@
                   //     `+ response.message +`
                   //   </div>
                   // `);
-                  // window.location.reload();
+                  window.location.reload();
                 }else{
                   $('.alertLah').html(`
                     <div class="alert alert-danger">

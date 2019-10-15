@@ -62,8 +62,8 @@ class Armada extends CI_Controller {
             ]);
         }else{
             $pathfile = '';
-            print_r($this->input->post('icon'));
-            die();
+            // print_r($this->input->post('icon'));
+            // die();
             if (!empty($_FILES['icon']['name'])) {
                 $config['upload_path']   = FCPATH.'/images/foto-armada/';
                 $config['allowed_types'] = 'jpg|png|jpeg';
