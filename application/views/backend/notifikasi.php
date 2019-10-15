@@ -105,14 +105,16 @@
                                         if (count($record) > 0) {
                                             $cekCabs = '-';
                                             $idCABANG = '';
+                                            $idCABANG1 = '';
                                             if(isset($this->session->userdata('admin_data')->id_cabang)){
                                                 $idCABANG = $this->session->userdata('admin_data')->id_cabang;
                                             }
                                             foreach ($record as $key => $value) {
                                                 $userNam = $this->m_model->selectOne('id',$value->user_id,'users'); 
-                                                $cekCabs = $this->m_model->selectOne('id',$userNam->id_cabang,'cabangs');
-
-
+                                                if(isset($userNam->id_cabang)){
+                                                    $idCABANG1 = $userNam->id_cabang;
+                                                }
+                                                $cekCabs = $this->m_model->selectOne('id',$idCABANG1,'cabangs');
                                                 if($idCABANG == $cekCabs->id){
                                                 ?>
                                                 <tr>
