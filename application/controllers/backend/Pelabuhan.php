@@ -68,7 +68,7 @@ class Pelabuhan extends CI_Controller {
     }
 
     public function store(){
-        header('Content-Type: application/json');
+        // header('Content-Type: application/json');
         // print_r($this->input->post());
         // die();
         $cekData = $this->m_model->selectOne('id',$this->input->post('id'),'trans_pelabuhans_hasil');
