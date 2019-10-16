@@ -158,12 +158,13 @@ Class M_model extends CI_Model {
         return $query->result();
     }
 
-    function selectas4($as, $data, $as2, $data2, $dbase, $custom_query=null) {
+    function selectas4($as, $data, $as2, $data2,$as3, $data3,$as4, $data4, $dbase, $custom_query=null) {
         $this->db->select('*');
         $this->db->where($as, clearText($data));
         $this->db->where($as2, clearText($data2));
         $this->db->where($as3, clearText($data3));
-        $this->db->where($custom_query);
+        $this->db->where($as4, clearText($data4));
+        // $this->db->where($custom_query);
         $query = $this->db->get($dbase);
 
         return $query->result();
@@ -479,6 +480,44 @@ Class M_model extends CI_Model {
         $this->db->where($as2, $data2);
         $this->db->where($as3, $data3);
         $this->db->where($as4, $data4);
+        $this->db->where($as4, $data4);
+        if($key_order !=null){
+            if($type_order ==null){
+                $type_order='DESC';
+            }
+            $this->db->order_by(strtolower($key_order), $type_order);
+        }
+        $query = $this->db->get($dbase);
+
+        return $query->row();
+    }
+
+    function selectOneWhere5($as, $data, $as2, $data2,$as3, $data3, $as4, $data4, $as5, $data5, $dbase, $key_order='id', $type_order=null) {
+        $this->db->select('*');
+        $this->db->where($as, $data);
+        $this->db->where($as2, $data2);
+        $this->db->where($as3, $data3);
+        $this->db->where($as4, $data4);
+        $this->db->where($as5, $data5);
+        if($key_order !=null){
+            if($type_order ==null){
+                $type_order='DESC';
+            }
+            $this->db->order_by(strtolower($key_order), $type_order);
+        }
+        $query = $this->db->get($dbase);
+
+        return $query->row();
+    }
+
+    function selectOneWhere6($as, $data, $as2, $data2,$as3, $data3, $as4, $data4, $as5, $data5,$as6, $data6, $dbase, $key_order='id', $type_order=null) {
+        $this->db->select('*');
+        $this->db->where($as, $data);
+        $this->db->where($as2, $data2);
+        $this->db->where($as3, $data3);
+        $this->db->where($as4, $data4);
+        $this->db->where($as5, $data5);
+        $this->db->where($as6, $data6);
         if($key_order !=null){
             if($type_order ==null){
                 $type_order='DESC';

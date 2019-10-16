@@ -12,7 +12,8 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="btn-group">
-                            <a href="<?=base_url();?>panel/pelabuhan"  class="btn btn-primary btn-sm" style="color: #fff">Kembali</a>
+                            <a href="<?=base_url();?>panel/pelabuhan"  class="btn btn-primary btn-sm" style="color: #fff">Kembali</a>&nbsp;
+                            <a href="<?=base_url();?>backend/pelabuhan/edit/edit/<?= $record->id ?>/<?= $pelabuhan->id ?>"  class="btn btn-success btn-sm" style="color: #fff">Edit</a>
                             
                             
                         </div>
@@ -58,10 +59,22 @@
 
                                                         // $cekSubHasil = $this->m_model->selectOneWhere3('id_pelabuhan',$pelabuhan->id,'id_jenis_aspek',$record->id,'id_icon',$cekReal['id'],'trans_pelabuhans_hasil_sub');
                                             ?>
-                                                        <li style="font-size: 13px" id="drag-items">
-                                                            <img src="<?=$imgs['path'];?>" class="img-responsive drag" data-key="<?= $keySubIco + 1; ?>" data-id="<?= $cekReal['id']; ?>" data-aspek="<?= $value->name; ?>" data-name="<?= $cekReal['name']; ?>" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;padding-bottom: 3px" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" draggable="true">&nbsp;
-                                                            <span style="font-size: 13px"><?= $cekReal['name']; ?></span>
-                                                            <table>
+                                            <?php 
+                                              $coun = 0;
+                                              $color = 'background-color: red;color: white;';
+                                              if(count($this->m_model->selectas3('id_pelabuhan',$pelabuhan->id,'id_jenis_aspek',$record->id,'icon_id',$cekReal['id'],'trans_pelabuhans_hasil')) > 0){
+                                                $coun = count($this->m_model->selectas3('id_pelabuhan',$pelabuhan->id,'id_jenis_aspek',$record->id,'icon_id',$cekReal['id'],'trans_pelabuhans_hasil'));
+                                                $color = 'background-color: blue;color: white;';
+                                              }
+                                            ?>
+                                                        <li style="font-size: 13px" >
+                                                            <img src="<?=$imgs['path'];?>" class="img-responsive drag" data-key="<?= $keySubIco + 1; ?>" data-id="<?= $cekReal['id']; ?>" data-aspek="<?= $value->name; ?>" data-name="<?= $cekReal['name']; ?>" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;padding-bottom: 3px;" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" draggable="true">&nbsp;
+                                                            <span style="font-size: 13px;<?= $color; ?>">
+                                                              <?= $cekReal['name']; ?>
+
+                                                              <span class="rounded-circle text-white bg-warning mr-1" style="padding: 1px 8px;"><?= $coun; ?></span>    
+                                                            </span>
+                                                           <!--  <table>
                                                               <tbody class="appendChildSub<?= $pelabuhan->id; ?>-<?= $cekReal['id']; ?>">
                                                               <tr>
                                                                 <td colspan="" rowspan="" headers="">
@@ -70,11 +83,11 @@
                                                                 <td colspan="" rowspan="" headers="">
                                                                   <input type="text" name="sub_value[]" class="form-control" style="width: 100px;height:25px;border:1px solid black !important;font-size: 11px" id="subValue" data-pelabuhanid="<?= $pelabuhan->id; ?>" data-idaspek="<?= $record->id; ?>" data-icon="<?= $cekReal['id']; ?>">
                                                                 </td>
-                                                                <!-- <td colspan="" rowspan="" headers="">
+                                                                <td colspan="" rowspan="" headers="">
                                                                   <a href="javascript:void(0)" class="btn btn-sm btn-danger" style="position:relative;top:-3px;height:25px;width: 15px">
                                                                     <i class="zmdi zmdi-close appendDelete" style="position: relative;right: 5px;top: -2px;"></i>
                                                                   </a>
-                                                                </td> -->
+                                                                </td>
                                                                 <td colspan="" rowspan="" headers="">
                                                                   <a href="javascript:void(0)" data-id1="<?= $pelabuhan->id; ?>" data-cekreal="<?= $cekReal['id']; ?>" class="btn btn-sm btn-success appendAdd" id="appendAdd" style="position:relative;top:-3px;height:25px;width: 15px">
                                                                     <i class="zmdi zmdi-plus" style="position: relative;right: 5px;top:-2px;"></i>
@@ -82,7 +95,7 @@
                                                                 </td>
                                                               </tr>
                                                               </tbody>
-                                                            </table>
+                                                            </table> -->
                                                         </li>
                                             <?php
                                                     }
@@ -145,6 +158,8 @@
                         id_pelabuhan: v.id_pelabuhan,
                         id_jenis_aspek: v.id_jenis_aspek,
                         primary_key: v.primary_key,
+                        pointer_x: v.pointer_x,
+                        pointer_y: v.pointer_y,
                         cek_target:'true'
                       });
                       // 4. Add it to group.
@@ -156,11 +171,11 @@
                 }
             },
             error: function() {
-              $('.alertLah').html(`
-                <div class="alert alert-danger">
-                  Terjadi Kesalahan!
-                </div>
-              `);
+              // $('.alertLah').html(`
+              //   <div class="alert alert-danger">
+              //     Terjadi Kesalahan!
+              //   </div>
+              // `);
             }
           });
 
@@ -210,52 +225,52 @@
         });
       });
 
-      stage.on('click', function(e) {
-        if(e.target.attrs.cek_target === 'true'){
-             $.ajax({
-              url: '<?= site_url('backend/pelabuhan/getDataOne/'); ?>',
-              type: 'post',
-              data: {id_jenis_aspek: e.target.attrs.id_jenis_aspek, id_pelabuhan:e.target.attrs.id_pelabuhan, primary_key:e.target.attrs.primary_key},
-              dataType: 'json',
-              success:function(response){
-                console.log('response',response)
-                if(response){
-                  $("#add-panel").modal("show");
-                    $('.modal-backdrop').removeClass();
+      // stage.on('click', function(e) {
+      //   if(e.target.attrs.cek_target === 'true'){
+      //        $.ajax({
+      //         url: '<?= site_url('backend/pelabuhan/getDataOne/'); ?>',
+      //         type: 'post',
+      //         data: {id_jenis_aspek: e.target.attrs.id_jenis_aspek, id_pelabuhan:e.target.attrs.id_pelabuhan, primary_key:e.target.attrs.primary_key,pointer_x:e.target.attrs.pointer_x,pointer_y:e.target.attrs.pointer_y},
+      //         dataType: 'json',
+      //         success:function(response){
+      //           console.log('response',response)
+      //           if(response){
+      //             $("#add-panel").modal("show");
+      //               $('.modal-backdrop').removeClass();
                    
-                    $('input[name="id"]').val(response.id);
-                    $('input[name="id_pelabuhan"]').val(response.id_pelabuhan);
-                    $('input[name="id_jenis_aspek"]').val(response.id_jenis_aspek);
-                    $('input[name="icon_id"]').val(response.icon_id);
-                    $('input[name="url"]').val(response.url);
-                    $('input[name="pointer_x"]').val(response.pointer_x);
-                    $('input[name="pointer_y"]').val(response.pointer_y);
-                    $('input[name="primary_key"]').val(response.primary_key);
-                    $('input[name="kategori"]').val(response.kategori);
-                    $('input[name="nama"]').val(response.nama);
-                    $('input[name="aspek"]').val(response.aspek);
-                    $('input[name="nomor"]').val(response.nomor);
-                    $('input[name="kondisi"]').val(response.kondisi);
-                    $('input[name="posisi"]').val(response.posisi);
-                    $('input[name="tahun"]').val(response.tahun);
-                    $('.deletesData').show();
-                    if(response.fileurl){
-                      $('.showImg').html(`
-                        <img src="<?php echo base_url(); ?>`+response.fileurl+`" class="img-responsive" alt="" style="width:250px;height:150px">
-                      `);
-                    }
-                }
-              },
-              error: function() {
-                $('.alertLah').html(`
-                  <div class="alert alert-danger">
-                    Terjadi Kesalahan!
-                  </div>
-                `);
-              }
-            });
-        }
-      });
+      //               $('input[name="id"]').val(response.id);
+      //               $('input[name="id_pelabuhan"]').val(response.id_pelabuhan);
+      //               $('input[name="id_jenis_aspek"]').val(response.id_jenis_aspek);
+      //               $('input[name="icon_id"]').val(response.icon_id);
+      //               $('input[name="url"]').val(response.url);
+      //               $('input[name="pointer_x"]').val(response.pointer_x);
+      //               $('input[name="pointer_y"]').val(response.pointer_y);
+      //               $('input[name="primary_key"]').val(response.primary_key);
+      //               $('input[name="kategori"]').val(response.kategori);
+      //               $('input[name="nama"]').val(response.nama);
+      //               $('input[name="aspek"]').val(response.aspek);
+      //               $('input[name="nomor"]').val(response.nomor);
+      //               $('input[name="kondisi"]').val(response.kondisi);
+      //               $('input[name="posisi"]').val(response.posisi);
+      //               $('input[name="tahun"]').val(response.tahun);
+      //               $('.deletesData').show();
+      //               if(response.fileurl){
+      //                 $('.showImg').html(`
+      //                   <img src="<?php echo base_url(); ?>`+response.fileurl+`" class="img-responsive" alt="" style="width:250px;height:150px">
+      //                 `);
+      //               }
+      //           }
+      //         },
+      //         error: function() {
+      //           $('.alertLah').html(`
+      //             <div class="alert alert-danger">
+      //               Terjadi Kesalahan!
+      //             </div>
+      //           `);
+      //         }
+      //       });
+      //   }
+      // });
 
 
     </script>

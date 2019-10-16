@@ -29,8 +29,7 @@
 				<div class="row">
 					<div class="col-lg-8">
 						<div class="btn-group">
-							<a href="<?=base_url();?>panel/armada"  class="btn btn-primary btn-sm" style="color: #fff">Kembali</a>&nbsp;
-               <a href="<?=base_url();?>backend/armada/showEdit/<?= $record->id ?>/<?= $armadaElments->id; ?>/<?= $armada->id ?>"  class="btn btn-success btn-sm" style="color: #fff">Edit</a>
+							<a href="<?=base_url();?>panel/armada"  class="btn btn-primary btn-sm" style="color: #fff">Kembali</a>
 						</div>
 					</div>
 					<div class="col-md-12 alertLah">
@@ -129,7 +128,7 @@
                                         $color = 'background-color: blue;color: white;';
                                       }
                                     ?>
-																		<li style="padding-bottom: 5px;">
+																		<li style="padding-bottom: 5px;" id="drag-items">
 																			<img src="<?=$imgs['path'];?>" class="img-responsive drag" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" data-key="<?= $keySubIco + 1; ?>" data-id="<?= $cekReal['id']; ?>" data-aspek="<?= $value->name; ?>" data-name="<?= $cekReal['name']; ?>" data-elment="<?= $armadaElments->id; ?>">&nbsp;
 																			<span style="font-size: 12px;<?= $color; ?>">
                                         <?= $cekReal['name']; ?>
@@ -244,51 +243,55 @@
           $('input[name="nama"]').val(e.target.dataset.name);
         });
 
-      // stage.on('click', function(e) {
-      //   if(e.target.attrs.cek_target === 'true'){
-      //        $.ajax({
-      //         url: '<?= site_url('backend/armada/getDataOne/'); ?>',
-      //         type: 'post',
-      //         data: {id_jenis_aspek: e.target.attrs.id_jenis_aspek, id_armada:e.target.attrs.id_armada, id_armada_elments:e.target.attrs.id_armada_elments, primary_key:e.target.attrs.primary_key,pointer_x:e.target.attrs.pointer_x,pointer_y:e.target.attrs.pointer_y},
-      //         dataType: 'json',
-      //         success:function(response){
-      //           console.log('response',response)
-      //           if(response){
-      //             $("#add-panel").modal("show");
-      //               $('.modal-backdrop').removeClass();
+      stage.on('click', function(e) {
+        if(e.target.attrs.cek_target === 'true'){
+             $.ajax({
+              url: '<?= site_url('backend/armada/getDataOne/'); ?>',
+              type: 'post',
+              data: {id_jenis_aspek: e.target.attrs.id_jenis_aspek, id_armada:e.target.attrs.id_armada, id_armada_elments:e.target.attrs.id_armada_elments, primary_key:e.target.attrs.primary_key,pointer_x:e.target.attrs.pointer_x,pointer_y:e.target.attrs.pointer_y},
+              dataType: 'json',
+              success:function(response){
+                console.log('response',response)
+                if(response){
+                  $("#add-panel").modal("show");
+                    $('.modal-backdrop').removeClass();
                    
-      //               $('input[name="id"]').val(response.id);
-      //               $('input[name="id_armada"]').val(response.id_armada);
-      //               $('input[name="id_armada_elments"]').val(response.id_armada_elments);
-      //               $('input[name="id_jenis_aspek"]').val(response.id_jenis_aspek);
-      //               $('input[name="icon_id"]').val(response.icon_id);
-      //               $('input[name="url"]').val(response.url);
-      //               $('input[name="pointer_x"]').val(response.pointer_x);
-      //               $('input[name="pointer_y"]').val(response.pointer_y);
-      //               $('input[name="primary_key"]').val(response.primary_key);
-      //               $('input[name="kategori"]').val(response.kategori);
-      //               $('input[name="nama"]').val(response.nama);
-      //               $('input[name="aspek"]').val(response.aspek);
-      //               $('input[name="nomor"]').val(response.nomor);
-      //               $('input[name="kondisi"]').val(response.kondisi);
-      //               $('input[name="posisi"]').val(response.posisi);
-      //               $('input[name="tahun"]').val(response.tahun);
-      //               $('.deletesData').show();
-      //               $('.showImg').html(`
-      //               	<img src="<?php echo base_url(); ?>`+response.fileurl+`" class="img-responsive" alt="" style="width:250px;height:150px">
-      //               `);
-      //           }
-      //         },
-      //         error: function() {
-      //           $('.alertLah').html(`
-      //             <div class="alert alert-danger">
-      //               Terjadi Kesalahan!
-      //             </div>
-      //           `);
-      //         }
-      //       });
-      //   }
-      // });
+                    $('input[name="id"]').val(response.record.id);
+                    $('input[name="id_armada"]').val(response.record.id_armada);
+                    $('input[name="id_armada_elments"]').val(response.record.id_armada_elments);
+                    $('input[name="id_jenis_aspek"]').val(response.record.id_jenis_aspek);
+                    $('input[name="icon_id"]').val(response.record.icon_id);
+                    $('input[name="url"]').val(response.record.url);
+                    $('input[name="pointer_x"]').val(response.record.pointer_x);
+                    $('input[name="pointer_y"]').val(response.record.pointer_y);
+                    $('input[name="primary_key"]').val(response.record.primary_key);
+                    $('input[name="kategori"]').val(response.record.kategori);
+                    $('input[name="nama"]').val(response.record.nama);
+                    $('input[name="aspek"]').val(response.record.aspek);
+                    $('input[name="nomor"]').val(response.record.nomor);
+                    $('input[name="kondisi"]').val(response.record.kondisi);
+                    $('input[name="posisi"]').val(response.record.posisi);
+                    $('input[name="tahun"]').val(response.record.tahun);
+                    $('.deletesData').show();
+                    // if(response.record_file.lenght > 0){
+                      $.each(response.record_file,function(k,v){
+                        $('.showImg').append(`
+                          <a href="<?= base_url(); ?>`+v.fileurl+`" title=""><img src="<?php echo base_url(); ?>`+v.fileurl+`" class="img-responsive" alt="" style="width:120px;height:150px"></a> 
+                        `);
+                      })
+                    // }
+                }
+              },
+              error: function() {
+                $('.alertLah').html(`
+                  <div class="alert alert-danger">
+                    Terjadi Kesalahan!
+                  </div>
+                `);
+              }
+            });
+        }
+      });
 
       var con = stage.container();
       con.addEventListener('dragover', function(e) {
@@ -381,10 +384,10 @@
                 <div class="form-line">
                     <div class="clearfix"></div>
                     <label>*click below to browse file</label>
-                    <input name="icon" type="file" class="form-control" style="cursor: pointer;" accept="image/*">
+                    <input name="icon[]" type="file" class="form-control" style="cursor: pointer;" accept="image/*" multiple="">
                 </div>
-              </div>
-              <div class="col-lg-12 showImg">
+              </div><br>
+              <div class="row showImg">
               	
               </div>
               <div class="col-md-12 floted-right pull-right" style="text-align: right;"><br>
@@ -461,11 +464,11 @@
 
             },
             error: function() {
-              $('.alertLah').html(`
-                <div class="alert alert-danger">
-                  Terjadi Kesalahan!
-                </div>
-              `);
+              // $('.alertLah').html(`
+              //   <div class="alert alert-danger">
+              //     Terjadi Kesalahan!
+              //   </div>
+              // `);
                 $("#add-panel").modal("hide");
 
             }

@@ -12,7 +12,7 @@ class Pelabuhan extends CI_Controller {
         if ($this->session->userdata('admin')) {
             $this->load->view('backend/pelabuhan-show',[
                 'title' => 'Pelabuhan',
-                'bcrumb' => 'Master Data > Create Pelabuhan',
+                'bcrumb' => 'Master Data > Detail Pelabuhan',
                 'pelabuhan' => $this->m_model->selectOne('id',$idSebelum, 'pelabuhans'),
                 'record' => $this->m_model->selectOne('id',$id,'jenis_aspeks'),
                 'records' => $this->m_model->selectcustom('
@@ -53,7 +53,13 @@ class Pelabuhan extends CI_Controller {
     }
 
     public function getDataOne(){
-        echo json_encode($this->m_model->selectOneWhere3('id_pelabuhan',$this->input->post('id_pelabuhan'),'id_jenis_aspek',$this->input->post('id_jenis_aspek'),'primary_key',$this->input->post('primary_key'),'trans_pelabuhans_hasil'));
+        $record = $this->m_model->selectOneWhere5('id_pelabuhan',$this->input->post('id_pelabuhan'),'id_jenis_aspek',$this->input->post('id_jenis_aspek'),'primary_key',$this->input->post('primary_key'),'pointer_x',$this->input->post('pointer_x'),'pointer_y',$this->input->post('pointer_y'),'trans_pelabuhans_hasil');
+        $record1 = $this->m_model->selectOne('id',$record->id,'trans_pelabuhan_hasil_foto');
+        $data = array(
+            'record' => $record,
+            'record_foto' => $record1
+        );
+        echo json_encode($data);
     }
 
     public function create(){
@@ -73,21 +79,21 @@ class Pelabuhan extends CI_Controller {
         // die();
         $cekData = $this->m_model->selectOne('id',$this->input->post('id'),'trans_pelabuhans_hasil');
         if($cekData){
-            $pathfile = '';
+            // $pathfile = '';
             // print_r($_FILES['icon']['name']);
             // die();
-            if (!empty($_FILES['icon']['name'])) {
-                $config['upload_path']   = FCPATH.'/images/icon/';
-                $config['allowed_types'] = 'jpg|png|jpeg';
-                $config['max_size'] = 3000000;
-                $config['file_name'] = uniqid();
-                $this->load->library('upload',$config);
-                $this->upload->initialize($config);
-                $this->upload->do_upload('icon');
-                $pathfile='images/icon/'.$this->upload->data('file_name');
-                // print_r($pathfile);
-                // die();
-            }
+            // if (!empty($_FILES['icon']['name'])) {
+            //     $config['upload_path']   = FCPATH.'/images/icon/';
+            //     $config['allowed_types'] = 'jpg|png|jpeg';
+            //     $config['max_size'] = 3000000;
+            //     $config['file_name'] = uniqid();
+            //     $this->load->library('upload',$config);
+            //     $this->upload->initialize($config);
+            //     $this->upload->do_upload('icon');
+            //     $pathfile='images/icon/'.$this->upload->data('file_name');
+            //     // print_r($pathfile);
+            //     // die();
+            // }
             $saveArr = array(
                 'id_pelabuhan' => $this->input->post('id_pelabuhan'),
                 'id_jenis_aspek' => $this->input->post('id_jenis_aspek'),
@@ -106,23 +112,57 @@ class Pelabuhan extends CI_Controller {
                 'fileurl' => $pathfile,
             );
             $this->m_model->updateas('id', $this->input->post('id'), $saveArr, 'trans_pelabuhans_hasil');
-            redirect('backend/pelabuhan/show/show/'.$this->input->post('id_jenis_aspek').'/'.$this->input->post('id_pelabuhan'));
-        }else{
-             $pathfile = '';
-            // print_r($_FILES['icon']['name']);
+            $arr = [];
+            $pathfile = '';
+            // print_r($_FILES['icon']['name'][0]);
             // die();
             if (!empty($_FILES['icon']['name'])) {
-                $config['upload_path']   = FCPATH.'/images/icon/';
-                $config['allowed_types'] = 'jpg|png|jpeg';
-                $config['max_size'] = 3000000;
-                $config['file_name'] = uniqid();
-                $this->load->library('upload',$config);
-                $this->upload->initialize($config);
-                $this->upload->do_upload('icon');
-                $pathfile='images/icon/'.$this->upload->data('file_name');
+                if(count($_FILES['icon']['name']) > 0){
+                    foreach ($_FILES['icon']['name'] as $k => $value) {
+            //              print_r($value);
+            // die();
+                        $_FILES['file']['name']     = $_FILES['icon']['name'][$k];
+                        $_FILES['file']['type']     = $_FILES['icon']['type'][$k];
+                        $_FILES['file']['tmp_name'] = $_FILES['icon']['tmp_name'][$k];
+                        $_FILES['file']['error']     = $_FILES['icon']['error'][$k];
+                        $_FILES['file']['size']     = $_FILES['icon']['size'][$k];
+                        unset($config);
+                        $config['upload_path']   = FCPATH.'/images/icon/';
+                        $config['allowed_types'] = 'jpg|png|jpeg|giv|ico';
+                        $config['overwrite']     = FALSE;
+                        // $config['max_size'] = 3000000;
+                        $config['file_name'] = $value;
+                        $this->load->library('upload',$config);
+                        $this->upload->initialize($config);
+                        $this->upload->do_upload('file');
+                        $pathfile='images/icon/'.$this->upload->data('file_name');
+                        $arr[$k]['fileurl'] = $pathfile;
+                        $arr[$k]['trans_id'] = $this->input->post('id');
+                        $arr[$k]['filename'] = $this->upload->data('file_name');
+
+                    }
+                    $this->db->insert_batch('trans_pelabuhan_hasil_foto',$arr);
+                }
                 // print_r($pathfile);
                 // die();
             }
+            redirect('backend/pelabuhan/show/show/'.$this->input->post('id_jenis_aspek').'/'.$this->input->post('id_pelabuhan'));
+        }else{
+            //  $pathfile = '';
+            // // print_r($_FILES['icon']['name']);
+            // // die();
+            // if (!empty($_FILES['icon']['name'])) {
+            //     $config['upload_path']   = FCPATH.'/images/icon/';
+            //     $config['allowed_types'] = 'jpg|png|jpeg';
+            //     $config['max_size'] = 3000000;
+            //     $config['file_name'] = uniqid();
+            //     $this->load->library('upload',$config);
+            //     $this->upload->initialize($config);
+            //     $this->upload->do_upload('icon');
+            //     $pathfile='images/icon/'.$this->upload->data('file_name');
+            //     // print_r($pathfile);
+            //     // die();
+            // }
             $saveArr = array(
                 'id_pelabuhan' => $this->input->post('id_pelabuhan'),
                 'id_jenis_aspek' => $this->input->post('id_jenis_aspek'),
@@ -141,16 +181,50 @@ class Pelabuhan extends CI_Controller {
                 'fileurl' => $pathfile,
             );
             if ($this->m_model->create($saveArr, 'trans_pelabuhans_hasil') == 1) {
+                $arr = [];
+                $pathfile = '';
+                // print_r($_FILES['icon']['name'][0]);
+                // die();
+                if (!empty($_FILES['icon']['name'])) {
+                    if(count($_FILES['icon']['name']) > 0){
+                        foreach ($_FILES['icon']['name'] as $k => $value) {
+                //              print_r($value);
+                // die();
+                            $_FILES['file']['name']     = $_FILES['icon']['name'][$k];
+                            $_FILES['file']['type']     = $_FILES['icon']['type'][$k];
+                            $_FILES['file']['tmp_name'] = $_FILES['icon']['tmp_name'][$k];
+                            $_FILES['file']['error']     = $_FILES['icon']['error'][$k];
+                            $_FILES['file']['size']     = $_FILES['icon']['size'][$k];
+                            unset($config);
+                            $config['upload_path']   = FCPATH.'/images/icon/';
+                            $config['allowed_types'] = 'jpg|png|jpeg|giv|ico';
+                            $config['overwrite']     = FALSE;
+                            // $config['max_size'] = 3000000;
+                            $config['file_name'] = $value;
+                            $this->load->library('upload',$config);
+                            $this->upload->initialize($config);
+                            $this->upload->do_upload('file');
+                            $pathfile='images/icon/'.$this->upload->data('file_name');
+                            $arr[$k]['fileurl'] = $pathfile;
+                            $arr[$k]['trans_id'] = $this->input->post('id');
+                            $arr[$k]['filename'] = $this->upload->data('file_name');
+
+                        }
+                        $this->db->insert_batch('trans_pelabuhans_hasil_foto',$arr);
+                    }
+                    // print_r($pathfile);
+                    // die();
+                }
                 redirect('backend/pelabuhan/show/show/'.$this->input->post('id_jenis_aspek').'/'.$this->input->post('id_pelabuhan'));
             }
         }
     }
 
     public function delete(){
+        header('Content-Type: application/json');
         // $cekData = $this->m_model->selectOne('id',$this->input->post('id_pelabuhans_hasil'),'trans_pelabuhans_hasil');
         // if($cekData){
-            $this->m_model->deleteas('id', $this->input->post('id'),'trans_pelabuhans_hasil');
-                header('Content-Type: application/json');
+            $this->db->delete('trans_pelabuhans_hasil', array('id' => $this->input->post('id')));
                 echo json_encode([
                     'status' => true,
                     'message' => 'Sukses Menghapus Data'
