@@ -6,12 +6,12 @@
 			<div class="header">
 				<div class="row">
 					<div class="col-lg-6">
-						<h2>List Pelabuhan</h2>
+						<h2>List Armada</h2>
 					</div>
 					<div class="col-lg-6 pull-right" style="position: relative;left: 350px;">
 						<div class="input-group" style="width: 150px;">
 							<!-- <select name="filter[status]" class="form-control show-tick">
-								<option value="Pelabuhan">Pelabuhan</option>
+								<option value="Armada">Armada</option>
 								<option value="Armada">Armada</option>
 							</select>
 							<div class="input-group-btn">
@@ -39,7 +39,7 @@
 					</thead>
 					<tbody>
 						<?php
-						$data = $this->m_model->all('pelabuhans');
+						$data = $this->m_model->all('armada');
 						if (count($data) > 0) {
 							foreach ($data as $key => $value) {
 								$img=check_img($value->foto);
@@ -58,7 +58,7 @@
 										<?= $value->created_at; ?>
 									</td>
 									<td style="width: 70px">
-										<a class="confirm badge badge-info" msg="Do you want to Edit data?" href="<?= site_url('backend/laporan/print/').$value->id; ?>">Export Pdf</a>
+										<a class="confirm badge badge-info" msg="Do you want to Edit data?" href="<?= site_url('backend/laporan/printarmada/').$value->id; ?>">Export Pdf</a>
 									</td>
 								</tr>
 							<?php } } ?>

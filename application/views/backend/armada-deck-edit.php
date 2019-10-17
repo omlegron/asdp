@@ -1,5 +1,7 @@
+
 <script src="<?=base_url();?>assets/frontend/js/jquery.js"></script> 
 <script src="<?=base_url();?>assets/frontend/js/konva.min.js"></script>
+<script src="<?=base_url();?>assets/frontend/js/html2canvas.min.js"></script>
 
 <style type="text/css">
 	.color-red{
@@ -10,7 +12,6 @@
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> 
 <script type="text/javascript">
 	$(document).on('change','select[name="deck_id"]',function(){
 		var deckId = $(this).val();
@@ -129,8 +130,8 @@
                                       }
                                     ?>
 																		<li style="padding-bottom: 5px;" id="drag-items">
-																			<img src="<?=$imgs['path'];?>" class="img-responsive drag" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" data-key="<?= $keySubIco + 1; ?>" data-id="<?= $cekReal['id']; ?>" data-aspek="<?= $value->name; ?>" data-name="<?= $cekReal['name']; ?>" data-elment="<?= $armadaElments->id; ?>">&nbsp;
-																			<span style="font-size: 12px;<?= $color; ?>">
+																			<img src="<?=$imgs['path'];?>" class="img-responsive drag" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;<?= $color; ?>" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" data-key="<?= $keySubIco + 1; ?>" data-id="<?= $cekReal['id']; ?>" data-aspek="<?= $value->name; ?>" data-name="<?= $cekReal['name']; ?>" data-elment="<?= $armadaElments->id; ?>" data-sub="<?= $value->id; ?>">&nbsp;
+																			<span style="font-size: 12px;">
                                         <?= $cekReal['name']; ?>
                                           <span class="rounded-circle text-white bg-warning mr-1" style="padding: 1px 8px;"><?= $coun; ?></span>    
                                         </span>
@@ -206,6 +207,7 @@
                         id_armada: v.id_armada,
                         id_armada_elments: v.id_armada_elments,
                         id_jenis_aspek: v.id_jenis_aspek,
+                        id_sub_jenis_aspek:v.id_sub_jenis_aspek,
                         primary_key: v.primary_key,
                         pointer_x: v.pointer_x,
                         pointer_y: v.pointer_y,
@@ -240,6 +242,7 @@
           $('input[name="icon_id"]').val(dataIds);
           $('input[name="url"]').val(e.target.src);
           $('input[name="aspek"]').val(e.target.dataset.aspek);
+          $('input[name="id_sub_jenis_aspek"]').val(e.target.dataset.sub);
           $('input[name="nama"]').val(e.target.dataset.name);
         });
 
@@ -260,6 +263,7 @@
                     $('input[name="id_armada"]').val(response.record.id_armada);
                     $('input[name="id_armada_elments"]').val(response.record.id_armada_elments);
                     $('input[name="id_jenis_aspek"]').val(response.record.id_jenis_aspek);
+                    $('input[name="id_sub_jenis_aspek"]').val(response.record.id_sub_jenis_aspek);
                     $('input[name="icon_id"]').val(response.record.icon_id);
                     $('input[name="url"]').val(response.record.url);
                     $('input[name="pointer_x"]').val(response.record.pointer_x);
@@ -338,12 +342,14 @@
               <input type="hidden" name="id_armada" value="<?= $armada->id; ?>">
               <input type="hidden" name="id_armada_elments" value="<?= $armadaElments->id; ?>">
               <input type="hidden" name="id_jenis_aspek" value="<?= $record->id; ?>">
+              <input type="hidden" name="id_sub_jenis_aspek">
               <input type="hidden" name="icon_id">
               <input type="hidden" name="url">
               <input type="hidden" name="pointer_x">
               <input type="hidden" name="pointer_y">
               <input type="hidden" name="primary_key">
               <input type="hidden" name="kategori" value="Armada">
+              <textarea name="url_canvas" id="url_canvas" style="display: none;"></textarea>
               <div class="col-lg-4">
                 <div class="form-group">
                   <label>Nama</label>
@@ -393,7 +399,8 @@
               <div class="col-md-12 floted-right pull-right" style="text-align: right;"><br>
               	 <button type="button" class="btn btn-default" id="cancel-button" data-dismiss="modal">Cancel</button>
         			<button type="button" class="btn btn-danger deleteDatak deletesData" id="cancel-button" data-dismiss="modal" style="display: none">Delete</button>
-        			<button name="store" type="submit" class="btn btn-primary saveBtn" id="confirm-button">Save</button>
+        			<button name="store" type="button" class="btn btn-primary saveBtn" id="confirm-button">Save</button>
+              <button type="submit" class="btn btn-primary" id="bnke_btn" style="display: none;">Save</button>
               </div>
             </div>
           </form>
@@ -404,46 +411,53 @@
     </div>
   </div>
   <script type="text/javascript">
-        // $(document).on('click','.saveBtn',function(){
-        //   var data = $('#formModals').serializeArray();
-        //   console.log('data',data)
-        //   $.ajax({
-        //     url: '<?= site_url('backend/armada/store'); ?>',
-        //     type: 'post',
-        //     data: data,
-        //     dataType: 'json',
-        //     success:function(response){
-        //         if(response.status == true){
-        //           // $('.alertLah').html(`
-        //           //   <div class="alert alert-success">
-        //           //     `+ response.message +`
-        //           //   </div>
-        //           // `);
-        //           window.location.reload();
-        //         }else{
-        //           $('.alertLah').html(`
-        //             <div class="alert alert-danger">
-        //               Gagal Menyimpan Data
-        //             </div>
-        //           `);
-        //         }
-        //         $("#add-panel").modal("hide");
-
-        //     },
-        //     error: function() {
-        //       $('.alertLah').html(`
-        //         <div class="alert alert-danger">
-        //           Terjadi Kesalahan!
-        //         </div>
-        //       `);
-        //         $("#add-panel").modal("hide");
-
-        //     }
-        //   });
-        // });
+        $(document).on('click','.saveBtn',function(){
+            console.log('asda')
+            var element = $('#containers');
+            var getCanvas= '';
+            html2canvas(element, {
+             onrendered: function (canvas) {
+                    getCanvas = canvas;
+                    var imgageData = getCanvas.toDataURL("image/png");
+                    var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
+                    console.log('newData',newData)
+                    $('#url_canvas').val(imgageData);
+                    // window.open(imgageData);
+                    // $("#btn-Convert-Html2Image").attr("download", "your_pic_name.png").attr("href", newData);
+                 }
+             });
+            // console.log('asd',getCanvas)
+                      
+            var data = $('#formModals').serializeArray();
+            console.log('data',data)
+            time = 5;
+            interval = setInterval(function(){
+              time--;
+              if(time == 0){
+                clearInterval(interval);
+                $( "#bnke_btn" ).trigger('click');
+                
+              }
+            },1000);
+        });
 
         $(document).on('click','.deleteDatak',function(){
+          var element = $('#containers');
+          var getCanvas= '';
+          html2canvas(element, {
+           onrendered: function (canvas) {
+                  getCanvas = canvas;
+                  var imgageData = getCanvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+                   var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
+                  console.log('newData',newData)
+                  // $('#url_canvas').val(imgageData);
+                  // window.open(imgageData);
+                  // $("#btn-Convert-Html2Image").attr("download", "your_pic_name.png").attr("href", newData);
+               }
+           });
+
           var data = $('#formModals').serializeArray();
+
           console.log('data',data)
           $.ajax({
             url: '<?= site_url('backend/armada/delete'); ?>',

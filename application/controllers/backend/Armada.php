@@ -68,12 +68,17 @@ class Armada extends CI_Controller {
     }
 
     public function store(){
+        $input = $this->input->post('url_canvas');
+        $output = 'images/armada/files'.date('YmdHis').'.png';
+        file_put_contents($output, file_get_contents($input));
+
         $cekData = $this->m_model->selectOne('id',$this->input->post('id'),'trans_armada_hasil');
         if($cekData){
             $saveArr = array(
                 'id_armada' => $this->input->post('id_armada'),
                 'id_armada_elments' => $this->input->post('id_armada_elments'),
                 'id_jenis_aspek' => $this->input->post('id_jenis_aspek'),
+                'id_sub_jenis_aspek' => $this->input->post('id_sub_jenis_aspek'),
                 'icon_id' => $this->input->post('icon_id'),
                 'url' => $this->input->post('url'),
                 'pointer_x' => $this->input->post('pointer_x'),
@@ -89,6 +94,7 @@ class Armada extends CI_Controller {
                 // 'fileurl' => $pathfile,
             );
             $this->m_model->updateas('id', $this->input->post('id'), $saveArr, 'trans_armada_hasil');
+            $this->m_model->updateas('id', $this->input->post('id_armada_elments'), ['url_canvas' => $output], 'armada_elements');
             $arr = [];
             $pathfile = '';
             // print_r($_FILES['icon']['name'][0]);
@@ -130,6 +136,7 @@ class Armada extends CI_Controller {
                 'id_armada' => $this->input->post('id_armada'),
                 'id_armada_elments' => $this->input->post('id_armada_elments'),
                 'id_jenis_aspek' => $this->input->post('id_jenis_aspek'),
+                'id_sub_jenis_aspek' => $this->input->post('id_sub_jenis_aspek'),
                 'icon_id' => $this->input->post('icon_id'),
                 'url' => $this->input->post('url'),
                 'pointer_x' => $this->input->post('pointer_x'),
@@ -144,6 +151,7 @@ class Armada extends CI_Controller {
                 'tahun' => $this->input->post('tahun'),
                 // 'fileurl' => $pathfile,
             );
+            $this->m_model->updateas('id', $this->input->post('id_armada_elments'), ['url_canvas' => $output], 'armada_elements');
             if ($this->m_model->create($saveArr, 'trans_armada_hasil') == 1) {
                 $arr = [];
                 $pathfile = '';
@@ -182,15 +190,17 @@ class Armada extends CI_Controller {
     }
 
     public function delete(){
+        $input = $this->input->post('url_canvas');
+        $output = 'images/armada/files'.date('YmdHis').'.png';
+        file_put_contents($output, file_get_contents($input));
+        $this->m_model->updateas('id', $this->input->post('id_armada_elments'), ['url_canvas' => $output], 'armada_elements');
+
+        $this->db->delete('trans_armada_hasil', array('id' => $this->input->post('id')));
         header('Content-Type: application/json');
-        // $cekData = $this->m_model->selectOne('id',$this->input->post('id_pelabuhans_hasil'),'trans_pelabuhans_hasil');
-        // if($cekData){
-            $this->db->delete('trans_armada_hasil', array('id' => $this->input->post('id')));
-                echo json_encode([
-                    'status' => true,
-                    'message' => 'Sukses Menghapus Data'
-                ]);
-        // }
+            echo json_encode([
+                'status' => true,
+                'message' => 'Sukses Menghapus Data'
+        ]);
     }
 
     public function getData(){

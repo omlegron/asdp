@@ -75,8 +75,12 @@ class Pelabuhan extends CI_Controller {
 
     public function store(){
         // header('Content-Type: application/json');
-        // print_r($this->input->post());
+        $input = $this->input->post('url_canvas');
+        $output = 'images/pelabuhan/files'.date('YmdHis').'.png';
+        file_put_contents($output, file_get_contents($input));
+        // print_r($this->m_model->selectOne('id',$id,'pelabuhans')->url_canvas);
         // die();
+
         $cekData = $this->m_model->selectOne('id',$this->input->post('id'),'trans_pelabuhans_hasil');
         if($cekData){
             // $pathfile = '';
@@ -97,6 +101,7 @@ class Pelabuhan extends CI_Controller {
             $saveArr = array(
                 'id_pelabuhan' => $this->input->post('id_pelabuhan'),
                 'id_jenis_aspek' => $this->input->post('id_jenis_aspek'),
+                'id_sub_jenis_aspek' => $this->input->post('id_sub_jenis_aspek'),
                 'icon_id' => $this->input->post('icon_id'),
                 'url' => $this->input->post('url'),
                 'pointer_x' => $this->input->post('pointer_x'),
@@ -109,9 +114,11 @@ class Pelabuhan extends CI_Controller {
                 'kondisi' => $this->input->post('kondisi'),
                 'posisi' => $this->input->post('posisi'),
                 'tahun' => $this->input->post('tahun'),
-                'fileurl' => $pathfile,
+                // 'url_canvas' => $this->input->post('url_canvas'),
+                // 'fileurl' => $pathfile,
             );
             $this->m_model->updateas('id', $this->input->post('id'), $saveArr, 'trans_pelabuhans_hasil');
+            $this->m_model->updateas('id', $this->input->post('id_pelabuhan'), ['url_canvas' => $output], 'pelabuhans');
             $arr = [];
             $pathfile = '';
             // print_r($_FILES['icon']['name'][0]);
@@ -166,6 +173,7 @@ class Pelabuhan extends CI_Controller {
             $saveArr = array(
                 'id_pelabuhan' => $this->input->post('id_pelabuhan'),
                 'id_jenis_aspek' => $this->input->post('id_jenis_aspek'),
+                'id_sub_jenis_aspek' => $this->input->post('id_sub_jenis_aspek'),
                 'icon_id' => $this->input->post('icon_id'),
                 'url' => $this->input->post('url'),
                 'pointer_x' => $this->input->post('pointer_x'),
@@ -178,13 +186,16 @@ class Pelabuhan extends CI_Controller {
                 'kondisi' => $this->input->post('kondisi'),
                 'posisi' => $this->input->post('posisi'),
                 'tahun' => $this->input->post('tahun'),
-                'fileurl' => $pathfile,
+                // 'fileurl' => $pathfile,
             );
+            $this->m_model->updateas('id', $this->input->post('id_pelabuhan'), ['url_canvas' => $output], 'pelabuhans');
+
             if ($this->m_model->create($saveArr, 'trans_pelabuhans_hasil') == 1) {
+                $idss = $this->db->insert_id();
                 $arr = [];
                 $pathfile = '';
-                // print_r($_FILES['icon']['name'][0]);
-                // die();
+                    // print_r($this->input->post());
+                    // die();
                 if (!empty($_FILES['icon']['name'])) {
                     if(count($_FILES['icon']['name']) > 0){
                         foreach ($_FILES['icon']['name'] as $k => $value) {
@@ -206,7 +217,7 @@ class Pelabuhan extends CI_Controller {
                             $this->upload->do_upload('file');
                             $pathfile='images/icon/'.$this->upload->data('file_name');
                             $arr[$k]['fileurl'] = $pathfile;
-                            $arr[$k]['trans_id'] = $this->input->post('id');
+                            $arr[$k]['trans_id'] = $idss;
                             $arr[$k]['filename'] = $this->upload->data('file_name');
 
                         }
@@ -221,15 +232,17 @@ class Pelabuhan extends CI_Controller {
     }
 
     public function delete(){
-        header('Content-Type: application/json');
-        // $cekData = $this->m_model->selectOne('id',$this->input->post('id_pelabuhans_hasil'),'trans_pelabuhans_hasil');
-        // if($cekData){
+        $input = $this->input->post('url_canvas');
+        $output = 'images/pelabuhan/files'.date('YmdHis').'.png';
+        file_put_contents($output, file_get_contents($input));
+
+            $this->m_model->updateas('id', $this->input->post('id_pelabuhan'), ['url_canvas' => $output], 'pelabuhans');
             $this->db->delete('trans_pelabuhans_hasil', array('id' => $this->input->post('id')));
-                echo json_encode([
-                    'status' => true,
-                    'message' => 'Sukses Menghapus Data'
-                ]);
-        // }
+            header('Content-Type: application/json');
+            echo json_encode([
+                'status' => true,
+                'message' => 'Sukses Menghapus Data'
+            ]);
     }
 
      public function subtitle(){
