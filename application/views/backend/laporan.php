@@ -44,6 +44,7 @@
 							foreach ($data as $key => $value) {
 								$img=check_img($value->foto);
 								$cabang=$this->m_model->selectOne('id',$value->cabang_id,'cabangs');
+								$cabs = isset($cabang->name) ? $cabang->name : '';
 								?>
 								<tr>
 									<td style="text-align: center;"><?= $key + 1; ?></td>
