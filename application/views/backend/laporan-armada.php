@@ -44,10 +44,11 @@
 							foreach ($data as $key => $value) {
 								$img=check_img($value->foto);
 								$cabang=$this->m_model->selectOne('id',$value->cabang_id,'cabangs');
+								$cabs = isset($cabang->name) ? $cabang->name : '-';
 								?>
 								<tr>
 									<td style="text-align: center;"><?= $key + 1; ?></td>
-									<td><?= $cabang->name; ?></td>
+									<td><?= $cabs; ?></td>
 									<td>
 										<?= $value->name; ?>
 									</td>
@@ -58,7 +59,7 @@
 										<?= $value->created_at; ?>
 									</td>
 									<td style="width: 70px">
-										<a class="confirm badge badge-info" msg="Do you want to Edit data?" href="<?= site_url('backend/laporan/printarmada/').$value->id; ?>">Export Pdf</a>
+										<a class="confirm badge badge-info" msg="Do you want to Export data?" href="<?= site_url('backend/laporan/printarmada/').$value->id; ?>">Export Pdf</a>
 									</td>
 								</tr>
 							<?php } } ?>
