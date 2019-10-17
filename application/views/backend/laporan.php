@@ -48,7 +48,7 @@
 								?>
 								<tr>
 									<td style="text-align: center;"><?= $key + 1; ?></td>
-									<td><?= $cabang->name; ?></td>
+									<td><?= $cabs; ?></td>
 									<td>
 										<?= $value->name; ?>
 									</td>
