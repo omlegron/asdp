@@ -110,6 +110,21 @@
         padding-right: 15px;
         padding-left: 15px;
     }
+
+    /* Create three equal columns that floats next to each other */
+    .column {
+      float: left;
+      width: 33.33%;
+      padding: 10px;
+      height: 300px; /* Should be removed. Only for demonstration */
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
   </style>
 
 
@@ -125,7 +140,22 @@
     <table class="ui table bordered">
       <tr>
         <td class="center aligned" width="30%"><img src="<?= base_url('images/logo2.png'); ?>"></td>
-        <td class="center aligned" width="60%"><h5>Form Laporan <?= $data['judul']; ?></h5></td>
+        <td class="center aligned">
+            <div style="background-color:#ffd0a1;width: 30px;height: 80px;-webkit-transform:skew(60deg);-moz-transform:skew(60deg);-o-transform:skew(-20deg);transform:skew(-20deg);margin-right: 5px;position: relative;top: 25px;left:30px"></div>
+            
+            <div style="background-color:#4a599f;width: 30px;height: 60px; -webkit-transform:skew(60deg);-moz-transform:skew(60deg);-o-transform:skew(-20deg);transform:skew(-20deg);margin-right: 5px;position: relative;left: 65px;top: -45px;">
+            </div>
+            <div style="background-color:#dbdeec;width: 40px;height: 20px; -webkit-transform:skew(-21deg);-moz-transform:skew(-21deg);-o-transform:skew(-20deg);transform:skew(-20deg);vertical-align: center;position:relative;top: -27px;">
+                <h5>Form Laporan <?= $data['judul']; ?></h5>
+            </div>
+        </td>
+        <!-- <td colspan="" rowspan="" headers="">
+            <div style="background-color:#4a599f;width: 30px;height: 20px;position:relative;top: 7px; -webkit-transform:skew(60deg);-moz-transform:skew(60deg);-o-transform:skew(-20deg);transform:skew(-20deg);margin-right: 5px;position: relative;left: 10px">
+            </div> -->
+            <!-- <div style="background-color:#dbdeec;width: 600px;height: 20px;position:relative;top: 7px; -webkit-transform:skew(-21deg);-moz-transform:skew(-21deg);-o-transform:skew(-20deg);transform:skew(-20deg);vertical-align: center;">
+                <h5>Form Laporan <?= $data['judul']; ?></h5>
+            </div> -->
+        <!-- </td> -->
       </tr>
       <tr>
         <td class="center aligned" colspan="2"><?= $data['record']->name; ?></td>
@@ -142,7 +172,11 @@
   <?php
   $img=check_img($data['record']->url_canvas);
   ?>
-  <center><img src="<?= $img['path']; ?>" style="height: 350px;width: 60%"></center>
+  <center><img src="<?= $img['path']; ?>"></center>
+  <br>
+  <br>
+  <br>
+  <br>
   <?php
   $dataPlbhHsl = $this->m_model->selectcustom("select * from trans_pelabuhans_hasil where id_pelabuhan=".$data['record']->id." group by id_jenis_aspek");
   if(count($dataPlbhHsl) > 0){

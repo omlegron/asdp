@@ -1,13 +1,7 @@
-        <!--
+        
         <div class="row clearfix">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="body">
-                        <p class="m-b-0">© 2019 Bazaarplace Admin Panel</p>
-                    </div>
-                </div>
-            </div>
-        </div>-->
+            <img src="<?= base_url('images/img_footer.png'); ?>" alt="" style="position: relative;top: 37px;">
+        </div>
 
     </div>
 </section>
