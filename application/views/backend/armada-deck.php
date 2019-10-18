@@ -122,15 +122,15 @@
 																		?>
                                     <?php 
                                       $coun = 0;
-                                      $color = 'background-color: red;color: white;';
+                                      $color = 'background-color: red;color: white;border-radius:11px;';
                                       if(count($this->m_model->selectas4('id_armada',$armada->id,'id_jenis_aspek',$record->id,'icon_id',$cekReal['id'],'id_armada_elments',$armadaElments->id,'trans_armada_hasil')) > 0){
                                         $coun = count($this->m_model->selectas4('id_armada',$armada->id,'id_jenis_aspek',$record->id,'icon_id',$cekReal['id'],'id_armada_elments',$armadaElments->id,'trans_armada_hasil'));
 
-                                        $color = 'background-color: blue;color: white;';
+                                        $color = 'background-color: blue;color: white;border-radius:11px;';
                                       }
                                     ?>
-																		<li style="padding-bottom: 5px;">
-																			<img src="<?=$imgs['path'];?>" class="img-responsive drag" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;<?= $color; ?>" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" data-key="<?= $keySubIco + 1; ?>" data-id="<?= $cekReal['id']; ?>" data-aspek="<?= $value->name; ?>" data-name="<?= $cekReal['name']; ?>" data-elment="<?= $armadaElments->id; ?>">&nbsp;
+																		<li style="padding-bottom: 1px;">
+																			<img src="<?=$imgs['path'];?>" class="img-responsive drag" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;padding-bottom: 1px;<?= $color; ?>" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" data-key="<?= $keySubIco + 1; ?>" data-id="<?= $cekReal['id']; ?>" data-aspek="<?= $value->name; ?>" data-name="<?= $cekReal['name']; ?>" data-elment="<?= $armadaElments->id; ?>">&nbsp;
 																			<span style="font-size: 12px;">
                                         <?= $cekReal['name']; ?>
                                           <span class="rounded-circle text-white bg-warning mr-1" style="padding: 1px 8px;"><?= $coun; ?></span>    
@@ -223,7 +223,7 @@
             error: function() {
               // $('.alertLah').html(`
               //   <div class="alert alert-danger">
-              //     Terjadi Kesalahan!
+              //     Silahkan Refresh Halaman Kembali
               //   </div>
               // `);
             }
@@ -244,52 +244,56 @@
           $('input[name="nama"]').val(e.target.dataset.name);
         });
 
-      // stage.on('click', function(e) {
-      //   if(e.target.attrs.cek_target === 'true'){
-      //        $.ajax({
-      //         url: '<?= site_url('backend/armada/getDataOne/'); ?>',
-      //         type: 'post',
-      //         data: {id_jenis_aspek: e.target.attrs.id_jenis_aspek, id_armada:e.target.attrs.id_armada, id_armada_elments:e.target.attrs.id_armada_elments, primary_key:e.target.attrs.primary_key,pointer_x:e.target.attrs.pointer_x,pointer_y:e.target.attrs.pointer_y},
-      //         dataType: 'json',
-      //         success:function(response){
-      //           console.log('response',response)
-      //           if(response){
-      //             $("#add-panel").modal("show");
-      //               $('.modal-backdrop').removeClass();
+       stage.on('click', function(e) {
+        if(e.target.attrs.cek_target === 'true'){
+             $.ajax({
+              url: '<?= site_url('backend/armada/getDataOne/'); ?>',
+              type: 'post',
+              data: {id_jenis_aspek: e.target.attrs.id_jenis_aspek, id_armada:e.target.attrs.id_armada, id_armada_elments:e.target.attrs.id_armada_elments, primary_key:e.target.attrs.primary_key,pointer_x:e.target.attrs.pointer_x,pointer_y:e.target.attrs.pointer_y},
+              dataType: 'json',
+              success:function(response){
+                console.log('response',response)
+                if(response){
+                  $("#add-panel").modal("show");
+                    $('.modal-backdrop').removeClass();
                    
-      //               $('input[name="id"]').val(response.id);
-      //               $('input[name="id_armada"]').val(response.id_armada);
-      //               $('input[name="id_armada_elments"]').val(response.id_armada_elments);
-      //               $('input[name="id_jenis_aspek"]').val(response.id_jenis_aspek);
-      //               $('input[name="icon_id"]').val(response.icon_id);
-      //               $('input[name="url"]').val(response.url);
-      //               $('input[name="pointer_x"]').val(response.pointer_x);
-      //               $('input[name="pointer_y"]').val(response.pointer_y);
-      //               $('input[name="primary_key"]').val(response.primary_key);
-      //               $('input[name="kategori"]').val(response.kategori);
-      //               $('input[name="nama"]').val(response.nama);
-      //               $('input[name="aspek"]').val(response.aspek);
-      //               $('input[name="nomor"]').val(response.nomor);
-      //               $('input[name="kondisi"]').val(response.kondisi);
-      //               $('input[name="posisi"]').val(response.posisi);
-      //               $('input[name="tahun"]').val(response.tahun);
-      //               $('.deletesData').show();
-      //               $('.showImg').html(`
-      //               	<img src="<?php echo base_url(); ?>`+response.fileurl+`" class="img-responsive" alt="" style="width:250px;height:150px">
-      //               `);
-      //           }
-      //         },
-      //         error: function() {
-      //           $('.alertLah').html(`
-      //             <div class="alert alert-danger">
-      //               Terjadi Kesalahan!
-      //             </div>
-      //           `);
-      //         }
-      //       });
-      //   }
-      // });
-
+                    $('input[name="id"]').val(response.record.id);
+                    $('input[name="id_armada"]').val(response.record.id_armada);
+                    $('input[name="id_armada_elments"]').val(response.record.id_armada_elments);
+                    $('input[name="id_jenis_aspek"]').val(response.record.id_jenis_aspek);
+                    $('input[name="id_sub_jenis_aspek"]').val(response.record.id_sub_jenis_aspek);
+                    $('input[name="icon_id"]').val(response.record.icon_id);
+                    $('input[name="url"]').val(response.record.url);
+                    $('input[name="pointer_x"]').val(response.record.pointer_x);
+                    $('input[name="pointer_y"]').val(response.record.pointer_y);
+                    $('input[name="primary_key"]').val(response.record.primary_key);
+                    $('input[name="kategori"]').val(response.record.kategori);
+                    $('input[name="nama"]').val(response.record.nama);
+                    $('input[name="aspek"]').val(response.record.aspek);
+                    $('input[name="nomor"]').val(response.record.nomor);
+                    $('input[name="kondisi"]').val(response.record.kondisi);
+                    $('input[name="posisi"]').val(response.record.posisi);
+                    $('input[name="tahun"]').val(response.record.tahun);
+                    // $('.deletesData').show();
+                    // if(response.record_file.lenght > 0){
+                      $.each(response.record_file,function(k,v){
+                        $('.showImg').append(`
+                          <a href="<?= base_url(); ?>`+v.fileurl+`" title=""><img src="<?php echo base_url(); ?>`+v.fileurl+`" class="img-responsive" alt="" style="width:120px;height:150px"></a> 
+                        `);
+                      })
+                    // }
+                }
+              },
+              error: function() {
+                $('.alertLah').html(`
+                  <div class="alert alert-danger">
+                    Silahkan Refresh Halaman Kembali
+                  </div>
+                `);
+              }
+            });
+        }
+      });
       var con = stage.container();
       con.addEventListener('dragover', function(e) {
         e.preventDefault(); 
@@ -377,20 +381,12 @@
                   <input name="tahun" placeholder="Tahun Pengadaan" type="text" class="form-control" />
                 </div>
               </div>
-              <div class="col-lg-12">
-                <div class="form-line">
-                    <div class="clearfix"></div>
-                    <label>*click below to browse file</label>
-                    <input name="icon" type="file" class="form-control" style="cursor: pointer;" accept="image/*">
-                </div>
-              </div>
+              
               <div class="col-lg-12 showImg">
               	
               </div>
               <div class="col-md-12 floted-right pull-right" style="text-align: right;"><br>
-              	 <button type="button" class="btn btn-default" id="cancel-button" data-dismiss="modal">Cancel</button>
-        			<button type="button" class="btn btn-danger deleteDatak deletesData" id="cancel-button" data-dismiss="modal" style="display: none">Delete</button>
-        			<button name="store" type="submit" class="btn btn-primary saveBtn" id="confirm-button">Save</button>
+              
               </div>
             </div>
           </form>
@@ -430,7 +426,7 @@
         //     error: function() {
         //       $('.alertLah').html(`
         //         <div class="alert alert-danger">
-        //           Terjadi Kesalahan!
+        //           Silahkan Refresh Halaman Kembali
         //         </div>
         //       `);
         //         $("#add-panel").modal("hide");
@@ -463,7 +459,7 @@
             error: function() {
               $('.alertLah').html(`
                 <div class="alert alert-danger">
-                  Terjadi Kesalahan!
+                  Silahkan Refresh Halaman Kembali
                 </div>
               `);
                 $("#add-panel").modal("hide");

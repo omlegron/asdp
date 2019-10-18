@@ -122,15 +122,15 @@
 																		?>
                                     <?php 
                                       $coun = 0;
-                                      $color = 'background-color: red;color: white;';
+                                      $color = 'background-color: red;color: white;border-radius:11px;';
                                       if(count($this->m_model->selectas4('id_armada',$armada->id,'id_jenis_aspek',$record->id,'icon_id',$cekReal['id'],'id_armada_elments',$armadaElments->id,'trans_armada_hasil')) > 0){
                                         $coun = count($this->m_model->selectas4('id_armada',$armada->id,'id_jenis_aspek',$record->id,'icon_id',$cekReal['id'],'id_armada_elments',$armadaElments->id,'trans_armada_hasil'));
 
-                                        $color = 'background-color: blue;color: white;';
+                                        $color = 'background-color: blue;color: white;border-radius:11px;';
                                       }
                                     ?>
-																		<li style="padding-bottom: 5px;" id="drag-items">
-																			<img src="<?=$imgs['path'];?>" class="img-responsive drag" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;<?= $color; ?>" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" data-key="<?= $keySubIco + 1; ?>" data-id="<?= $cekReal['id']; ?>" data-aspek="<?= $value->name; ?>" data-name="<?= $cekReal['name']; ?>" data-elment="<?= $armadaElments->id; ?>" data-sub="<?= $value->id; ?>">&nbsp;
+																		<li style="padding-bottom: 1px;" id="drag-items">
+																			<img src="<?=$imgs['path'];?>" class="img-responsive drag" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;padding-bottom: 1px;<?= $color; ?>" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" data-key="<?= $keySubIco + 1; ?>" data-id="<?= $cekReal['id']; ?>" data-aspek="<?= $value->name; ?>" data-name="<?= $cekReal['name']; ?>" data-elment="<?= $armadaElments->id; ?>" data-sub="<?= $value->id; ?>">&nbsp;
 																			<span style="font-size: 12px;">
                                         <?= $cekReal['name']; ?>
                                           <span class="rounded-circle text-white bg-warning mr-1" style="padding: 1px 8px;"><?= $coun; ?></span>    

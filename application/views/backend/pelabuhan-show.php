@@ -61,14 +61,14 @@
                                             ?>
                                             <?php 
                                               $coun = 0;
-                                              $color = 'background-color: red;color: white;';
+                                              $color = 'background-color: red;color: white;border-radius:11px;';
                                               if(count($this->m_model->selectas3('id_pelabuhan',$pelabuhan->id,'id_jenis_aspek',$record->id,'icon_id',$cekReal['id'],'trans_pelabuhans_hasil')) > 0){
                                                 $coun = count($this->m_model->selectas3('id_pelabuhan',$pelabuhan->id,'id_jenis_aspek',$record->id,'icon_id',$cekReal['id'],'trans_pelabuhans_hasil'));
-                                                $color = 'background-color: blue;color: white;';
+                                                $color = 'background-color: blue;color: white;border-radius:11px;';
                                               }
                                             ?>
-                                                        <li style="font-size: 13px" >
-                                                            <img src="<?=$imgs['path'];?>" class="img-responsive drag" data-key="<?= $keySubIco + 1; ?>" data-id="<?= $cekReal['id']; ?>" data-aspek="<?= $value->name; ?>" data-name="<?= $cekReal['name']; ?>" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;padding-bottom: 3px;<?= $color; ?>" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" draggable="true">&nbsp;
+                                                        <li style="font-size: 13px;padding-bottom:1px" >
+                                                            <img src="<?=$imgs['path'];?>" class="img-responsive drag" data-key="<?= $keySubIco + 1; ?>" data-id="<?= $cekReal['id']; ?>" data-aspek="<?= $value->name; ?>" data-name="<?= $cekReal['name']; ?>" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;padding-bottom: 1px;<?= $color; ?>" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" draggable="true">&nbsp;
                                                             <span style="font-size: 13px;">
                                                               <?= $cekReal['name']; ?>
 
@@ -225,52 +225,57 @@
         });
       });
 
-      // stage.on('click', function(e) {
-      //   if(e.target.attrs.cek_target === 'true'){
-      //        $.ajax({
-      //         url: '<?= site_url('backend/pelabuhan/getDataOne/'); ?>',
-      //         type: 'post',
-      //         data: {id_jenis_aspek: e.target.attrs.id_jenis_aspek, id_pelabuhan:e.target.attrs.id_pelabuhan, primary_key:e.target.attrs.primary_key,pointer_x:e.target.attrs.pointer_x,pointer_y:e.target.attrs.pointer_y},
-      //         dataType: 'json',
-      //         success:function(response){
-      //           console.log('response',response)
-      //           if(response){
-      //             $("#add-panel").modal("show");
-      //               $('.modal-backdrop').removeClass();
+      stage.on('click', function(e) {
+        console.log('cekClikc')
+        if(e.target.attrs.cek_target === 'true'){
+             $.ajax({
+              url: '<?= site_url('backend/pelabuhan/getDataOne/'); ?>',
+              type: 'post',
+              data: {id_jenis_aspek: e.target.attrs.id_jenis_aspek, id_pelabuhan:e.target.attrs.id_pelabuhan, primary_key:e.target.attrs.primary_key,pointer_x:e.target.attrs.pointer_x,pointer_y:e.target.attrs.pointer_y},
+              dataType: 'json',
+              success:function(response){
+                console.log('response',response)
+                if(response){
+                  $("#add-panel").modal("show");
+                    $('.modal-backdrop').removeClass();
                    
-      //               $('input[name="id"]').val(response.id);
-      //               $('input[name="id_pelabuhan"]').val(response.id_pelabuhan);
-      //               $('input[name="id_jenis_aspek"]').val(response.id_jenis_aspek);
-      //               $('input[name="icon_id"]').val(response.icon_id);
-      //               $('input[name="url"]').val(response.url);
-      //               $('input[name="pointer_x"]').val(response.pointer_x);
-      //               $('input[name="pointer_y"]').val(response.pointer_y);
-      //               $('input[name="primary_key"]').val(response.primary_key);
-      //               $('input[name="kategori"]').val(response.kategori);
-      //               $('input[name="nama"]').val(response.nama);
-      //               $('input[name="aspek"]').val(response.aspek);
-      //               $('input[name="nomor"]').val(response.nomor);
-      //               $('input[name="kondisi"]').val(response.kondisi);
-      //               $('input[name="posisi"]').val(response.posisi);
-      //               $('input[name="tahun"]').val(response.tahun);
-      //               $('.deletesData').show();
-      //               if(response.fileurl){
-      //                 $('.showImg').html(`
-      //                   <img src="<?php echo base_url(); ?>`+response.fileurl+`" class="img-responsive" alt="" style="width:250px;height:150px">
-      //                 `);
-      //               }
-      //           }
-      //         },
-      //         error: function() {
-      //           $('.alertLah').html(`
-      //             <div class="alert alert-danger">
-      //               Terjadi Kesalahan!
-      //             </div>
-      //           `);
-      //         }
-      //       });
-      //   }
-      // });
+                    $('input[name="id"]').val(response.record.id);
+                    $('input[name="id_pelabuhan"]').val(response.record.id_pelabuhan);
+                    $('input[name="id_jenis_aspek"]').val(response.record.id_jenis_aspek);
+                    $('input[name="id_sub_jenis_aspek"]').val(response.record.id_sub_jenis_aspek);
+                    $('input[name="icon_id"]').val(response.record.icon_id);
+                    $('input[name="url"]').val(response.record.url);
+                    $('input[name="pointer_x"]').val(response.record.pointer_x);
+                    $('input[name="pointer_y"]').val(response.record.pointer_y);
+                    $('input[name="primary_key"]').val(response.record.primary_key);
+                    $('input[name="kategori"]').val(response.record.kategori);
+                    $('input[name="nama"]').val(response.record.nama);
+                    $('input[name="aspek"]').val(response.record.aspek);
+                    $('input[name="nomor"]').val(response.record.nomor);
+                    $('input[name="kondisi"]').val(response.record.kondisi);
+                    $('input[name="posisi"]').val(response.record.posisi);
+                    $('input[name="tahun"]').val(response.record.tahun);
+                  
+                    if(response.record_file){
+                      $.each(response.record_file,function(k,v){
+                        $('.showImg').append(`
+                          <a href="<?= base_url(); ?>`+v.fileurl+`" title=""><img src="<?php echo base_url(); ?>`+v.fileurl+`" class="img-responsive" alt="" style="width:120px;height:150px"></a> 
+                        `);
+                      });
+                    }
+                }
+              },
+              error: function() {
+                $('.alertLah').html(`
+                  <div class="alert alert-danger">
+                    Terjadi Kesalahan!
+                  </div>
+                `);
+              }
+            });
+        }
+      });
+
 
 
     </script>
@@ -297,54 +302,54 @@
                   <div class="col-lg-4">
                     <div class="form-group">
                       <label>Nama</label>
-                      <input name="nama" placeholder="Nama" type="text" class="form-control" />
+                      <input name="nama" placeholder="Nama" type="text" class="form-control" readonly="" />
                     </div>
                   </div>
                   <div class="col-lg-4">
                     <div class="form-group">
                       <label>Aspek</label>
-                      <input name="aspek" placeholder="Aspek" type="text" class="form-control" />
+                      <input name="aspek" placeholder="Aspek" type="text" class="form-control" readonly="" />
                     </div>
                   </div>
                   <div class="col-lg-4">
                     <div class="form-group">
                       <label>Nomor</label>
-                      <input name="nomor" placeholder="Nomor" type="text" class="form-control" />
+                      <input name="nomor" placeholder="Nomor" type="text" class="form-control" readonly="" />
                     </div>
                   </div>
                   <div class="col-lg-4">
                     <div class="form-group">
                       <label>Kondisi</label>
-                      <input name="kondisi" placeholder="Kondisi" type="text" class="form-control" />
+                      <input name="kondisi" placeholder="Kondisi" type="text" class="form-control" readonly="" />
                     </div>
                   </div>
                    <div class="col-lg-4">
                     <div class="form-group">
                       <label>Posisi</label>
-                      <input name="posisi" placeholder="Posisi" type="text" class="form-control" />
+                      <input name="posisi" placeholder="Posisi" type="text" class="form-control" readonly="" />
                     </div>
                   </div>
                    <div class="col-lg-4">
                     <div class="form-group">
                       <label>Tahun Pengadaan</label>
-                      <input name="tahun" placeholder="Tahun Pengadaan" type="text" class="form-control" />
+                      <input name="tahun" placeholder="Tahun Pengadaan" type="text" class="form-control" readonly="" />
                     </div>
                   </div>
-                  <div class="col-lg-12">
+                <!--   <div class="col-lg-12">
                     <div class="form-line">
                         <div class="clearfix"></div>
                         <label>*click below to browse file</label>
                         <input name="icon" type="file" class="form-control" style="cursor: pointer;" accept="image/*">
                     </div>
-                  </div>
+                  </div> -->
                   <div class="col-lg-12 showImg">
                 
                   </div><br>
-                  <div class="col-md-12 pull-right" style="text-align: right;">
+                  <!-- <div class="col-md-12 pull-right" style="text-align: right;">
                     <button type="button" class="btn btn-default" id="cancel-button" data-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-danger deleteDatak deletesData" id="cancel-button" data-dismiss="modal" style="display: none">Delete</button>
                     <button type="submit" class="btn btn-primary saveBtn" id="confirm-button">Save</button>
-                  </div>
+                  </div> -->
                 </div>
               </form>
           </div>

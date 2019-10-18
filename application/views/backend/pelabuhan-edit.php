@@ -60,14 +60,14 @@
                                             ?>
                                             <?php 
                                               $coun = 0;
-                                              $color = 'background-color: red;color: white;';
+                                              $color = 'background-color: red;color: white;border-radius:11px;';
                                               if(count($this->m_model->selectas3('id_pelabuhan',$pelabuhan->id,'id_jenis_aspek',$record->id,'icon_id',$cekReal['id'],'trans_pelabuhans_hasil')) > 0){
                                                 $coun = count($this->m_model->selectas3('id_pelabuhan',$pelabuhan->id,'id_jenis_aspek',$record->id,'icon_id',$cekReal['id'],'trans_pelabuhans_hasil'));
-                                                $color = 'background-color: blue;color: white;';
+                                                $color = 'background-color: blue;color: white;border-radius:11px;';
                                               }
                                             ?>
-                                                        <li style="font-size: 13px" id="drag-items">
-                                                            <img src="<?=$imgs['path'];?>" class="img-responsive drag" data-key="<?= $keySubIco + 1; ?>" data-id="<?= $cekReal['id']; ?>" data-aspek="<?= $value->name; ?>" data-name="<?= $cekReal['name']; ?>" data-sub="<?= $value->id; ?>" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;padding-bottom: 3px;<?= $color; ?>" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" draggable="true">&nbsp;
+                                                        <li style="font-size: 13px;padding-bottom: 1px;" id="drag-items">
+                                                            <img src="<?=$imgs['path'];?>" class="img-responsive drag" data-key="<?= $keySubIco + 1; ?>" data-id="<?= $cekReal['id']; ?>" data-aspek="<?= $value->name; ?>" data-name="<?= $cekReal['name']; ?>" data-sub="<?= $value->id; ?>" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;padding-bottom: 1px;<?= $color; ?>" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" draggable="true">&nbsp;
                                                             <span style="font-size: 13px;">
                                                               <?= $cekReal['name']; ?>
 
@@ -383,7 +383,8 @@
                }
            });
           // console.log('asd',getCanvas)
-                    
+          $('.saveBtn').attr('disabled','disabled');
+          $('.saveBtn').text('Wait for a while');
           var data = $('#formModals').serializeArray();
           console.log('data',data)
           time = 5;
