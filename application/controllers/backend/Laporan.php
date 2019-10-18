@@ -51,14 +51,14 @@ class Laporan extends CI_Controller {
         $dompdf->setPaper('A4', 'potrait');
         $dompdf->set_option('isRemoteEnabled', TRUE);
         $dompdf->filename = 'laporan'.$this->m_model->selectOne('id',$id,'pelabuhans')->name.".pdf";
-        $this->load->view('backend/laporan-pdf',$data);
-        // $dompdf->load_html($html);
-        // // Render the PDF
-        // // $dompdf->set_base_path(base_url());
-        // $dompdf->render();
+        $html = $this->load->view('backend/laporan-pdf', $data, TRUE);
+        $dompdf->load_html($html);
+        // Render the PDF
+        // $dompdf->set_base_path(base_url());
+        $dompdf->render();
 
-        // // Output the generated PDF to Browser
-        // $dompdf->stream($dompdf->filename, array("Attachment" => false));
+        // Output the generated PDF to Browser
+        $dompdf->stream($dompdf->filename, array("Attachment" => false));
     }
 
     public function armada(){
@@ -69,7 +69,7 @@ class Laporan extends CI_Controller {
                 'record' => $this->m_model->all('pelabuhans'),
             ]);
         } else {
-            redirect('panel/login', 'refresh',$data);
+            redirect('panel/login', 'refresh');
         }
     }
 
@@ -98,14 +98,14 @@ class Laporan extends CI_Controller {
         $dompdf->setPaper('A4', 'potrait');
         $dompdf->set_option('isRemoteEnabled', TRUE);
         $dompdf->filename = 'laporan'.$this->m_model->selectOne('id',$id,'armada')->name.".pdf";
-        $this->load->view('backend/laporan-pdf-armada', $data);
-        // $dompdf->load_html($html);
-        // // Render the PDF
-        // // $dompdf->set_base_path(base_url());
-        // $dompdf->render();
+        $html = $this->load->view('backend/laporan-pdf-armada', $data, TRUE);
+        $dompdf->load_html($html);
+        // Render the PDF
+        // $dompdf->set_base_path(base_url());
+        $dompdf->render();
 
-        // // Output the generated PDF to Browser
-        // $dompdf->stream($dompdf->filename, array("Attachment" => false));
+        // Output the generated PDF to Browser
+        $dompdf->stream($dompdf->filename, array("Attachment" => false));
     }
 
 }

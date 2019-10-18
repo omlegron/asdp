@@ -126,7 +126,7 @@
                                       if(count($this->m_model->selectas4('id_armada',$armada->id,'id_jenis_aspek',$record->id,'icon_id',$cekReal['id'],'id_armada_elments',$armadaElments->id,'trans_armada_hasil')) > 0){
                                         $coun = count($this->m_model->selectas4('id_armada',$armada->id,'id_jenis_aspek',$record->id,'icon_id',$cekReal['id'],'id_armada_elments',$armadaElments->id,'trans_armada_hasil'));
 
-                                        $color = 'background-color: #00c2fd;color: white;border-radius:20px;border:3px solid #00c2fd !important';
+                                        $color = '-';
                                       }
                                     ?>
 																		<li style="padding-bottom: 1px;" id="drag-items">
