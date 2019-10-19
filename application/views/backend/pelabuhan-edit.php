@@ -258,8 +258,8 @@
                     $('input[name="posisi"]').val(response.record.posisi);
                     $('input[name="tahun"]').val(response.record.tahun);
                     $('.deletesData').show();
-                    if(response.record_file){
-                      $.each(response.record_file,function(k,v){
+                    if(response.record_foto){
+                      $.each(response.record_foto,function(k,v){
                         $('.showImg').append(`
                           <a href="<?= base_url(); ?>`+v.fileurl+`" title=""><img src="<?php echo base_url(); ?>`+v.fileurl+`" class="img-responsive" alt="" style="width:120px;height:150px"></a> 
                         `);

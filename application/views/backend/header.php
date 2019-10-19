@@ -78,7 +78,7 @@
     <!-- Menu -->
     <div class="menu">
         <ul class="list">
-            <li class="header">MAIN NAVIGATION</li>
+            <!-- <li class="header">MAIN NAVIGATION</li> -->
             <li> <a href="<?=base_url();?>"><i class="zmdi zmdi-home"></i><span>Beranda</span> </a> </li>
             <?php
                 if($this->session->userdata('admin_data')->roles == 4){

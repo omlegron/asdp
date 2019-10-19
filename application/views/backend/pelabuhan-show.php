@@ -173,7 +173,7 @@
             error: function() {
               // $('.alertLah').html(`
               //   <div class="alert alert-danger">
-              //     Terjadi Kesalahan!
+              //     Refresh Halaman Kembali
               //   </div>
               // `);
             }
@@ -256,8 +256,8 @@
                     $('input[name="posisi"]').val(response.record.posisi);
                     $('input[name="tahun"]').val(response.record.tahun);
                   
-                    if(response.record_file){
-                      $.each(response.record_file,function(k,v){
+                    if(response.record_foto){
+                      $.each(response.record_foto,function(k,v){
                         $('.showImg').append(`
                           <a href="<?= base_url(); ?>`+v.fileurl+`" title=""><img src="<?php echo base_url(); ?>`+v.fileurl+`" class="img-responsive" alt="" style="width:120px;height:150px"></a> 
                         `);
@@ -268,7 +268,7 @@
               error: function() {
                 $('.alertLah').html(`
                   <div class="alert alert-danger">
-                    Terjadi Kesalahan!
+                    Refresh Halaman Kembali
                   </div>
                 `);
               }
@@ -391,7 +391,7 @@
         //     error: function() {
         //       $('.alertLah').html(`
         //         <div class="alert alert-danger">
-        //           Terjadi Kesalahan!
+        //           Refresh Halaman Kembali
         //         </div>
         //       `);
         //         $("#add-panel").modal("hide");
@@ -424,7 +424,7 @@
             error: function() {
               $('.alertLah').html(`
                 <div class="alert alert-danger">
-                  Terjadi Kesalahan!
+                  Refresh Halaman Kembali
                 </div>
               `);
                 $("#add-panel").modal("hide");

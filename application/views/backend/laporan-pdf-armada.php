@@ -408,15 +408,12 @@
                                             <ul style="list-style-type: lower-alpha;">
                                               <?php
                                               if(count($HslArmdAll) > 0){
-                                                foreach ($HslArmdAll as $k4 => $value4) {
+                                                // foreach ($HslArmdAll as $k4 => $value4) {
                                               ?>
-                                                <li>Nama : <?= $value4->nama; ?></li>
-                                                <li>Nomor : <?= $value4->nomor; ?></li>
-                                                <li>Kondisi : <?= $value4->kondisi; ?></li>
-                                                <li>Posisi : <?= $value4->posisi; ?></li>
-                                                <li>Tahun Pengadaan : <?= $value4->tahun; ?></li>
+                                                <li>Jumlah : <?= count($HslArmdAll); ?></li>
+                                                <li>Unit : -</li>
                                               <?php
-                                                }
+                                                // }
                                               }
                                               ?>
                                             </ul>

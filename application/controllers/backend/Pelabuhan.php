@@ -54,7 +54,7 @@ class Pelabuhan extends CI_Controller {
 
     public function getDataOne(){
         $record = $this->m_model->selectOneWhere5('id_pelabuhan',$this->input->post('id_pelabuhan'),'id_jenis_aspek',$this->input->post('id_jenis_aspek'),'primary_key',$this->input->post('primary_key'),'pointer_x',$this->input->post('pointer_x'),'pointer_y',$this->input->post('pointer_y'),'trans_pelabuhans_hasil');
-        $record1 = $this->m_model->selectOne('id',$record->id,'trans_pelabuhans_hasil_foto');
+        $record1 = $this->m_model->selectas('trans_id',$record->id,'trans_pelabuhans_hasil_foto');
         $data = array(
             'record' => $record,
             'record_foto' => $record1
