@@ -130,22 +130,17 @@
                                       }
                                     ?>
 																		<li style="padding-bottom: 1px;" id="drag-items">
-																			<img src="<?=$imgs['path'];?>" class="img-responsive drag" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;padding-bottom: 1px;<?= $color; ?>" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" data-key="<?= $keySubIco + 1; ?>" data-id="<?= $cekReal['id']; ?>" data-aspek="<?= $value->name; ?>" data-name="<?= $cekReal['name']; ?>" data-elment="<?= $armadaElments->id; ?>" data-sub="<?= $value->id; ?>">&nbsp;
-																			<span style="font-size: 12px;">
-                                        <?= $cekReal['name']; ?>
-                                          <span class="rounded-circle text-white bg-warning mr-1" style="padding: 1px 8px;"><?= $coun; ?></span>    
-                                        </span>
-																			<!-- <ul>
-																				<?php 
-																				$iconSubIndex = $this->m_model->selectas('trans_id', $cekReal['id'], 'icon_sub');
-																				if (count($iconSubIndex) > 0) {
-																					foreach ($iconSubIndex as $k1 => $valueindex) {
-																						$num = $k1+1;
-																						echo '<li >'.$num.'. '.$valueindex->value.'</li>';
-																					}
-																				}
-																				?>
-																			</ul> -->
+																			<div class="row">
+                                          <div class="col-md-10">
+                                            <img src="<?=$imgs['path'];?>" class="img-responsive drag" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;padding-bottom: 1px;<?= $color; ?>" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" data-key="<?= $keySubIco + 1; ?>" data-id="<?= $cekReal['id']; ?>" data-aspek="<?= $value->name; ?>" data-name="<?= $cekReal['name']; ?>" data-elment="<?= $armadaElments->id; ?>">&nbsp;
+                                            <span style="font-size: 12px;">
+                                              <?= $cekReal['name']; ?>     
+                                            </span>
+                                          </div>
+                                          <div class="col-md-2">
+                                            <span class="rounded-circle text-white bg-warning mr-1" style="padding: 1px 8px;"><?= $coun; ?></span>    
+                                          </div>
+                                        </div>
 																		</li>
 																		<?php
 																	}

@@ -68,13 +68,13 @@
                                             ?>
                                                         <li style="font-size: 13px;padding-bottom: 1px;" id="drag-items">
                                                           <div class="row">
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-10">
                                                               <img src="<?=$imgs['path'];?>" class="img-responsive drag" data-key="<?= $keySubIco + 1; ?>" data-id="<?= $cekReal['id']; ?>" data-aspek="<?= $value->name; ?>" data-name="<?= $cekReal['name']; ?>" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;padding-bottom: 1px;<?= $color; ?>" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" draggable="true">&nbsp;
                                                               <span style="font-size: 13px;">
                                                                 <?= $cekReal['name']; ?>
                                                               </span>
                                                             </div>
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-2">
                                                               <span class="rounded-circle text-white bg-warning mr-1" style="padding: 5px 8px;"><?= $coun; ?></span>    
                                                             </div>
                                                             
