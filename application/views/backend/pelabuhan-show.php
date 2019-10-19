@@ -68,12 +68,18 @@
                                               }
                                             ?>
                                                         <li style="font-size: 13px;padding-bottom:1px" >
-                                                            <img src="<?=$imgs['path'];?>" class="img-responsive drag" data-key="<?= $keySubIco + 1; ?>" data-id="<?= $cekReal['id']; ?>" data-aspek="<?= $value->name; ?>" data-name="<?= $cekReal['name']; ?>" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;padding-bottom: 1px;<?= $color; ?>" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" draggable="true">&nbsp;
-                                                            <span style="font-size: 13px;">
-                                                              <?= $cekReal['name']; ?>
-
-                                                              <span class="rounded-circle text-white bg-warning mr-1" style="padding: 1px 8px;"><?= $coun; ?></span>    
-                                                            </span>
+                                                          <div class="row">
+                                                            <div class="col-md-8">
+                                                              <img src="<?=$imgs['path'];?>" class="img-responsive drag" data-key="<?= $keySubIco + 1; ?>" data-id="<?= $cekReal['id']; ?>" data-aspek="<?= $value->name; ?>" data-name="<?= $cekReal['name']; ?>" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;padding-bottom: 1px;<?= $color; ?>" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" draggable="true">&nbsp;
+                                                              <span style="font-size: 13px;">
+                                                                <?= $cekReal['name']; ?>
+                                                              </span>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                              <span class="rounded-circle text-white bg-warning mr-1" style="padding: 5px 8px;"><?= $coun; ?></span>    
+                                                            </div>
+                                                            
+                                                          </div>
                                                            <!--  <table>
                                                               <tbody class="appendChildSub<?= $pelabuhan->id; ?>-<?= $cekReal['id']; ?>">
                                                               <tr>
@@ -258,9 +264,19 @@
                   
                     if(response.record_foto){
                       $.each(response.record_foto,function(k,v){
-                        $('.showImg').append(`
-                          <a href="<?= base_url(); ?>`+v.fileurl+`" title=""><img src="<?php echo base_url(); ?>`+v.fileurl+`" class="img-responsive" alt="" style="width:120px;height:150px"></a> 
-                        `);
+                        if(k == 0){
+                          $('.showImg').append(`
+                            <div class="carousel-item active">
+                              <img src="<?php echo base_url(); ?>`+v.fileurl+`" class="img-fluid" style="width:100%;height:420px;" alt="">
+                            </div>
+                          `);
+                        }else{
+                          $('.showImg').append(`
+                            <div class="carousel-item">
+                              <img src="<?php echo base_url(); ?>`+v.fileurl+`" class="img-fluid" style="width:100%;height:420px;" alt="">
+                            </div>
+                          `);
+                        }
                       });
                     }
                 }
@@ -280,7 +296,7 @@
 
     </script>
     <div class="modal fade " id="add-panel" tabindex="-1" role="dialog" >
-      <div class="modal-dialog modal-md" role="document" style="margin:140px auto;">
+      <div class="modal-dialog modal-md" role="document" style="margin:140px auto;position: relative;left: -50px">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
@@ -342,15 +358,43 @@
                         <input name="icon" type="file" class="form-control" style="cursor: pointer;" accept="image/*">
                     </div>
                   </div> -->
-                  <div class="col-lg-12 showImg">
-                
-                  </div><br>
+                  
                   <!-- <div class="col-md-12 pull-right" style="text-align: right;">
                     <button type="button" class="btn btn-default" id="cancel-button" data-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-danger deleteDatak deletesData" id="cancel-button" data-dismiss="modal" style="display: none">Delete</button>
                     <button type="submit" class="btn btn-primary saveBtn" id="confirm-button">Save</button>
                   </div> -->
                 </div>
+                <div class="card">
+                <div id="demo2" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <!-- <ul class="carousel-indicators">
+                      <li data-target="#demo2" data-slide-to="0" class=""></li>
+                      <li data-target="#demo2" data-slide-to="1" class=""></li>
+                      <li data-target="#demo2" data-slide-to="2" class=""></li>
+                    </ul> -->
+    
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner showImg" style="width:100%;">
+                      
+                      
+                    </div>
+    
+                    <!-- Controls -->
+                    <!-- Left and right controls -->
+                    <a class="carousel-control-prev" href="#demo2" data-slide="prev" >
+                      <span class="carousel-control-prev-icon" style="background-color: #1f91f3"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#demo2" data-slide="next">
+                      <span class="carousel-control-next-icon" style="background-color: #1f91f3"></span>
+                    </a>
+                  </div>
+                </div>
+                <div class="col-md-12 floted-right pull-right" style="text-align: right;"><br>
+                     <button type="button" class="btn btn-default" id="cancel-button" data-dismiss="modal">Tutup</button>
+                   </div>
+            </div> 
+            <br>
               </form>
           </div>
           <div class="modal-footer">

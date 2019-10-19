@@ -1,5 +1,5 @@
         
-        <div class="row clearfix">
+        <div class="row clearfix" style="">
             <img src="<?= base_url('images/img_footer.png'); ?>" alt="" style="position: relative;top: 37px;">
         </div>
 
