@@ -14,14 +14,27 @@
     
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner" style="width:100%;">
-                      <div class="carousel-item active">
+                      <div class="carousel-item">
                         <img src="<?=base_url();?>assets/backend/images/image-gallery/5.jpg" class="img-fluid" style="width:100%;height:420px;" alt="">
                         <!--<div class="carousel-caption">-->
                         <!--  <h3>Chicago</h3>-->
                         <!--  <p>Thank you, Chicago!</p>-->
                         <!--</div>-->
                       </div>
-                      
+                      <div class="carousel-item">
+                        <img src="<?=base_url();?>assets/backend/images/image-gallery/6.jpg" class="img-fluid" style="width:100%;height:420px;" alt="">
+                        <!--<div class="carousel-caption">-->
+                        <!--  <h3>New York</h3>-->
+                        <!--  <p>We love the Big Apple!</p>-->
+                        <!--</div>-->
+                      </div>
+                      <div class="carousel-item active">
+                        <img src="<?=base_url();?>assets/backend/images/image-gallery/12.jpg" class="img-fluid" style="width:100%;height:420px;" alt="">
+                        <!--<div class="carousel-caption">-->
+                        <!--  <h3>Los Angeles</h3>-->
+                        <!--  <p>We had such a great time in LA!</p>-->
+                        <!--</div>-->
+                      </div>
                     </div>
     
                     <!-- Controls -->

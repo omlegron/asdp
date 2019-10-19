@@ -41,7 +41,7 @@
 
     header {
       position: fixed;
-      top: -100px;
+      top: -135px;
       left: 0px;
       right: 0px;
       height: 50px;
@@ -86,17 +86,46 @@
 
     .col-6 {
       -webkit-box-flex: 0;
-      -ms-flex: 0 0 50%;
-      flex: 0 0 50%;
+      -ms-flex: 20% 20% 50%;
+      flex: 20% 20% 50%;
       max-width: 50%;
     }
 
     .row {
-      border: #c0c5c7 1px dashed;
+      /*border: #c0c5c7 1px dashed;*/
       margin: auto;
       margin-right: 0px;
       margin-left: 0px;
       margin-top: auto;
+    }
+    .col-sm-4 {
+        width: 63.33333333%;
+    }
+    .col-sm-3 {
+        width: 27%;
+    }
+    .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9 {
+        float: left;
+    }
+    .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+        position: relative;
+        min-height: 1px;
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+
+    /* Create three equal columns that floats next to each other */
+    .column {
+      float: left;
+      
+      height: 300px; /* Should be removed. Only for demonstration */
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
     }
   </style>
 
@@ -110,13 +139,37 @@
 
   <header>
 
-    <table class="ui table bordered">
+    <table class="ui table" style="width: 100%">
       <tr>
-        <td class="center aligned" width="30%"><img src="<?= base_url('images/logo2.png'); ?>"></td>
-        <td class="center aligned" width="60%"><h5>Form Laporan <?= $data['judul']; ?></h5></td>
+        <td class="" style="width: 400px">
+            <center style="position:relative;top:45px;"><img src="<?= base_url('images/logo-r.png'); ?>" style="width: 350px;"></center>
+            <div style="font-size: 8px;position: relative;left:80px;top: 30px"><b>PT. ASDP Indonesia Ferry (Persero)</b><span style="margin-left: 50px">https://www.indonesiaferry.co.id</span></div>
+            <div style="font-size: 8px;position: relative;left:80px;top: 10px;">Jl. Jend. Ahmad Yani Kav. 52 A <span style="margin-left: 70px">pelanggan@indonesiaferry.co.id</span></div>
+            <div style="font-size: 8px;position: relative;left:80px;top: -10px;">Cempaka Putih Timur,Kota Jakarta Pusat <span style="margin-left: 40px">(021) 191</span></div>
+
+        </td>
+        <td class="center aligned">
+            <div class="row">
+                <div class="column" style="background-color:#ffd0a1;width: 20px;height: 100px;-webkit-transform:skew(60deg);-moz-transform:skew(60deg);-o-transform:skew(-20deg);transform:skew(-20deg);margin-right: 5px;position: relative;left:30px;top: 30px;"></div>
+                
+                <div class="column" style="background-color:#4a599f;width: 20px;height: 60px; -webkit-transform:skew(60deg);-moz-transform:skew(60deg);-o-transform:skew(-20deg);transform:skew(-20deg);margin-right: 5px;position: relative;left: 65px;top: 52px;">
+                </div>
+                <div class="column" style="background-color:#dbdeec;width: 430px;height: 60px; -webkit-transform:skew(-21deg);-moz-transform:skew(-21deg);-o-transform:skew(-20deg);transform:skew(-20deg);position:relative;top: 52px;">
+                    <h5 style="position: relative;top: -15px;">Form Laporan <?= $data['judul']; ?></h5>
+                </div>
+            </div>
+        </td>
       </tr>
       <tr>
-        <td class="center aligned" colspan="2"><?= $data['record']->name; ?></td>
+          <td colspan="2" rowspan="" headers="" style="background-color: #ffd0a1;"></td>
+      </tr>
+      <tr>
+        <td class="" colspan="2" style="background-color: #dbdeec;">
+            <center><?= $data['record']->name; ?></center>
+        </td>
+      </tr>
+      <tr>
+          <td colspan="2" rowspan="" headers="" style="background-color: #ffd0a1;"></td>
       </tr>
     </table>
   </header>
@@ -132,6 +185,7 @@
   ?>
   <center><img src="<?= $img['path']; ?>" style=""></center>
   <hr>
+  <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
   <?php
 
   $dataArmadaElment = $this->m_model->selectcustom("select armada.id as armada_id, armada.name as armada_name, armada.cabang_id, armada.pelabuhan_id, armada_elements.id as armada_elments_id, armada_elements.url_canvas, armada_elements.name from armada inner join armada_elements on armada.id=armada_elements.armada_id where armada.id=".$data['record']->id."");
@@ -140,19 +194,25 @@
   if(count($dataArmadaElment) > 0){
     foreach ($dataArmadaElment as $k => $value) {
       ?>
-      <table class="ui table bordered" style="font-size: 13px;width: 100%;">
+      <table class="ui table" style="font-size: 14px;width: 100%;">
         <tbody>
           <tr>
-             <td colspan="" rowspan="" headers="">
-              <center><?= $value->name; ?></center>
+            <td colspan="" rowspan="" headers="" style="color: white;height: 40px;vertical-align: center;">
+                <div style="border-bottom: 25px solid #0ac8e0;border-right: 50px solid transparent;height: 0;width: 500px;">
+                    <span style="">&nbsp;&nbsp;<?= $k+1; ?>. <?= $value->name; ?></span>
+                </div>
             </td>
           </tr>
+        </tbody>
+      </table>
+      <table class="ui table" style="font-size: 13px;width: 100%;">
+        <tbody>
           <tr>
             <td colspan="" rowspan="" headers="">
               <?php
                 $imgCanvas=check_img($value->url_canvas);
               ?>
-              <center><img src="<?= $imgCanvas['path'] ?>" alt=""  style="width: 700px;height: 500px;"></center>
+              <center><img src="<?= $imgCanvas['path'] ?>" alt="" style="width: 1000px;height: 700px;"></center>
             </td>
           </tr>
         </tbody>
@@ -162,23 +222,33 @@
       if(count($jenisAspek)){
         foreach ($jenisAspek as $k1 => $value1) {
           ?>
-            <table class="ui table bordered" style="font-size: 13px;width: 100%;">
+            <table class="ui table" style="font-size: 13px;width: 100%;">
               <tbody>
                 <tr>
-                  <td colspan="" rowspan="" headers="" style="background-color: #4a599f;color: white;">
-                    <label ><span class="" style="color: #fff !important;margin-right: .25rem !important;border-radius: 50%;background-color: #f0ad4e !important;padding: 5px 8px;"><?= $k1+1; ?>.</span> <?= $value1->nama_aspek; ?></label>
+                   <td colspan="" rowspan="" headers="" style="color: white;height: 40px;vertical-align: center;">
+                      <div style="border-bottom: 25px solid #4a599f;border-right: 50px solid transparent;height: 0;width: 500px;">
+                          <span style="">&nbsp;&nbsp;<?= $value1->nama_aspek; ?></span>
+                      </div>
                   </td>
                 </tr>
               </tbody>
+            </table>
               <?php
                 $subAspek = $this->m_model->selectas('jenis_aspek_id',$value1->id,'sub_aspeks');
                 if(count($subAspek) > 0){
                   foreach ($subAspek as $k2 => $value2) {
               ?>
+              <table class="" style="font-size: 13px;width: 100%;border-collapse: collapse;">
                 <tbody>
                   <tr>
-                    <td colspan="" rowspan="" headers="" style="background-color: #ffd0a1;color: black;">
-                      <label><?= $value2->name; ?></label>
+                    <td colspan="" rowspan="" headers="" style="width: 10px">
+                      <label></label>
+                    </td>
+                    <td colspan="2" rowspan="" headers="" style="background-color: #ebecec;color: black;">
+                        <div style="border-bottom: 25px solid #ffd0a1;border-right: 50px solid transparent;height: 0;width: 500px;">
+                            <span style="">&nbsp;&nbsp;<?= $value2->name; ?></span>
+                        </div>
+                        &nbsp;&nbsp;&nbsp;
                     </td>
                   </tr>
                 </tbody>
@@ -189,66 +259,65 @@
                     $getIcon = $this->m_model->selectOne('id',$value3->icon_id,'icon');
                     $HslArmdAll = $this->m_model->selectcustom("select * from trans_armada_hasil where id_armada=".$data['record']->id." and id_armada_elments=".$value->armada_elments_id." and id_jenis_aspek=".$value1->id." and id_sub_jenis_aspek=".$value2->id." and icon_id=".$value3->icon_id."");
                     ?>
-                    
-                      <tbody>
-                        <tr>
-                          <td colspan="" rowspan="" headers="" style="background-color: #ebecec;">
-                            <h4><?= $getIcon->name; ?></h4>
-                          </td>
-                        </tr>
-                      </tbody>
-                    
+                    <tbody>
+                      <tr>
+                        <td colspan="" rowspan="" headers="" style="width: 10px">
+                          <label></label>
+                        </td>
+                        <td colspan="2" rowspan="" headers="" style="background-color: #ebecec;">
+                          <?= $getIcon->name; ?>
+                        </td>
+                      </tr>
+                    </tbody>
                     <?php
                     if(count($HslArmdAll) > 0){
-                      foreach ($HslArmdAll as $k4 => $value4) {
+                      $split = 4;
+                      $HslArmdAll1 = array_chunk($HslArmdAll, $split);
+                         foreach ($HslArmdAll1 as $k4 => $value4) {
                         ?>
-                    
                           <tbody>
                             <tr>
-                              <td colspan="" rowspan="" headers="" style="background-color: white;">
-                                <ul>
-                                  <li>
-                                    <div class="row" style="background-color: #ebecec">
-                                      Nama : <?= $value4->nama; ?><br>
-                                      Nomor : <?= $value4->nomor; ?><br>
-                                      Kondisi : <?= $value4->kondisi; ?><br>
-                                      Posisi : <?= $value4->posisi; ?><br>
-                                      Tahun Pengadaan : <?= $value4->tahun; ?><br>
-                                      Lampiran Foto :<br>
-
-                                    </div>
-                                  </li>
-                                </ul>
+                              <td colspan="" rowspan="" headers="">
+                                  
                               </td>
-                            </tr>
-                            <tr>
-                              <td colspan="" rowspan="" headers="" style="background-color: white;">
-                                <?php
-                                $cekFiless = $this->m_model->selectas('trans_id',$value4->id,'trans_armada_hasil_foto');
-                                if(count($cekFiless) > 0){
-                                ?>
-                                  <ul style="list-style: none">
-                                    <?php
-                                      foreach ($cekFiless as $k5 => $value5) {
-                                        $imgFILES = check_img($value5->fileurl);
-                                    ?>
-                                      <li>
-                                        <div class="row" style="background-color: #ebecec">
-                                          <img src="<?= $imgFILES['path']; ?>" width="150px">
+                              <td colspan="2" rowspan="" headers="" style="background-color: #ebecec;">
+                                  <div style="background-color: white;">
+                                    <div class="row" style="position: relative;left: 15px">
+                                      <?php
+                                          foreach ($value4 as $k5 => $value5) {
+                                              
+                                      ?>
+                                        <div class="col-sm-2" style="background-color: #ebecec;margin-bottom: 10px;top:10px;margin-right: 10px;">
+                                            Nama : <?= $value5->nama; ?><br>
+                                            Nomor : <?= $value5->nomor; ?><br>
+                                            Kondisi : <?= $value5->kondisi; ?><br>
+                                            Posisi : <?= $value5->posisi; ?><br>
+                                            Tahun Pengadaan : <?= $value5->tahun; ?><br>
+                                            Lampiran Foto :<br>
+                                            <?php
+                                              $cekFiless = $this->m_model->selectas('trans_id',$value5->id,'trans_armada_hasil_foto');
+                                                  if(count($cekFiless) > 0){
+                                                  $imgFf=check_img($cekFiless[0]->fileurl);
+                                              ?>
+                                                  <img src="<?= $imgFf['path']; ?>" width="95px" height="75px" style="position: relative;margin-left: -11px;">
+                                              <?php
+                                                  }
+                                              ?>
                                         </div>
-                                      </li>
-                                    <?php
-                                    }
-                                    ?>
-                                  </ul>
-                                <?php 
-                                }
-                                ?>
+                                      <?php
+                                          }
+                                      ?>
+                                    </div>
+                                  </div>
+                                  
                               </td>
                             </tr>
                             <tr>
-                              <td colspan="" rowspan="" headers="" style="background-color: #ebecec;">
-                                <br>
+                              <td colspan="" rowspan="" headers="" style="width: 10px">
+                                <label></label>
+                              </td>
+                              <td colspan="2" rowspan="" headers="" style="background-color: #ebecec;">
+                                  <br>    
                               </td>
                             </tr>
                           </tbody>
@@ -256,18 +325,32 @@
                       }
                     }
                     ?>
+                  </table>
                     <?php
                   }
                 }else{
                   ?>
-                  <table class="ui table bordered" style="font-size: 13px;width: 100%;">
+                  <table class="" style="font-size: 13px;width: 100%;border-collapse: collapse;">
                     <tbody>
                       <tr>
-                        <td colspan="" rowspan="" headers="" style="background-color: #ebecec;">
-                          <div style="background-color: white;color: red;">
-                            <center>Belum Tersedia</center>
-                          </div>
-                        </td>
+                          <td colspan="" rowspan="" headers="" style="width: 10px">
+                            <label></label>
+                          </td>
+                          <td colspan="" rowspan="" headers="" style="background-color: #ebecec;">
+                              <div style="background-color: white;color: red;">
+                                <center>Belum Tersedia</center>
+                              </div>
+                          </td>
+                          <td colspan="" rowspan="" headers="" style="width: 10px;background-color: #ebecec;">
+                          </td>
+                      </tr>
+                      <tr>
+                          <td colspan="" rowspan="" headers="" style="width: 10px">
+                            <label></label>
+                          </td>
+                          <td colspan="2" rowspan="" headers="" style="background-color: #ebecec;">
+                              <br>    
+                          </td>
                       </tr>
                     </tbody>
                   </table>
@@ -294,12 +377,11 @@
         <table class="ui table bordered" style="font-size: 13px;width: 100%;">
         <tbody>
           <tr>
+            <td colspan="" rowspan="" headers="" style="width: 80px;background-color: #ffe5d3;">
+              <center><b><label><?= $value->name; ?></label></b></center>
+            </td>
             <td colspan="" rowspan="" headers="">
-              <div class="row" style="background-color: #ebecec">
-                <ul style="list-style:square;">
-                  <li>
-                    <b><label><?= $value->name; ?></label></b>
-                    <ul>
+              <ul>
                     <?php
                       $jenisAspek = $this->m_model->selectas('status','Armada','jenis_aspeks');
                       if(count($jenisAspek)){
@@ -354,9 +436,6 @@
                       }
                     ?>  
                     </ul>
-                  </li>
-                </ul>
-              </div>
             </td>
           </tr>
         </tbody>
