@@ -13,9 +13,15 @@
                     <div class="col-lg-8">
                         <div class="btn-group">
                             <a href="<?=base_url();?>panel/pelabuhan"  class="btn btn-primary btn-sm" style="color: #fff">Kembali</a>&nbsp;
-                            <a href="<?=base_url();?>backend/pelabuhan/edit/edit/<?= $record->id ?>/<?= $pelabuhan->id ?>"  class="btn btn-success btn-sm" style="color: #fff">Edit</a>
-                            
-                            
+                            <?php
+                                if($this->session->userdata('admin_data')->roles == 4){
+
+                                }else{
+                                    ?>
+                                      <a href="<?=base_url();?>backend/pelabuhan/edit/edit/<?= $record->id ?>/<?= $pelabuhan->id ?>"  class="btn btn-success btn-sm" style="color: #fff">Edit</a>
+                                    <?php
+                                }
+                            ?>
                         </div>
                     </div>
                     <div class="col-md-12 alertLah">

@@ -263,9 +263,17 @@
         <div class="row clearfix">
             <div class="col-lg-10">
             </div>
-            <div class="col-lg-2">
-                <a class="btn btn-primary" href="<?= site_url('panel/pelabuhan?add=true'); ?>">Add Pelabuhan</a>
-            </div>
+            <?php
+                if($this->session->userdata('admin_data')->roles == 4){
+
+                }else{
+                    ?>
+                        <div class="col-lg-2">
+                            <a class="btn btn-primary" href="<?= site_url('panel/pelabuhan?add=true'); ?>">Add Pelabuhan</a>
+                        </div>
+                    <?php
+                }
+            ?>
         </div>
         <br>
         <div class="row clearfix">

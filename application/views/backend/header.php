@@ -139,6 +139,7 @@
                             <li><a href="<?=base_url();?>backend/laporan/armada">Armada</a></li>
                         </ul>
                     </li>
+                    
             <?php
 
                 }else{
@@ -147,19 +148,32 @@
                 <li> <a href="<?=base_url();?>panel/photo"><i class="zmdi zmdi-collection-image-o"></i><span>Foto</span> </a> </li>
                 <li> <a href="<?=base_url();?>panel/video"><i class="zmdi zmdi-collection-video"></i><span>Video</span> </a> </li>
                 <li> <a href="<?=base_url();?>panel/file"><i class="zmdi zmdi-file"></i><span>Standarisasi</span> </a> </li>
+
             <?php
-                        if(($this->session->userdata('admin_data')->roles == 1 || 2)){
+                        if(($this->session->userdata('admin_data')->roles == 1) || ($this->session->userdata('admin_data')->roles == 2)){
                         ?>
+
                              <li> 
-                        <a href="javascript:void(0)" class="menu-toggle"><i class="zmdi zmdi-file"></i><span>Laporan</span> </a> 
-                        <ul class="ml-menu">
-                            <li><a href="<?=base_url();?>backend/laporan">Pelabuhan</a></li>
-                            <li><a href="<?=base_url();?>backend/laporan/armada">Armada</a></li>
-                        </ul>
-                    </li>
+                                <a href="javascript:void(0)" class="menu-toggle"><i class="zmdi zmdi-file"></i><span>Laporan</span> </a> 
+                                <ul class="ml-menu">
+                                    <li><a href="<?=base_url();?>backend/laporan">Pelabuhan</a></li>
+                                    <li><a href="<?=base_url();?>backend/laporan/armada">Armada</a></li>
+                                </ul>
+                            </li>
+
                             <li> <a href="<?=base_url();?>backend/notifikasi"><i class="zmdi zmdi-notifications-active"></i><span>Notifikasi <span class="rounded-circle text-white bg-warning mr-1" style="padding: 1px 8px;"><?= count($this->m_model->selectwhere('status','On Process','trans_approval')); ?></span></span> </a> </li>
                         <?php
-                        }       
+                        }     
+                        ?>
+                        <?php
+                        if($this->session->userdata('admin_data')->roles == 4){
+                            ?>
+                                <li><a href="<?=base_url();?>panel/pelabuhan"><i class="zmdi zmdi-navigation"></i> <span>Pelabuhan</span></a></li>
+                                <li><a href="<?=base_url();?>panel/armada"><i class="zmdi zmdi-pin-drop"></i> <span>Armada</span></a></li>
+                            <?php
+                        }
+                        ?>  
+                        <?php
                     }elseif(($this->session->userdata('admin_data')->roles == 1) && ($this->session->userdata('admin_data')->roles == 2)){
                         ?>
                              <li> 
@@ -169,6 +183,7 @@
                             <li><a href="<?=base_url();?>backend/laporan/armada">Armada</a></li>
                         </ul>
                     </li>
+
                     <li> <a href="<?=base_url();?>backend/notifikasi"><i class="zmdi zmdi-notifications-active"></i><span>Notifikasi <span class="rounded-circle text-white bg-warning mr-1" style="padding: 1px 8px;"><?= count($this->m_model->selectwhere('status','On Process','trans_approval')); ?></span></span> </a> </li>
                         <?php
                     }
