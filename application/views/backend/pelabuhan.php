@@ -292,7 +292,7 @@
                 <div class="col-lg-4 col-md-6 col-sm-12 text-center">
                     <div class="card">
                       <a href="<?=base_url();?>panel/pelabuhan?detail=<?=$value->id;?>">
-                        <img class="img-fluid" src="<?=$img['path'];?>" style="width:100%;max-height: 200px !important;" alt="Card image cap">
+                        <img class="img-fluid" src="<?=$img['path'];?>" style="width:350px;height:200px;max-height: 200px !important;" alt="Card image cap">
                       </a>
                       <div class="body">
                         <a href="<?=base_url();?>panel/pelabuhan?detail=<?=$value->id;?>">

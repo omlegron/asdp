@@ -1,6 +1,6 @@
 <script src="<?=base_url();?>assets/frontend/js/jquery.js"></script> 
 <script src="<?=base_url();?>assets/frontend/js/konva.min.js"></script>
-
+<script src="<?=base_url();?>assets/frontend/js/html2canvas.min.js"></script>
 <?php include 'header.php'; ?>
 <style type="text/css">
   
@@ -132,7 +132,7 @@
 <script>
 
       var width = 613;
-      var height = 1250;
+      var height = 850;
       console.log('width(integer)',width,'height',height)
       var stage = new Konva.Stage({
         container: 'containers',

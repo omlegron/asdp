@@ -603,6 +603,7 @@
                 </div>
             </div>
         </div>
+    </div>
     <?php } ?>
 
 <script>

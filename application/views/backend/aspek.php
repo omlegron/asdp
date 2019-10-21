@@ -656,5 +656,5 @@ $(document).ready(function(){
 
 });
 </script>
-
+</div>
 <?php include 'footer.php'; ?>
