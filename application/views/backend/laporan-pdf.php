@@ -4,6 +4,9 @@
   <link rel="icon" href="<?= site_url('images/ico.jpg') ?>" sizes="192x192">
   <title>ASDP</title>
   <style>
+    body {
+      font-family: Arial, Helvetica Neue, Helvetica, sans-serif; 
+    }
 
     @page {
       margin: 100px 0px;
@@ -143,9 +146,9 @@
       <tr>
         <td class="" style="width: 400px">
             <center style="position:relative;top:45px;"><img src="<?= base_url('images/logo-r.png'); ?>" style="width: 350px;"></center>
-            <div style="font-size: 8px;position: relative;left:80px;top: 30px"><b>PT. ASDP Indonesia Ferry (Persero)</b><span style="margin-left: 50px">https://www.indonesiaferry.co.id</span></div>
-            <div style="font-size: 8px;position: relative;left:80px;top: 10px;">Jl. Jend. Ahmad Yani Kav. 52 A <span style="margin-left: 70px">pelanggan@indonesiaferry.co.id</span></div>
-            <div style="font-size: 8px;position: relative;left:80px;top: -10px;">Cempaka Putih Timur,Kota Jakarta Pusat <span style="margin-left: 40px">(021) 191</span></div>
+            <div style="font-size: 8px;position: relative;left:80px;top: 30px;color: #6f7176;"><b>PT. ASDP Indonesia Ferry (Persero)</b><span style="margin-left: 50px">https://www.indonesiaferry.co.id</span></div>
+            <div style="font-size: 8px;position: relative;left:80px;top: 10px;color: #6f7176;">Jl. Jend. Ahmad Yani Kav. 52 A <span style="margin-left: 70px">pelanggan@indonesiaferry.co.id</span></div>
+            <div style="font-size: 8px;position: relative;left:80px;top: -10px;color: #6f7176;">Cempaka Putih Timur,Kota Jakarta Pusat <span style="margin-left: 40px">(021) 191</span></div>
 
         </td>
         <td class="center aligned">
@@ -155,7 +158,7 @@
                 <div class="column" style="background-color:#4a599f;width: 20px;height: 60px; -webkit-transform:skew(60deg);-moz-transform:skew(60deg);-o-transform:skew(-20deg);transform:skew(-20deg);margin-right: 5px;position: relative;left: 65px;top: 52px;">
                 </div>
                 <div class="column" style="background-color:#dbdeec;width: 430px;height: 60px; -webkit-transform:skew(-21deg);-moz-transform:skew(-21deg);-o-transform:skew(-20deg);transform:skew(-20deg);position:relative;top: 52px;">
-                    <center><h3 style="position: relative;top: -15px;color: #6f7176">FORM LAPORAN <?= $data['judul']; ?></h3></center>
+                    <h4 style="position: relative;top: -10px;left:20px;color: #6f7176;font-size: 16px;">FORM LAPORAN <?= $data['judul']; ?></label>
                 </div>
             </div>
         </td>
@@ -164,7 +167,7 @@
           <td colspan="2" rowspan="" headers="" style="background-color: #ffd0a1;"></td>
       </tr>
       <tr>
-        <td class="" colspan="2" style="background-color: #dbdeec;">
+        <td class="" colspan="2" style="background-color: #dbdeec;color: #6f7176;font-size:13px;">
             <center><?= $data['record']->name; ?></center>
         </td>
       </tr>
@@ -179,7 +182,7 @@
   ?>
   <center><img src="<?= $img['path']; ?>"></center>
 
-  <div style="margin-top: 15px">
+  <div style="margin-top: 45px">
 
   <?php
   $dataPlbhHsl = $this->m_model->selectcustom("select * from trans_pelabuhans_hasil where id_pelabuhan=".$data['record']->id." group by id_jenis_aspek");

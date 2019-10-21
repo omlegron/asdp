@@ -69,7 +69,7 @@
                                                         <li style="font-size: 13px;padding-bottom: 1px;" id="drag-items">
                                                           <div class="row">
                                                             <div class="col-md-10">
-                                                              <img src="<?=$imgs['path'];?>" class="img-responsive drag" data-key="<?= $keySubIco + 1; ?>" data-id="<?= $cekReal['id']; ?>" data-aspek="<?= $value->name; ?>" data-name="<?= $cekReal['name']; ?>" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;padding-bottom: 1px;<?= $color; ?>" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" draggable="true">&nbsp;
+                                                              <img src="<?=$imgs['path'];?>" class="img-responsive drag" data-key="<?= $keySubIco + 1; ?>" data-id="<?= $cekReal['id']; ?>" data-aspek="<?= $value->name; ?>" data-name="<?= $cekReal['name']; ?>" data-sub="<?= $value->id; ?>" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;padding-bottom: 1px;<?= $color; ?>" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" draggable="true">&nbsp;
                                                               <span style="font-size: 13px;">
                                                                 <?= $cekReal['name']; ?>
                                                               </span>
@@ -232,6 +232,7 @@
           layer.draw();
           $("#add-panel").modal("show");
           $('.modal-backdrop').removeClass();
+
           $('input[name="pointer_x"]').val(stage.getPointerPosition().x);
           $('input[name="pointer_y"]').val(stage.getPointerPosition().y);
           $('input[name="primary_key"]').val(arrayHasil.length);
@@ -252,6 +253,7 @@
                 if(response){
                   $("#add-panel").modal("show");
                     $('.modal-backdrop').removeClass();
+
                    
                     $('input[name="id"]').val(response.record.id);
                     $('input[name="id_pelabuhan"]').val(response.record.id_pelabuhan);
@@ -271,6 +273,7 @@
                     $('input[name="tahun"]').val(response.record.tahun);
                     $('.deletesData').show();
                     if(response.record_foto){
+                      $('.ReadshowImg').show();
                       $.each(response.record_foto,function(k,v){
                         if(k == 0){
                           $('.showImg').append(`
@@ -339,19 +342,19 @@
                   <div class="col-lg-4">
                     <div class="form-group">
                       <label>Nomor</label>
-                      <input name="nomor" placeholder="Nomor" type="text" class="form-control" />
+                      <input name="nomor" placeholder="Nomor" type="text" class="form-control" required="" />
                     </div>
                   </div>
                   <div class="col-lg-4">
                     <div class="form-group">
                       <label>Kondisi</label>
-                      <input name="kondisi" placeholder="Kondisi" type="text" class="form-control" />
+                      <input name="kondisi" placeholder="Kondisi" type="text" class="form-control" required="" />
                     </div>
                   </div>
                    <div class="col-lg-4">
                     <div class="form-group">
                       <label>Posisi</label>
-                      <input name="posisi" placeholder="Posisi" type="text" class="form-control" />
+                      <input name="posisi" placeholder="Posisi" type="text" class="form-control" required="" />
                     </div>
                   </div>
                    <div class="col-lg-4">
@@ -367,7 +370,7 @@
                         <input name="icon[]" type="file" class="form-control" style="cursor: pointer;" accept="image/*" multiple="">
                     </div>
                   </div>
-                  <div class="card">
+                  <div class="card ReadshowImg" style="display: none;">
                     <div id="demo2" class="carousel slide" data-ride="carousel">
                         <!-- Indicators -->
                         <!-- <ul class="carousel-indicators">
@@ -393,7 +396,7 @@
                       </div>
                     </div><br>
                   <div class="col-md-12 pull-right" style="text-align: right;">
-                    <button type="button" class="btn btn-default" id="cancel-button" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-default" id="cancel-button">Cancel</button>
                     <button type="button" class="btn btn-danger deleteDatak deletesData" id="cancel-button" data-dismiss="modal" style="display: none">Delete</button>
                     <button type="button" class="btn btn-primary saveBtn" id="confirm-button">Save</button>
                     <button type="submit" class="btn btn-primary" id="bnke_btn" style="display: none;">Save</button>
@@ -411,6 +414,12 @@
       
 
       <script type="text/javascript">
+        $(document).on('click','#cancel-button',function(){
+          window.location.reload();
+        });
+        // $(document).ready(function(){
+        //   $('#add-panel').modal({ keyboard: false })
+        // });
         $(document).on('click','.saveBtn',function(){
           console.log('asda')
           var element = $('#containers');

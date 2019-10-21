@@ -132,7 +132,7 @@
 																		<li style="padding-bottom: 1px;" id="drag-items">
 																			<div class="row">
                                           <div class="col-md-10">
-                                            <img src="<?=$imgs['path'];?>" class="img-responsive drag" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;padding-bottom: 1px;<?= $color; ?>" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" data-key="<?= $keySubIco + 1; ?>" data-id="<?= $cekReal['id']; ?>" data-aspek="<?= $value->name; ?>" data-name="<?= $cekReal['name']; ?>" data-elment="<?= $armadaElments->id; ?>">&nbsp;
+                                            <img src="<?=$imgs['path'];?>" class="img-responsive drag" style="cursor: pointer; max-width: 50px; max-height:50px;width: 30px;padding-bottom: 1px;<?= $color; ?>" data-fancybox="images<?= $keySubIco + 1; ?>" href="<?=$imgs['path'];?>" data-key="<?= $keySubIco + 1; ?>" data-sub="<?= $value->id; ?>" data-id="<?= $cekReal['id']; ?>" data-aspek="<?= $value->name; ?>" data-name="<?= $cekReal['name']; ?>" data-elment="<?= $armadaElments->id; ?>">&nbsp;
                                             <span style="font-size: 12px;">
                                               <?= $cekReal['name']; ?>     
                                             </span>
@@ -272,7 +272,8 @@
                     $('input[name="posisi"]').val(response.record.posisi);
                     $('input[name="tahun"]').val(response.record.tahun);
                     $('.deletesData').show();
-                    // if(response.record_file.lenght > 0){
+                    if(response.record_file){
+                      $('.ReadshowImg').show();
                       $.each(response.record_file,function(k,v){
                         if(k == 0){
                           $('.showImg').append(`
@@ -288,7 +289,7 @@
                           `);
                         }
                       })
-                    // }
+                    }
                 }
               },
               error: function() {
@@ -398,7 +399,7 @@
                     <input name="icon[]" type="file" class="form-control" style="cursor: pointer;" accept="image/*" multiple="">
                 </div>
               </div><br>
-              <div class="card">
+              <div class="card ReadshowImg" style="display: none;">
                     <div id="demo2" class="carousel slide" data-ride="carousel">
                         <!-- Indicators -->
                         <!-- <ul class="carousel-indicators">
@@ -424,7 +425,7 @@
                       </div>
                     </div>
               <div class="col-md-12 floted-right pull-right" style="text-align: right;"><br>
-              	 <button type="button" class="btn btn-default" id="cancel-button" data-dismiss="modal">Cancel</button>
+              	 <button type="button" class="btn btn-default" id="cancel-button">Cancel</button>
         			<button type="button" class="btn btn-danger deleteDatak deletesData" id="cancel-button" data-dismiss="modal" style="display: none">Delete</button>
         			<button name="store" type="button" class="btn btn-primary saveBtn" id="confirm-button">Save</button>
               <button type="submit" class="btn btn-primary" id="bnke_btn" style="display: none;">Save</button>
@@ -438,6 +439,10 @@
     </div>
   </div>
   <script type="text/javascript">
+      $(document).on('click','#cancel-button',function(){
+        window.location.reload();
+      });
+
         $(document).on('click','.saveBtn',function(){
             console.log('asda')
             var element = $('#containers');
@@ -454,7 +459,8 @@
                  }
              });
             // console.log('asd',getCanvas)
-                      
+            $('.saveBtn').attr('disabled','disabled');
+            $('.saveBtn').text('Wait for a while');
             var data = $('#formModals').serializeArray();
             console.log('data',data)
             time = 5;

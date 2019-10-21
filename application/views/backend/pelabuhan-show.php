@@ -19,7 +19,7 @@
                                 }else{
                                     ?>
                                       &nbsp;<a href="<?=base_url();?>backend/pelabuhan/edit/edit/<?= $record->id ?>/<?= $pelabuhan->id ?>"  class="btn btn-success btn-sm" style="color: #fff">Edit</a>
-                                      &nbsp;<a href="<?=base_url();?>backend/pelabuhan/edit/edit/<?= $record->id ?>/<?= $pelabuhan->id ?>"  class="btn btn-danger btn-sm" style="color: #fff">Print Out</a>
+                                      <!-- &nbsp;<a href="<?=base_url();?>backend/pelabuhan/edit/edit/<?= $record->id ?>/<?= $pelabuhan->id ?>"  class="btn btn-danger btn-sm" style="color: #fff">Print Out</a> -->
                                     <?php
                                 }
                             ?>
