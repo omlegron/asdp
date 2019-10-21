@@ -189,6 +189,13 @@
                     }
                 }
             ?>
+            <li> 
+                        <a href="javascript:void(0)" class="menu-toggle"><i class="zmdi zmdi-file"></i><span>Laporan</span> </a> 
+                        <ul class="ml-menu">
+                            <li><a href="<?=base_url();?>backend/laporan">Pelabuhan</a></li>
+                            <li><a href="<?=base_url();?>backend/laporan/armada">Armada</a></li>
+                        </ul>
+                    </li>
         </ul>
     </div>
     <!-- #Menu -->
