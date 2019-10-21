@@ -189,14 +189,6 @@
                     }
                 }
             ?>
-            <li> <a href="<?=base_url();?>backend/notifikasi"><i class="zmdi zmdi-notifications-active"></i><span>Notifikasi <span class="rounded-circle text-white bg-warning mr-1" style="padding: 1px 8px;"><?= count($this->m_model->selectwhere('status','On Process','trans_approval')); ?></span></span> </a> </li>
-            <li> 
-                <a href="javascript:void(0)" class="menu-toggle"><i class="zmdi zmdi-file"></i><span>Laporan</span> </a> 
-                <ul class="ml-menu">
-                    <li><a href="<?=base_url();?>backend/laporan">Pelabuhan</a></li>
-                    <li><a href="<?=base_url();?>backend/laporan/armada">Armada</a></li>
-                </ul>
-            </li>
         </ul>
     </div>
     <!-- #Menu -->

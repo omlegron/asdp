@@ -155,7 +155,7 @@
                 <div class="column" style="background-color:#4a599f;width: 20px;height: 60px; -webkit-transform:skew(60deg);-moz-transform:skew(60deg);-o-transform:skew(-20deg);transform:skew(-20deg);margin-right: 5px;position: relative;left: 65px;top: 52px;">
                 </div>
                 <div class="column" style="background-color:#dbdeec;width: 430px;height: 60px; -webkit-transform:skew(-21deg);-moz-transform:skew(-21deg);-o-transform:skew(-20deg);transform:skew(-20deg);position:relative;top: 52px;">
-                    <h5 style="position: relative;top: -15px;">Form Laporan <?= $data['judul']; ?></h5>
+                    <center><h3 style="position: relative;top: -15px;color: #6f7176">FORM LAPORAN <?= $data['judul']; ?></h3></center>
                 </div>
             </div>
         </td>
@@ -178,10 +178,6 @@
   $img=check_img($data['record']->url_canvas);
   ?>
   <center><img src="<?= $img['path']; ?>"></center>
-  <br>
-  <br>
-  <br>
-  <br>
 
   <div style="margin-top: 15px">
 

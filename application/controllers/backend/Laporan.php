@@ -34,7 +34,7 @@ class Laporan extends CI_Controller {
         // die();
         $data = array(
             "data" => array(
-                "judul" => 'Pelabuhan',
+                "judul" => 'PELABUHAN',
                 "record" => $this->m_model->selectOne('id',$id,'pelabuhans'),
             )
         );
@@ -81,7 +81,7 @@ class Laporan extends CI_Controller {
         // die();
         $data = array(
             "data" => array(
-                "judul" => 'Armada',
+                "judul" => 'ARMADA',
                 "record" => $this->m_model->selectOne('id',$id,'armada'),
             )
         );
