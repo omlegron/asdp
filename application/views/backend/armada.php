@@ -395,7 +395,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-md-12 pl-0 pt-0">
+                        <div class="col-md-12 pl-0 pt-0">
                             <div class="row">
                                 <div class="col-lg-3 col-md-6 col-sm-12 text-center">
                                         <div class="card tasks_report">
@@ -456,7 +456,7 @@
                                     </div>                 
                                 </div>
                             </div>
-                     --></div>
+                    </div>
                 </div>
             </div>
         </div>

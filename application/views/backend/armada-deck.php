@@ -264,14 +264,15 @@
                     $('input[name="pointer_y"]').val(response.record.pointer_y);
                     $('input[name="primary_key"]').val(response.record.primary_key);
                     $('input[name="kategori"]').val(response.record.kategori);
-                    $('input[name="nama"]').val(response.record.nama);
-                    $('input[name="aspek"]').val(response.record.aspek);
-                    $('input[name="nomor"]').val(response.record.nomor);
-                    $('input[name="kondisi"]').val(response.record.kondisi);
-                    $('input[name="posisi"]').val(response.record.posisi);
-                    $('input[name="tahun"]').val(response.record.tahun);
+                    $('.Nama').text(response.record.nama);
+                    $('.Aspek').text(response.record.aspek);
+                    $('.Nomor').text(response.record.nomor);
+                    $('.Kondisi').text(response.record.kondisi);
+                    $('.Posisi').text(response.record.posisi);
+                    $('.Pengadaan').text(response.record.tahun);
                     // $('.deletesData').show();
                     // if(response.record_file.lenght > 0){
+                      $('.showImg').html('');
                       $.each(response.record_file,function(k,v){
                         if(k == 0){
                           $('.showImg').append(`
@@ -351,42 +352,15 @@
               <input type="hidden" name="pointer_y">
               <input type="hidden" name="primary_key">
               <input type="hidden" name="kategori" value="Armada">
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <label>Nama</label>
-                  <input name="nama" placeholder="Nama" type="text" class="form-control" />
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <label>Aspek</label>
-                  <input name="aspek" placeholder="Aspek" type="text" class="form-control" />
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <label>Nomor</label>
-                  <input name="nomor" placeholder="Nomor" type="text" class="form-control" />
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <label>Kondisi</label>
-                  <input name="kondisi" placeholder="Kondisi" type="text" class="form-control" />
-                </div>
-              </div>
-               <div class="col-lg-4">
-                <div class="form-group">
-                  <label>Posisi</label>
-                  <input name="posisi" placeholder="Posisi" type="text" class="form-control" />
-                </div>
-              </div>
-               <div class="col-lg-4">
-                <div class="form-group">
-                  <label>Tahun Pengadaan</label>
-                  <input name="tahun" placeholder="Tahun Pengadaan" type="text" class="form-control" />
-                </div>
-              </div>
+              <div class="col-lg-12">
+                <ul>
+                  <li>Nama : <span class="Nama"></span></li>
+                  <li>Aspek : <span class="Aspek"></span></li>
+                  <li>Nomor : <span class="Nomor"></span></li>
+                  <li>Kondisi : <span class="Kondisi"></span></li>
+                  <li>Posisi : <span class="Posisi"></span></li>
+                  <li>Tahun Pengadaan : <span class="Pengadaan"></span></li>
+                </ul>
               
               <div class="card">
                 <div id="demo2" class="carousel slide" data-ride="carousel">

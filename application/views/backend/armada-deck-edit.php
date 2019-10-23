@@ -231,6 +231,9 @@
       var dataIds = '';
       var dataAspek = '';
       var dataName = '';
+      arrayHasil = [];
+      var imagesArr = [];
+
         $(document).on('dragstart','#drag-items', function(e) {
           itemURL = e.target.src;
           dataIds = e.target.dataset.id;
@@ -251,6 +254,7 @@
               success:function(response){
                 console.log('response',response)
                 if(response){
+                  imagesArr = e.target;
                   $("#add-panel").modal("show");
                     $('.modal-backdrop').removeClass();
                    
@@ -271,9 +275,14 @@
                     $('input[name="kondisi"]').val(response.record.kondisi);
                     $('input[name="posisi"]').val(response.record.posisi);
                     $('input[name="tahun"]').val(response.record.tahun);
+
+                    var imgApp = `<center><img src="`+response.record.url+`" alt="" style="width:30px;" class="imgResze"></center>`;
+                    $('.appendImg').html(imgApp);
+
                     $('.deletesData').show();
                     if(response.record_file){
                       $('.ReadshowImg').show();
+                      $('.showImg').html('');
                       $.each(response.record_file,function(k,v){
                         if(k == 0){
                           $('.showImg').append(`
@@ -308,11 +317,11 @@
         e.preventDefault(); 
       });
 
-      arrayHasil = [];
+      
+      
       con.addEventListener('drop', function(e) {
         e.preventDefault();
         stage.setPointersPositions(e);
-        console.log('e',e)
         Konva.Image.fromURL(itemURL, function(image) {
           layer.add(image);
 
@@ -321,13 +330,17 @@
           image.height(30);
           image.draggable(false);
           arrayHasil.push(stage.getPointerPosition());
-          console.log('arrayHasil',arrayHasil)
           layer.draw();
+          imagesArr = image;
+
           $("#add-panel").modal("show");
           $('.modal-backdrop').removeClass();
           $('input[name="pointer_x"]').val(stage.getPointerPosition().x);
           $('input[name="pointer_y"]').val(stage.getPointerPosition().y);
           $('input[name="primary_key"]').val(arrayHasil.length);
+
+          var imgApp = `<center><img src="`+itemURL+`" alt="" style="width:30px;" class="imgResze"></center>`;
+          $('.appendImg').html(imgApp);
         });
       });
 
@@ -356,6 +369,23 @@
               <input type="hidden" name="primary_key">
               <input type="hidden" name="kategori" value="Armada">
               <textarea name="url_canvas" id="url_canvas" style="display: none;"></textarea>
+              <div class="col-md-8">
+                <div class="form-group">
+                  <label>Resize Width Image</label>
+                  <input name="width" id="resize" placeholder="Width / Pixels" type="number" class="form-control" />
+                  <label class="label-error" style="color: red;"></label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="btn btn-sm btn-success resizeNow" style="position: relative;top: 12px;">
+                    Resize
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 appendImg">
+                
+              </div>
               <div class="col-lg-4">
                 <div class="form-group">
                   <label>Nama</label>
@@ -439,6 +469,38 @@
     </div>
   </div>
   <script type="text/javascript">
+      $(document).on('click','.resizeNow',function(e){
+          var width = $('input[name="width"]').val();
+          var id = $('input[name="id"]').val();
+          if(parseInt(width) < 10){
+            $('.label-error').text('Tidak Boleh Kurang Dari 10');
+          }else if(parseInt(width) > 50){
+            $('.label-error').text('Tidak Boleh Lebih Dari 50');
+          }else{
+            $('.label-error').text('');
+            $('.imgResze').css("width",width);
+            $('.imgResze').css("height",width);
+            if(id){
+              console.log('id')
+              imagesArr.setAttrs({
+                width : width,
+                height : width,
+                pointer_x : $('input[name="pointer_x"]').val(),
+                pointer_y : $('input[name="pointer_y"]').val(),
+              });
+            }else{
+              console.log('Noid',imagesArr)
+
+              // Konva.Image.fromURL(itemURL, function(image) {
+                layer.add(imagesArr);
+                imagesArr.width(width);
+                imagesArr.height(width);
+              // });
+            }
+            layer.draw();
+          }
+      });
+
       $(document).on('click','#cancel-button',function(){
         window.location.reload();
       });

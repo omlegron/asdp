@@ -250,16 +250,16 @@
                     <div class="body">
                         <table class="table table-bordered table-striped table-hover dataTable js-basic-example" id="example">
                             <thead>
-                                <tr>
+                                <tr style="text-align: center;"> 
                                     <th>No</th>
                                     <th>Cabang</th>
-                                    <th>Photo</th>                             
-                                    <th>Deskripsi</th>                             
+                                    <th style="text-align: center;">Photo</th>                             
+                                    <th style="width: 250px;text-align: center;">Deskripsi</th>                             
                                     <th>Tanggal</th>                             
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody style="text-align: center;">
                             <?php
                             if(isset($this->session->userdata('admin_data')->id_cabang) && ($this->session->userdata('admin_data')->id_cabang != 0)){
                                 // print_r($this->session->userdata('admin_data')->id_cabang);
@@ -275,7 +275,7 @@
                                     $cabangs=$this->m_model->selectOne('id', $value->cabang_id, 'cabangs');
                                     // print_r($cabangs);
                                     // die();
-                                    if(count($cabangs)>0){
+                                    if($cabangs){
                                         $name_cabangs= $cabangs->name;
                                     }
                                     else{
@@ -292,7 +292,7 @@
                                         <?= $name_cabangs; ?>
                                     </td>
                                     <td>
-                                        <img src="<?=$img['path'];?>" class="img-responsive" style="cursor: pointer; max-width: 200px; max-height:150px;" data-fancybox="images<?= $key + 1; ?>" href="<?=$img['path'];?>">
+                                        <img src="<?=$img['path'];?>" class="img-responsive" id="img-responsive" data-img="<?=$img['path'];?>" style="cursor: pointer; max-width: 200px; max-height:150px;" data-fancybox="images<?= $key + 1; ?>" href="<?=$img['path'];?>">
                                     </td>
                                     <td><p><?= $desk; ?></p></td>
                                     <td><?= $value->created_at; ?></td>
@@ -344,7 +344,51 @@
         </div>
     <?php } ?>
 
+<div class="modal fade " id="view-panel" tabindex="-1" role="dialog" >
+      <div class="modal-dialog modal-md" role="document" style="margin:140px auto;position: relative;left: -50px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title"></h4>
+          </div>
+          <div class="modal-body">
+              <form id="formModals" action="<?= base_url('backend/pelabuhan/store'); ?>" method="POST" enctype="multipart/form-data">
+                <div class="row">
+                  <div class="card ReadshowImg">
+                    <div id="demo2" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner showImg" style="width:100%;">
+                          
+                          
+                        </div>
+                      </div>
+                    </div><br>
+                  <div class="col-md-12 pull-right" style="text-align: right;">
+                    <button type="button" class="btn btn-default" id="cancel-button" data-dismiss="modal">Cancel</button>
+                  </div>
+                </div>
+              </form>
+          </div>
+          <div class="modal-footer">
+            
+          </div>
+        </div>
+      </div>
+      </div>
 <script>
+    $(document).on('click','#img-responsive',function(){
+        // console.log('asd',$(this).data('img'));
+        $("#view-panel").modal("show");
+        $('.modal-backdrop').removeClass();
+        var jt = `
+            <div class="carousel-item active">
+              <img src="`+$(this).data('img')+`" class="img-fluid" style="width:100%;height:420px;" alt="">
+            </div>
+        `;
+        $('.showImg').html(jt);
+        // /console.log('id',$(this).data('img'))
+    });
+
 $(function(){
     $('#product_store').select2();
     $('.select2').select2();

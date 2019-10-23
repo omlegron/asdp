@@ -154,7 +154,7 @@
                                                         <?php
                                                             }else{
                                                         ?>
-                                                            <span class="badge badge-primary"><?= $value->status; ?></span>
+                                                            <span class="badge badge-danger"><?= $value->status; ?></span>
                                                         <?php
                                                             }
                                                         ?>
@@ -221,7 +221,7 @@
                                                         <?php
                                                             }else{
                                                         ?>
-                                                            <span class="badge badge-primary"><?= $value->status; ?></span>
+                                                            <span class="badge badge-danger"><?= $value->status; ?></span>
                                                         <?php
                                                             }
                                                         ?>

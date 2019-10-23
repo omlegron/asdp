@@ -202,6 +202,7 @@
       var dataName = '';
         $(document).on('dragstart','#drag-items', function(e) {
           itemURL = e.target.src;
+          // console.log('itemURL',itemURL);
           dataIds = e.target.dataset.id;
           $('input[name="icon_id"]').val(dataIds);
           $('input[name="url"]').val(e.target.src);
@@ -216,11 +217,13 @@
       });
 
       arrayHasil = [];
+      var imagesArr = [];
       con.addEventListener('drop', function(e) {
         e.preventDefault();
         stage.setPointersPositions(e);
-        console.log('e',e)
+        // console.log('e',e)
         Konva.Image.fromURL(itemURL, function(image) {
+          console.log('imagess',image)
           layer.add(image);
 
           image.position(stage.getPointerPosition());
@@ -228,20 +231,22 @@
           image.height(30);
           image.draggable(false);
           arrayHasil.push(stage.getPointerPosition());
-          console.log('arrayHasil',arrayHasil)
+          // console.log('arrayHasil',arrayHasil)
           layer.draw();
+          imagesArr = image;
           $("#add-panel").modal("show");
           $('.modal-backdrop').removeClass();
-
           $('input[name="pointer_x"]').val(stage.getPointerPosition().x);
           $('input[name="pointer_y"]').val(stage.getPointerPosition().y);
           $('input[name="primary_key"]').val(arrayHasil.length);
           $('.deletesData').hide();
+          var imgApp = `<center><img src="`+itemURL+`" alt="" style="width:30px;" class="imgResze"></center>`;
+          $('.appendImg').html(imgApp);
         });
       });
 
       stage.on('click', function(e) {
-        console.log('cekClikc')
+        console.log('cekClikc',e)
         if(e.target.attrs.cek_target === 'true'){
              $.ajax({
               url: '<?= site_url('backend/pelabuhan/getDataOne/'); ?>',
@@ -249,8 +254,9 @@
               data: {id_jenis_aspek: e.target.attrs.id_jenis_aspek, id_pelabuhan:e.target.attrs.id_pelabuhan, primary_key:e.target.attrs.primary_key,pointer_x:e.target.attrs.pointer_x,pointer_y:e.target.attrs.pointer_y},
               dataType: 'json',
               success:function(response){
-                console.log('response',response)
+                // console.log('response',response)
                 if(response){
+                  imagesArr = e.target;
                   $("#add-panel").modal("show");
                     $('.modal-backdrop').removeClass();
 
@@ -271,9 +277,12 @@
                     $('input[name="kondisi"]').val(response.record.kondisi);
                     $('input[name="posisi"]').val(response.record.posisi);
                     $('input[name="tahun"]').val(response.record.tahun);
+                    var imgApp = `<center><img src="`+response.record.url+`" alt="" style="width:30px;" class="imgResze"></center>`;
+                    $('.appendImg').html(imgApp);
                     $('.deletesData').show();
                     if(response.record_foto){
                       $('.ReadshowImg').show();
+                      $('.showImg').html('');
                       $.each(response.record_foto,function(k,v){
                         if(k == 0){
                           $('.showImg').append(`
@@ -326,38 +335,56 @@
                   <input type="hidden" name="pointer_y">
                   <input type="hidden" name="primary_key">
                   <input type="hidden" name="kategori" value="Pelabuhan">
+                  <input type="hidden" name="image">
                   <textarea name="url_canvas" id="url_canvas" style="display: none;"></textarea>
-                  <div class="col-lg-4">
+                  <div class="col-md-8">
+                    <div class="form-group">
+                      <label>Resize Width Image</label>
+                      <input name="width" id="resize" placeholder="Width / Pixels" type="number" class="form-control" />
+                      <label class="label-error" style="color: red;"></label>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <div class="btn btn-sm btn-success resizeNow" style="position: relative;top: 12px;">
+                        Resize
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12 appendImg">
+                    
+                  </div>
+                  <div class="col-md-4">
                     <div class="form-group">
                       <label>Nama</label>
                       <input name="nama" placeholder="Nama" type="text" class="form-control" />
                     </div>
                   </div>
-                  <div class="col-lg-4">
+                  <div class="col-md-4">
                     <div class="form-group">
                       <label>Aspek</label>
                       <input name="aspek" placeholder="Aspek" type="text" class="form-control" />
                     </div>
                   </div>
-                  <div class="col-lg-4">
+                  <div class="col-md-4">
                     <div class="form-group">
                       <label>Nomor</label>
                       <input name="nomor" placeholder="Nomor" type="text" class="form-control" required="" />
                     </div>
                   </div>
-                  <div class="col-lg-4">
+                  <div class="col-md-4">
                     <div class="form-group">
                       <label>Kondisi</label>
                       <input name="kondisi" placeholder="Kondisi" type="text" class="form-control" required="" />
                     </div>
                   </div>
-                   <div class="col-lg-4">
+                   <div class="col-md-4">
                     <div class="form-group">
                       <label>Posisi</label>
                       <input name="posisi" placeholder="Posisi" type="text" class="form-control" required="" />
                     </div>
                   </div>
-                   <div class="col-lg-4">
+                   <div class="col-md-4">
                     <div class="form-group">
                       <label>Tahun Pengadaan</label>
                       <input name="tahun" placeholder="Tahun Pengadaan" type="text" class="form-control" />
@@ -396,7 +423,7 @@
                       </div>
                     </div><br>
                   <div class="col-md-12 pull-right" style="text-align: right;">
-                    <button type="button" class="btn btn-default" id="cancel-button">Cancel</button>
+                    <button type="button" class="btn btn-default" id="cancel-button" >Cancel</button>
                     <button type="button" class="btn btn-danger deleteDatak deletesData" id="cancel-button" data-dismiss="modal" style="display: none">Delete</button>
                     <button type="button" class="btn btn-primary saveBtn" id="confirm-button">Save</button>
                     <button type="submit" class="btn btn-primary" id="bnke_btn" style="display: none;">Save</button>
@@ -414,14 +441,43 @@
       
 
       <script type="text/javascript">
+        $(document).on('click','.resizeNow',function(e){
+          var width = $('input[name="width"]').val();
+          var id = $('input[name="id"]').val();
+          if(parseInt(width) < 10){
+            $('.label-error').text('Tidak Boleh Kurang Dari 10');
+          }else if(parseInt(width) > 50){
+            $('.label-error').text('Tidak Boleh Lebih Dari 50');
+          }else{
+            $('.label-error').text('');
+            $('.imgResze').css("width",width);
+            $('.imgResze').css("height",width);
+            if(id){
+              console.log('id')
+              imagesArr.setAttrs({
+                width : width,
+                height : width,
+                pointer_x : $('input[name="pointer_x"]').val(),
+                pointer_y : $('input[name="pointer_y"]').val(),
+              });
+            }else{
+              console.log('Noid')
+
+              Konva.Image.fromURL(itemURL, function(image) {
+                layer.add(imagesArr);
+                imagesArr.width(width);
+                imagesArr.height(width);
+              });
+            }
+            layer.draw();
+          }
+        });
+
         $(document).on('click','#cancel-button',function(){
           window.location.reload();
         });
-        // $(document).ready(function(){
-        //   $('#add-panel').modal({ keyboard: false })
-        // });
+        
         $(document).on('click','.saveBtn',function(){
-          console.log('asda')
           var element = $('#containers');
           var getCanvas= '';
           html2canvas(element, {
@@ -431,10 +487,8 @@
                   var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
                   console.log('newData',newData)
                   $('#url_canvas').val(imgageData);
-                  // window.open(imgageData);
-                  // $("#btn-Convert-Html2Image").attr("download", "your_pic_name.png").attr("href", newData);
-               }
-           });
+            }
+          });
           // console.log('asd',getCanvas)
           $('.saveBtn').attr('disabled','disabled');
           $('.saveBtn').text('Wait for a while');
@@ -449,47 +503,6 @@
               
             }
           },1000);
-          // $('#bnke_btn').submit();
-          // $("#formModals").ajaxSubmit({
-          //     success: function(resp){
-                
-          //     },
-          //     error: function(resp){
-
-          //     }
-          // });
-          // $.ajax({
-          //   url: '<?= site_url('backend/pelabuhan/store'); ?>',
-          //   type: 'post',
-          //   data: data,
-          //   dataType: 'json',
-          //   success:function(response){
-          //       if(response.status == true){
-          //         $('.alertLah').html(`
-          //           <div class="alert alert-success">
-          //             `+ response.message +`
-          //           </div>
-          //         `);
-          //       }else{
-          //         $('.alertLah').html(`
-          //           <div class="alert alert-danger">
-          //             Gagal Menyimpan Data
-          //           </div>
-          //         `);
-          //       }
-          //       $("#add-panel").modal("hide");
-
-          //   },
-          //   error: function() {
-          //     $('.alertLah').html(`
-          //       <div class="alert alert-danger">
-          //         Terjadi Kesalahan!
-          //       </div>
-          //     `);
-          //       $("#add-panel").modal("hide");
-
-          //   }
-          // });
         });
 
         $(document).on('click','.deleteDatak',function(){
@@ -501,10 +514,7 @@
                   var imgageData = getCanvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
                    var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
                   console.log('newData',newData)
-                  // $('#url_canvas').val(imgageData);
-                  // window.open(imgageData);
-                  // $("#btn-Convert-Html2Image").attr("download", "your_pic_name.png").attr("href", newData);
-               }
+              }
            });
 
           var data = $('#formModals').serializeArray();

@@ -1,6 +1,8 @@
-
-    </div>
-    <img src="<?= base_url('images/img_footer.png'); ?>" alt="" style="width: 1030px;position: fixed;bottom: 0;">
+</div>
+    <footer class="block-footer">
+        <img src="<?= base_url('images/img_footer.png'); ?>" alt="" style="width: 100%;bottom: -15px;position: relative;">
+        
+    </footer>
 </section>
 
 <!-- Jquery Core Js --> 
