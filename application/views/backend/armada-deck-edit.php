@@ -180,6 +180,7 @@
       stage.add(layer);
       
       // ADD FOTO DARI KUMPULAN ARRAY
+      var widths = 30;
     	$.ajax({
             url: '<?= site_url('backend/armada/getData'); ?>',
             type: 'post',
@@ -196,9 +197,15 @@
                     layer.add(group);
                     // 3. Create an Image node and add it to group
                     Konva.Image.fromURL(v.url, function(yoda) {
+                      if(v.width == null){
+                        widths = 30
+                      }else{
+                        widths = v.width;
+                      }
+
                       yoda.setAttrs({
-                        width: 30,
-                        height: 30,
+                        width: widths,
+                        height: widths,
                         id_armada: v.id_armada,
                         id_armada_elments: v.id_armada_elments,
                         id_jenis_aspek: v.id_jenis_aspek,
@@ -372,7 +379,7 @@
               <div class="col-md-8">
                 <div class="form-group">
                   <label>Resize Width Image</label>
-                  <input name="width" id="resize" placeholder="Width / Pixels" type="number" class="form-control" />
+                  <input name="width" id="resize" placeholder="Width / Pixels" type="number" class="form-control" oninput="this.value= this.value.replace(/[^0-9.,]/g, '').replace(/(\..*)\.,/g, '$1')"/>
                   <label class="label-error" style="color: red;"></label>
                 </div>
               </div>
@@ -388,31 +395,31 @@
               </div>
               <div class="col-lg-4">
                 <div class="form-group">
-                  <label>Nama</label>
+                  <label>Nama</label>*
                   <input name="nama" placeholder="Nama" type="text" class="form-control" />
                 </div>
               </div>
               <div class="col-lg-4">
                 <div class="form-group">
-                  <label>Aspek</label>
+                  <label>Aspek</label>*
                   <input name="aspek" placeholder="Aspek" type="text" class="form-control" />
                 </div>
               </div>
               <div class="col-lg-4">
                 <div class="form-group">
-                  <label>Nomor</label>
+                  <label>Nomor</label>*
                   <input name="nomor" placeholder="Nomor" type="text" class="form-control" />
                 </div>
               </div>
               <div class="col-lg-4">
                 <div class="form-group">
-                  <label>Kondisi</label>
+                  <label>Kondisi</label>*
                   <input name="kondisi" placeholder="Kondisi" type="text" class="form-control" />
                 </div>
               </div>
                <div class="col-lg-4">
                 <div class="form-group">
-                  <label>Posisi</label>
+                  <label>Posisi</label>*
                   <input name="posisi" placeholder="Posisi" type="text" class="form-control" />
                 </div>
               </div>

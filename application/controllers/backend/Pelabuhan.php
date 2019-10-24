@@ -114,6 +114,7 @@ class Pelabuhan extends CI_Controller {
                 'kondisi' => $this->input->post('kondisi'),
                 'posisi' => $this->input->post('posisi'),
                 'tahun' => $this->input->post('tahun'),
+                'width' => $this->input->post('width'),
                 // 'url_canvas' => $this->input->post('url_canvas'),
                 // 'fileurl' => $pathfile,
             );
@@ -186,6 +187,8 @@ class Pelabuhan extends CI_Controller {
                 'kondisi' => $this->input->post('kondisi'),
                 'posisi' => $this->input->post('posisi'),
                 'tahun' => $this->input->post('tahun'),
+                'width' => $this->input->post('width'),
+                
                 // 'fileurl' => $pathfile,
             );
             $this->m_model->updateas('id', $this->input->post('id_pelabuhan'), ['url_canvas' => $output], 'pelabuhans');

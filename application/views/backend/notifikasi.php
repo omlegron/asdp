@@ -71,7 +71,7 @@
                                 <div class="col-lg-8" style="position: relative;left: 11px;top: 20px;">
                                     <div class="input-group" >                                               
                                         <input type="text" name="filter[cabang]" class="form-control" placeholder="Cabang" style="border: 1px solid black !important;position: relative;top: 5px;width: 150px;">&nbsp;&nbsp;&nbsp;
-                                        <input type="date" name="filter[tanggal]" placeholder="Tanggal" class="form-control date" style="border: 1px solid black !important;position: relative;top: 5px;width: 150px;">&nbsp;
+                                        <input type="date" name="filter[tanggal]" placeholder="Tanggal" class="form-control date" style="border: 1px solid black !important;position: relative;top: 5px;width: 20px;">&nbsp;
                                       
                                       <div class="input-group-btn">
                                         <button type="button" class="btn btn-success searchs" style="position: relative;top: 4px;">Search </button>
@@ -220,9 +220,16 @@
                                                             <span class="badge badge-warning"><?= $value->status; ?></span>
                                                         <?php
                                                             }else{
+                                                                if($value->status == 'Approved'){
                                                         ?>
-                                                            <span class="badge badge-danger"><?= $value->status; ?></span>
+                                                                    <span class="badge badge-primary"><?= $value->status; ?></span>
+
                                                         <?php
+                                                                }else{
+                                                        ?>
+                                                                    <span class="badge badge-danger"><?= $value->status; ?></span>
+                                                        <?php
+                                                                }
                                                             }
                                                         ?>
                                                     </td>

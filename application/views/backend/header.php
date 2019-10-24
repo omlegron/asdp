@@ -49,7 +49,7 @@
      <!-- User Info -->
     <div class="user-info">
         <div class="image">
-            <img src="<?=base_url();?>assets/backend/images/xs/avatar1.jpg" width="48" height="48" alt="User" />
+            <img src="<?=base_url();?>images/users.png" width="48" height="48" alt="User" />
         </div>
         <div class="info-container">
             <div class="name" data-toggle="dropdown"><?=$this->session->userdata('admin_data')->username;?></div>

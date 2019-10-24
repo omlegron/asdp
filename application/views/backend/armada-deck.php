@@ -181,6 +181,7 @@
       stage.add(layer);
       
       // ADD FOTO DARI KUMPULAN ARRAY
+      var widths = 30;
     	$.ajax({
             url: '<?= site_url('backend/armada/getData'); ?>',
             type: 'post',
@@ -197,9 +198,15 @@
                     layer.add(group);
                     // 3. Create an Image node and add it to group
                     Konva.Image.fromURL(v.url, function(yoda) {
+                      if(v.width == null){
+                        widths = 30
+                      }else{
+                        widths = v.width;
+                      }
+
                       yoda.setAttrs({
-                        width: 30,
-                        height: 30,
+                        width: widths,
+                        height: widths,
                         id_armada: v.id_armada,
                         id_armada_elments: v.id_armada_elments,
                         id_jenis_aspek: v.id_jenis_aspek,

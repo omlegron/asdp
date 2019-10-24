@@ -146,7 +146,7 @@
       //   { x: '140', y: '211.46665954589844' , img:'https://localhost/application/images/icon/5d9193038982b.png' },
       //   { x: '371', y: '180.46665954589844' , img:'https://localhost/application/images/icon/5d91934c8f569.png' }
       // ];
-      
+        var widths = 30;
         $.ajax({
             url: '<?= site_url('backend/pelabuhan/getData'); ?>',
             type: 'post',
@@ -164,9 +164,15 @@
                     layer.add(group);
                     // 3. Create an Image node and add it to group
                     Konva.Image.fromURL(v.url, function(yoda) {
+                      if(v.width == null){
+                        widths = 30
+                      }else{
+                        widths = v.width;
+                      }
+
                       yoda.setAttrs({
-                        width: 30,
-                        height: 30,
+                        width: widths,
+                        height: widths,
                         id_pelabuhan: v.id_pelabuhan,
                         id_jenis_aspek: v.id_jenis_aspek,
                         id_sub_jenis_aspek:v.id_sub_jenis_aspek,
@@ -340,7 +346,7 @@
                   <div class="col-md-8">
                     <div class="form-group">
                       <label>Resize Width Image</label>
-                      <input name="width" id="resize" placeholder="Width / Pixels" type="number" class="form-control" />
+                      <input name="width" id="resize" placeholder="Width / Pixels" type="number" class="form-control" oninput="this.value= this.value.replace(/[^0-9.,]/g, '').replace(/(\..*)\.,/g, '$1')"/>
                       <label class="label-error" style="color: red;"></label>
                     </div>
                   </div>
@@ -356,31 +362,31 @@
                   </div>
                   <div class="col-md-4">
                     <div class="form-group">
-                      <label>Nama</label>
+                      <label>Nama</label>*
                       <input name="nama" placeholder="Nama" type="text" class="form-control" />
                     </div>
                   </div>
                   <div class="col-md-4">
                     <div class="form-group">
-                      <label>Aspek</label>
+                      <label>Aspek</label>*
                       <input name="aspek" placeholder="Aspek" type="text" class="form-control" />
                     </div>
                   </div>
                   <div class="col-md-4">
                     <div class="form-group">
-                      <label>Nomor</label>
+                      <label>Nomor</label>*
                       <input name="nomor" placeholder="Nomor" type="text" class="form-control" required="" />
                     </div>
                   </div>
                   <div class="col-md-4">
                     <div class="form-group">
-                      <label>Kondisi</label>
+                      <label>Kondisi</label>*
                       <input name="kondisi" placeholder="Kondisi" type="text" class="form-control" required="" />
                     </div>
                   </div>
                    <div class="col-md-4">
                     <div class="form-group">
-                      <label>Posisi</label>
+                      <label>Posisi</label>*
                       <input name="posisi" placeholder="Posisi" type="text" class="form-control" required="" />
                     </div>
                   </div>

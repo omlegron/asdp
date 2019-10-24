@@ -148,7 +148,7 @@
       //   { x: '140', y: '211.46665954589844' , img:'https://localhost/application/images/icon/5d9193038982b.png' },
       //   { x: '371', y: '180.46665954589844' , img:'https://localhost/application/images/icon/5d91934c8f569.png' }
       // ];
-      
+        var widths = 30;
         $.ajax({
             url: '<?= site_url('backend/pelabuhan/getData'); ?>',
             type: 'post',
@@ -165,9 +165,14 @@
                     layer.add(group);
                     // 3. Create an Image node and add it to group
                     Konva.Image.fromURL(v.url, function(yoda) {
+                      if(v.width == null){
+                        widths = 30
+                      }else{
+                        widths = v.width;
+                      }
                       yoda.setAttrs({
-                        width: 30,
-                        height: 30,
+                        width: widths,
+                        height: widths,
                         id_pelabuhan: v.id_pelabuhan,
                         id_jenis_aspek: v.id_jenis_aspek,
                         primary_key: v.primary_key,
