@@ -9,34 +9,68 @@ class Notifikasi extends CI_Controller {
 
     public function index(){
         if ($this->session->userdata('admin')) {
-            if($this->session->userdata('admin_data')->roles == 3){
-                $cekAdm = $this->session->userdata('admin_data')->id_cabang;
-                $trueAdm = 'benar';
-                // $record = $this->m_model->selectcustom("select trans_approval.id,
-                //     trans_approval.form_type,
-                //     trans_approval.form_id,
-                //     trans_approval.deskripsi,
-                //     trans_approval.created_at,
-                //     trans_approval.status,
-                //     trans_approval.user_id,
-                //     users.id,
-                //     users.username,
-                //     users.id_cabang
-                //     from trans_approval 
-                //     inner join users 
-                //     on trans_approval.user_id=users.id where users.id_cabang=".$cekAdm."");
-                $record = $this->m_model->all('trans_approval');
+            // if($this->session->userdata('admin_data')->roles == 3){
+            //     $cekAdm = $this->session->userdata('admin_data')->id_cabang;
+            //     $trueAdm = 'benar';
+            //     // $record = $this->m_model->selectcustom("select trans_approval.id,
+            //     //     trans_approval.form_type,
+            //     //     trans_approval.form_id,
+            //     //     trans_approval.deskripsi,
+            //     //     trans_approval.created_at,
+            //     //     trans_approval.status,
+            //     //     trans_approval.user_id,
+            //     //     users.id,
+            //     //     users.username,
+            //     //     users.id_cabang
+            //     //     from trans_approval 
+            //     //     inner join users 
+            //     //     on trans_approval.user_id=users.id where users.id_cabang=".$cekAdm."");
+            //     $record = $this->m_model->all('trans_approval');
 
 
-            }else{
+            // }else{
+            //     $trueAdm = 'salah';
+
+            //     $record = $this->m_model->all('trans_approval');
+            // }
+            $array = [];
+            $photo = $this->m_model->all('photo_log');
+            if(count($photo) > 0){
+                foreach ($photo as $k => $value) {
+                    array_push($array,$value);
+                }
+            }
+
+            $video = $this->m_model->all('video_log');
+            if(count($video) > 0){
+                foreach ($video as $k => $value) {
+                    array_push($array,$value);   
+                }
+            }
+
+            $armada = $this->m_model->all('armada_log');
+            if(count($video) > 0){
+                foreach ($video as $k => $value) {
+                    array_push($array,$value);   
+                }
+            }
+
+            $pelabuhan = $this->m_model->all('pelabuhans_log');
+            if(count($pelabuhan) > 0){
+                foreach ($pelabuhan as $k => $value) {
+                    array_push($array,$value);   
+                }
+            }
+
+            if(($this->session->userdata('admin_data')->roles == 1) || ($this->session->userdata('admin_data')->roles == 2)){
                 $trueAdm = 'salah';
-
-                $record = $this->m_model->all('trans_approval');
+            }else{
+                $trueAdm = 'benar';
             }
             $this->load->view('backend/notifikasi',[
                 'title' => 'Notifikasi',
                 'bcrumb' => 'Notifikasi',
-                'record' => $record,
+                'record' => $array,
                 'trueAdm' => $trueAdm,
             ]);
         } else {
@@ -44,19 +78,69 @@ class Notifikasi extends CI_Controller {
         }
     }
 
-    public function approve($id){
+    public function approve($id,$form,$flag){
         $data = array(
-            'status'    => 'Approved',
+            'status'    => 3,
         );
 
-        $transApprove = $this->m_model->selectOne('id',$id,'trans_approval');
-        $usrId = $this->m_model->selectOne('id',$transApprove->user_id,'users');
+        if($form == 'Photo'){
+            $create = $this->m_model->updateas('id', $id, $data, 'photo_log');
+            $selectOnes = $this->m_model->selectOne('id', $id,'photo_log');
+            $dataUp = array(
+                'item' => $selectOnes->item,
+                'status' => $selectOnes->status,
+                'cabang_id' => $selectOnes->cabang_id,
+                'deskripsi' => $selectOnes->deskripsi,
+                'path_file' => $selectOnes->path_file,
+            );
+            $createUp = $this->m_model->updateas('id', $selectOnes->trans_id, $dataUp, 'photo');
+        }elseif($form == 'Video'){
+            $create = $this->m_model->updateas('id', $id, $data, 'video_log');
+            $selectOnes = $this->m_model->selectOne('id', $id,'video_log');
+            $dataUp = array(
+                'filename' => $selectOnes->filename,
+                'item' => $selectOnes->item,
+                'status' => $selectOnes->status,
+                'cabang_id' => $selectOnes->cabang_id,
+                'deskripsi' => $selectOnes->deskripsi,
+                'path_file' => $selectOnes->path_file,
+            );
+            $createUp = $this->m_model->updateas('id', $selectOnes->trans_id, $dataUp, 'video');
+        }elseif($form == 'Pelabuhan'){
+            $create = $this->m_model->updateas('id', $id, $data, 'pelabuhans_log');
+            $selectOnes = $this->m_model->selectOne('id', $id,'pelabuhans_log');
+
+            $dataUp = array(
+                'name' => $selectOnes->item,
+                'status' => $selectOnes->status,
+                'cabang_id' => $selectOnes->cabang_id,
+                'deskripsi' => $selectOnes->deskripsi,
+                'foto' => $selectOnes->path_file,
+            );
+            $createUp = $this->m_model->updateas('id', $selectOnes->trans_id, $dataUp, 'pelabuhans');
+
+        }elseif($form == 'Armada'){
+            $create = $this->m_model->updateas('id', $id, $data, 'armada_log');
+            $selectOnes = $this->m_model->selectOne('id', $id,'armada_log');
+
+            $dataUp = array(
+                'name' => $selectOnes->item,
+                'status' => $selectOnes->status,
+                'cabang_id' => $selectOnes->cabang_id,
+                'deskripsi' => $selectOnes->deskripsi,
+                'foto' => $selectOnes->path_file,
+            );
+            $createUp = $this->m_model->updateas('id', $selectOnes->trans_id, $dataUp, 'armada');
+        }
+        
+        // $transApprove = $this->m_model->selectOne('id',$id,'trans_approval');
+        $usrId = $this->m_model->selectOne('id',$selectOnes->created_by,'users');
         $cab = $this->m_model->selectOne('id',$usrId->id_cabang,'cabangs');
         $dataJ = '{
             "PIC Peminta" : "'.$usrId->username.'",
             "email" : "'.$usrId->email.'",
             "Cabang" : "'.$cab->name.'",
-            "Tipe Permintaan" : "'.$transApprove->form_type.'",
+            "Tipe Permintaan" : "'.$selectOnes->form_type.'",
             "Status" : "Approved",
             "pesan" : "Ada Approval Terbaru Untuk Anda"
         }';
@@ -70,7 +154,7 @@ class Notifikasi extends CI_Controller {
                     "PIC Peminta" : "'.$usrId->username.'",
                     "email" : "'.$value.'",
                     "Cabang" : "'.$cab->name.'",
-                    "Tipe Permintaan" : "'.$transApprove->form_type.'",
+                    "Tipe Permintaan" : "'.$selectOnes->form_type.'",
                     "Status" : "Approved",
                     "pesan" : "Ada Approval Terbaru Untuk Anda"
                 }';
@@ -78,7 +162,6 @@ class Notifikasi extends CI_Controller {
             }
         }
 
-        $create = $this->m_model->updateas('id', $id, $data, 'trans_approval');
         if ($create == 1) {
             redirect('backend/notifikasi', 'refresh');
         }else{
@@ -87,12 +170,13 @@ class Notifikasi extends CI_Controller {
         }
     }
 
-    public function reject($id){
+    public function reject($id,$form,$flag){
         if ($this->session->userdata('admin')) {
             $this->load->view('backend/notifikasi-reject',[
                 'title' => 'Notifikasi',
                 'bcrumb' => 'Notifikasi',
                 'id' => $id,
+                'form' => $form,
             ]);
         } else {
             redirect('panel/login', 'refresh');
@@ -101,19 +185,32 @@ class Notifikasi extends CI_Controller {
 
     public function saveReject(){
         $data = array(
-            'status'    => 'Rejected',
-            'deskripsi'    => $this->input->post('deskripsi'),
+            'status'    => 4,
+            'noted'    => $this->input->post('deskripsi'),
         );
-        $id = $this->input->post('id');
+
+        if($this->input->post('form') == 'Photo'){
+            $create = $this->m_model->updateas('id', $this->input->post('id'), $data, 'photo_log');
+            $selectOnes = $this->m_model->selectOne('id', $this->input->post('id'),'photo_log');
+        }elseif($this->input->post('form') == 'Video'){
+            $create = $this->m_model->updateas('id', $this->input->post('id'), $data, 'video_log');
+            $selectOnes = $this->m_model->selectOne('id', $this->input->post('id'),'video_log');
+        }elseif($this->input->post('form') == 'Pelabuhan'){
+            $create = $this->m_model->updateas('id', $this->input->post('id'), $data, 'pelabuhans_log');
+            $selectOnes = $this->m_model->selectOne('id', $this->input->post('id'),'pelabuhans_log');
+        }elseif($this->input->post('form') == 'Armada'){
+            $create = $this->m_model->updateas('id', $this->input->post('id'), $data, 'armada_log');
+            $selectOnes = $this->m_model->selectOne('id', $this->input->post('id'),'armada_log');
+        }
 
         $transApprove = $this->m_model->selectOne('id',$id,'trans_approval');
-        $usrId = $this->m_model->selectOne('id',$transApprove->user_id,'users');
+        $usrId = $this->m_model->selectOne('id',$selectOnes->created_by,'users');
         $cab = $this->m_model->selectOne('id',$usrId->id_cabang,'cabangs');
         $dataJ = '{
             "PIC Peminta" : "'.$usrId->username.'",
             "email" : "'.$usrId->email.'",
             "Cabang" : "'.$cab->name.'",
-            "Tipe Permintaan" : "'.$transApprove->form_type.'",
+            "Tipe Permintaan" : "'.$selectOnes->form_type.'",
             "Status" : "Rejected",
             "Keterangan" : "'.$transApprove->deskripsi.'",
             "pesan" : "Ada Approval Yang Di Reject"
@@ -128,7 +225,7 @@ class Notifikasi extends CI_Controller {
                     "PIC Peminta" : "'.$usrId->username.'",
                     "email" : "'.$value.'",
                     "Cabang" : "'.$cab->name.'",
-                    "Tipe Permintaan" : "'.$transApprove->form_type.'",
+                    "Tipe Permintaan" : "'.$selectOnes->form_type.'",
                     "Status" : "Approved",
                     "Keterangan" : "'.$transApprove->deskripsi.'",
                     "pesan" : "Ada Approval Yang Di Reject"
@@ -137,7 +234,7 @@ class Notifikasi extends CI_Controller {
             }
         }
 
-        $create = $this->m_model->updateas('id', $id, $data, 'trans_approval');
+        // $create = $this->m_model->updateas('id', $id, $data, 'trans_approval');
         if ($create == 1) {
             redirect('backend/notifikasi', 'refresh');
         }else{
@@ -145,8 +242,17 @@ class Notifikasi extends CI_Controller {
         }
     }
 
-    public function delete($id){
-        $this->m_model->destroy($id,'trans_approval');
+    public function delete($id,$form,$flag){
+        if($form == 'Photo'){
+            $create = $this->m_model->destroy($id,'photo_log');
+        }elseif($form == 'Video'){
+            $create = $this->m_model->destroy($id,'video_log');
+        }elseif($form == 'Pelabuhan'){
+            $create = $this->m_model->destroy($id,'pelabuhans_log');
+        }elseif($form == 'Armada'){
+            $create = $this->m_model->destroy($id,'armada_log');
+        }
+        // $this->m_model->destroy($id,'trans_approval');
         redirect('backend/notifikasi', 'refresh');
     }
 }

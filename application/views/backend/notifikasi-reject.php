@@ -23,10 +23,11 @@
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card">
                     <div class="header">
-                        <h2>Add Jenis Aspek</h2>
+                        <h2>Reject</h2>
                     </div>
                     <div class="body">
                         <form class="form-horizontal" action="<?= site_url('backend/notifikasi/saveReject'); ?>" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="form" value="<?= $form; ?>">
                             <div class="row clearfix">
                                 <div class="form-group col-lg-12">
                                     <div class="form-line">

@@ -1590,8 +1590,8 @@ class Panel extends CI_Controller {
                     "password" : "'.$this->input->post('password').'",
                     "pesan" : "Email Registrasi Baru Untuk Anda"
                 }';
-            sendsMaiils($dataJ);
             if ($this->m_model->create($data, 'users') == 1) {
+                sendsMaiils($dataJ);
                 redirect('panel/users', 'refresh');
             } else {
                 redirect('panel/users', 'refresh');
@@ -1623,7 +1623,7 @@ class Panel extends CI_Controller {
                     "password" : "'.$this->input->post('password').'",
                     "pesan" : "Ada Perubahan Akun Baru Untuk Anda"
                 }';
-                sendsMaiils($dataJ);
+                // sendsMaiils($dataJ);
             }else{
                 $data = array(
                     'username' => $this->input->post('username'),
@@ -1636,7 +1636,7 @@ class Panel extends CI_Controller {
                         "username" : "'.$this->input->post('username').'",
                         "pesan" : "Ada Perubahan Akun Baru Untuk Anda"
                     }';
-                    sendsMaiils($dataJ);
+                    // sendsMaiils($dataJ);
             }
             
             /*if (!empty($_FILES['logo']['name'])) {
@@ -1671,6 +1671,7 @@ class Panel extends CI_Controller {
             $update = $this->m_model->updateas('id', $this->input->post('id'), $data,
                 'users');
             if ($update == 1) {
+                sendsMaiils($dataJ);
                 redirect('panel/users', 'refresh');
             } else {
                 redirect('panel/users', 'refresh');
@@ -1715,45 +1716,123 @@ class Panel extends CI_Controller {
         }
         //---
         if ($this->input->post('save')) {
-            $pathfile="";
-            if (!empty($_FILES['cover']['name'])) {
-                $config['upload_path']   = FCPATH.'/images/pelabuhan/cover/';
-                $config['allowed_types'] = 'jpg|png|jpeg';
-                $config['max_size'] = 3000000;
-                $config['file_name'] = uniqid();
-                $this->load->library('upload',$config);
-                $this->upload->initialize($config);
-                $this->upload->do_upload('cover');
-                $pathfile='images/pelabuhan/cover/'.$this->upload->data('file_name');
-                $param = array(
-                    'cabang_id'  => cleartext($this->input->post('cabang')),
-                    'name'     => cleartext($this->input->post('name')),
-                    'deskripsi'  => cleartext($this->input->post('deskripsi')),
-                    'foto'   => $pathfile,
-                    'created_at'   => date('Y-m-d H:i:s'),
-                    'created_user'   => cleartext($this->session->userdata('admin_data')->username),
-                );
+            if(($this->session->userdata('admin_data')->roles == 1) || ($this->session->userdata('admin_data')->roles == 2)){
+                if (!empty($_FILES['cover']['name'])) {
+                    $config['upload_path']   = FCPATH.'/images/pelabuhan/cover/';
+                    $config['allowed_types'] = 'jpg|png|jpeg';
+                    $config['max_size'] = 3000000;
+                    $config['file_name'] = uniqid();
+                    $this->load->library('upload',$config);
+                    $this->upload->initialize($config);
+                    $this->upload->do_upload('cover');
+                    $pathfile='images/pelabuhan/cover/'.$this->upload->data('file_name');
+                    $param = array(
+                        'cabang_id'  => cleartext($this->input->post('cabang')),
+                        'name_id'     => cleartext($this->input->post('name')),
+                        'deskripsi'  => cleartext($this->input->post('deskripsi')),
+                        'foto'   => $pathfile,
+                        // 'created_at'   => date('Y-m-d H:i:s'),
+                        'created_by'   => cleartext($this->session->userdata('admin_data')->username),
+                        'status'   => 2,
+                    );
+                }else{
+                    $param = array(
+                        'cabang_id'  => cleartext($this->input->post('cabang')),
+                        'name_id'     => cleartext($this->input->post('name')),
+                        'deskripsi'  => cleartext($this->input->post('deskripsi')),
+                        // 'foto'   => $pathfile,
+                        // 'created_at'   => date('Y-m-d H:i:s'),
+                        'created_by'   => cleartext($this->session->userdata('admin_data')->username),
+                        'status'   => 2,
+                    );
+                }
+                $this->m_model->updateas('id', $this->input->post('id'), $param, 'pelabuhans');
+            }else{
+                $pathfile="";
+                if (!empty($_FILES['cover']['name'])) {
+                    $config['upload_path']   = FCPATH.'/images/pelabuhan/cover/';
+                    $config['allowed_types'] = 'jpg|png|jpeg';
+                    $config['max_size'] = 3000000;
+                    $config['file_name'] = uniqid();
+                    $this->load->library('upload',$config);
+                    $this->upload->initialize($config);
+                    $this->upload->do_upload('cover');
+                    $pathfile='images/pelabuhan/cover/'.$this->upload->data('file_name');
+                    $log = array(
+                        'cabang_id'  => cleartext($this->input->post('cabang')),
+                        'item'     => cleartext($this->input->post('name')),
+                        'deskripsi'  => cleartext($this->input->post('deskripsi')),
+                        'path_file'   => $pathfile,
+                        // 'created_at'   => date('Y-m-d H:i:s'),
+                        'created_by'   => cleartext($this->session->userdata('admin_data')->id),
+                        'status'   => 2,
+                        'fulluri'   => base_url('panel/pelabuhan?details='.$this->input->post('id')),
+                        'flag'   => 'Edit',
+                        'trans_id'   => $this->input->post('id'),
+                    );
+                    $param = array(
+                        'status' => 2
+                    );
+                }else{
+                    $selectOne = $this->m_model->selectOne('id', $this->input->post('id'),'pelabuhans');
+                    $log = array(
+                        'cabang_id'  => $this->input->post('cabang'),
+                        'item'     => $this->input->post('name'),
+                        'deskripsi'  => $this->input->post('deskripsi'),
+                        'path_file'   => $selectOne->foto,
+                        // 'created_at'   => date('Y-m-d H:i:s'),
+                        'created_by'   => cleartext($this->session->userdata('admin_data')->id),
+                        'status'   => 2,
+                        'fulluri'   => base_url('panel/pelabuhan?details='.$this->input->post('id')),
+                        'flag'   => 'Edit',
+                        'trans_id'   => $this->input->post('id'),
+                    );
+                    $param = array(
+                        'status' => 2
+                    );
+                }
+                $this->m_model->updateas('id', $this->input->post('id'), $param, 'pelabuhans');
+                $this->m_model->insertgetid($log, 'pelabuhans_log');
+                // $this->m_model->updateas('id', $this->input->post('id'), $param, 'pelabuhans');
+
             }
-            else{
-                $param = array(
-                    'cabang_id'  => cleartext($this->input->post('cabang')),
-                    'name'     => cleartext($this->input->post('name')),
-                    'deskripsi'  => cleartext($this->input->post('deskripsi')),
-                    'created_at'   => date('Y-m-d H:i:s'),
-                    'created_user'   => cleartext($this->session->userdata('admin_data')->username),
-                );
-            }
-            $this->m_model->updateas('id', $this->input->post('id'), $param, 'pelabuhans');
             redirect('panel/pelabuhan', 'refresh');
         }
         //---
         if ($this->input->get('remove')) {
-            $param = array(
-                'deleted_at'  => date('Y-m-d H:i:s'),
-                'deleted_by'   => cleartext($this->session->userdata('admin_data')->username),
-            );
-            $this->m_model->updateas('id', cleartext($this->input->get('remove')), $param, 'pelabuhans');
+            if(($this->session->userdata('admin_data')->roles == 1) || ($this->session->userdata('admin_data')->roles == 2)){
+                $this->m_model->destroy($this->input->get('remove'), 'pelabuhans');
+            }else{
+                $selectOne = $this->m_model->selectOne('id', $this->input->get('remove'),'pelabuhans');
+                    $log = array(
+                        'cabang_id'  => $selectOne->cabang_id,
+                        'item'     => $selectOne->name,
+                        'deskripsi'  => $selectOne->deskripsi,
+                        'path_file'   => $selectOne->foto,
+                        // 'created_at'   => date('Y-m-d H:i:s'),
+                        'created_by'   => cleartext($this->session->userdata('admin_data')->id),
+                        'status'   => 2,
+                        'fulluri'   => base_url('panel/pelabuhan?details='.$this->input->get('remove')),
+                        'flag'   => 'Remove',
+                        'trans_id'   => $this->input->get('remove'),
+                    );
+                    $param = array(
+                        'status' => 2
+                    );
+                $this->m_model->updateas('id', $this->input->get('remove'), $param, 'pelabuhans');
+                $this->m_model->insertgetid($log, 'pelabuhans_log');
+            }
+
+            // $param = array(
+            //     'deleted_at'  => date('Y-m-d H:i:s'),
+            //     'deleted_by'   => cleartext($this->session->userdata('admin_data')->username),
+            // );
+            // $this->m_model->updateas('id', cleartext($this->input->get('remove')), $param, 'pelabuhans');
             redirect('panel/pelabuhan', 'refresh');
+        }
+
+        if($this->input->get('details')){
+            // redirect('panel/pelabuhan', 'refresh');
         }
     }
 
@@ -1815,95 +1894,207 @@ class Panel extends CI_Controller {
         }
         //---
         if ($this->input->post('save')) {
-#            print_r($_FILES);
- #           echo "<br><br>". COUNT($_FILES);
-  #          die();
-            $pathfile="";
-            if (!empty($_FILES['cover']['name'])) {
-                $config['upload_path']   = FCPATH.'/images/armada/cover/';
-                $config['allowed_types'] = 'jpg|png|jpeg';
-                $config['max_size'] = 3000000;
-                $config['file_name'] = uniqid();
-                $this->load->library('upload',$config);
-                $this->upload->initialize($config);
-                $this->upload->do_upload('cover');
-                $pathfile='images/armada/cover/'.$this->upload->data('file_name');
-                $param = array(
-                    'cabang_id'  => cleartext($this->input->post('cabang_id')),
-                    'name'     => cleartext($this->input->post('name')),
-                    'deskripsi'  => cleartext($this->input->post('deskripsi_armada')),
-                    'foto'   => $pathfile,
-                    'updated_at'   => date('Y-m-d H:i:s'),
-                    'updated_by'   => cleartext($this->session->userdata('admin_data')->username),
-                );
-            }else{
-                $param = array(
-                    'cabang_id'  => cleartext($this->input->post('cabang_id')),
-                    'name'     => cleartext($this->input->post('name')),
-                    'deskripsi'  => cleartext($this->input->post('deskripsi_armada')),
-                    'updated_at'   => date('Y-m-d H:i:s'),
-                    'updated_by'   => cleartext($this->session->userdata('admin_data')->username),
-                );
-            }
+            if(($this->session->userdata('admin_data')->roles == 1) || ($this->session->userdata('admin_data')->roles == 2)){
+                $pathfile="";
+                if (!empty($_FILES['cover']['name'])) {
+                    $config['upload_path']   = FCPATH.'/images/armada/cover/';
+                    $config['allowed_types'] = 'jpg|png|jpeg';
+                    $config['max_size'] = 3000000;
+                    $config['file_name'] = uniqid();
+                    $this->load->library('upload',$config);
+                    $this->upload->initialize($config);
+                    $this->upload->do_upload('cover');
+                    $pathfile='images/armada/cover/'.$this->upload->data('file_name');
+                    $param = array(
+                        'cabang_id'  => cleartext($this->input->post('cabang_id')),
+                        'name'     => cleartext($this->input->post('name')),
+                        'deskripsi'  => cleartext($this->input->post('deskripsi_armada')),
+                        'foto'   => $pathfile,
+                        'updated_at'   => date('Y-m-d H:i:s'),
+                        'created_by'   => cleartext($this->session->userdata('admin_data')->id),
+                    );
+                }else{
+                    $param = array(
+                        'cabang_id'  => cleartext($this->input->post('cabang_id')),
+                        'name'     => cleartext($this->input->post('name')),
+                        'deskripsi'  => cleartext($this->input->post('deskripsi_armada')),
+                        'updated_at'   => date('Y-m-d H:i:s'),
+                        'created_by'   => cleartext($this->session->userdata('admin_data')->id),
+                    );
+                }
 
-            $this->m_model->updateas('id', cleartext($this->input->post('id')), $param, 'armada');
-            $i=0;
-            foreach ($_FILES as $key => $value) {
-                if( $key!='cover'){
-                    if(!empty($_FILES[$key]['name'])){
-                        $pathfile="";
-                        # code...
-                        $config[$i]['upload_path']   = FCPATH.'/images/armada/deck/';
-                            
-                        $config[$i]['allowed_types'] = 'jpg|jpeg|png|gif';
-                        $config[$i]['max_size'] = 3000000;
-                        $config[$i]['file_name'] = uniqid();
-                        $this->load->library('upload',$config[$i]);
-                        $this->upload->initialize($config[$i]);
-                        $this->upload->do_upload($key);
-                        $pathfile='images/armada/deck/'.$this->upload->data('file_name');
-                        $paramDeck = array(
-                            'name'     => cleartext($this->input->post('deck')[$i]),
-                            'deskripsi'     => cleartext($this->input->post('deskripsi')[$i]),
-                            'path_file'   => $pathfile,
-                            'created_at'   => date('Y-m-d H:i:s'),
-                            'created_user'   => cleartext($this->session->userdata('admin_data')->username),
-                        );
+                $this->m_model->updateas('id', cleartext($this->input->post('id')), $param, 'armada');
+                $i=0;
+                foreach ($_FILES as $key => $value) {
+                    if( $key!='cover'){
+                        if(!empty($_FILES[$key]['name'])){
+                            $pathfile="";
+                            # code...
+                            $config[$i]['upload_path']   = FCPATH.'/images/armada/deck/';
+                                
+                            $config[$i]['allowed_types'] = 'jpg|jpeg|png|gif';
+                            $config[$i]['max_size'] = 3000000;
+                            $config[$i]['file_name'] = uniqid();
+                            $this->load->library('upload',$config[$i]);
+                            $this->upload->initialize($config[$i]);
+                            $this->upload->do_upload($key);
+                            $pathfile='images/armada/deck/'.$this->upload->data('file_name');
+                            $paramDeck = array(
+                                'name'     => cleartext($this->input->post('deck')[$i]),
+                                'deskripsi'     => cleartext($this->input->post('deskripsi')[$i]),
+                                'path_file'   => $pathfile,
+                                'created_at'   => date('Y-m-d H:i:s'),
+                                'created_user'   => cleartext($this->session->userdata('admin_data')->username),
+                            );
+                        }
+                        else{
+                            $paramDeck = array(
+                                'name'     => cleartext($this->input->post('deck')[$i]),
+                                'deskripsi'     => cleartext($this->input->post('deskripsi')[$i]),
+                                'created_at'   => date('Y-m-d H:i:s'),
+                                'created_user'   => cleartext($this->session->userdata('admin_data')->username),
+                            );
+                        }
+                        if(!isset($_POST['deck_id'][$i])){
+                            $paramDeck['armada_id']=cleartext($this->input->post('id'));
+                            $create=$this->m_model->create($paramDeck, 'armada_elements');
+                        }
+                        else{
+                            $update=$this->m_model->updateas('id', $this->input->post('deck_id')[$i], $paramDeck, 'armada_elements');
+                        }
+                        $i++;
                     }
-                    else{
-                        $paramDeck = array(
-                            'name'     => cleartext($this->input->post('deck')[$i]),
-                            'deskripsi'     => cleartext($this->input->post('deskripsi')[$i]),
-                            'created_at'   => date('Y-m-d H:i:s'),
-                            'created_user'   => cleartext($this->session->userdata('admin_data')->username),
-                        );
+                }
+            }else{
+                // AMPAS CABANG
+                $pathfile="";
+                if (!empty($_FILES['cover']['name'])) {
+                    $config['upload_path']   = FCPATH.'/images/armada/cover/';
+                    $config['allowed_types'] = 'jpg|png|jpeg';
+                    $config['max_size'] = 3000000;
+                    $config['file_name'] = uniqid();
+                    $this->load->library('upload',$config);
+                    $this->upload->initialize($config);
+                    $this->upload->do_upload('cover');
+                    $pathfile='images/armada/cover/'.$this->upload->data('file_name');
+                    $log = array(
+                        'cabang_id'  => cleartext($this->input->post('cabang_id')),
+                        'item'     => cleartext($this->input->post('name')),
+                        'deskripsi'  => cleartext($this->input->post('deskripsi_armada')),
+                        'path_file'   => $pathfile,
+                        // 'created_at'   => date('Y-m-d H:i:s'),
+                        'created_by'   => cleartext($this->session->userdata('admin_data')->id),
+                        'status'   => 2,
+                        'fulluri'   => base_url('panel/armada?details='.$this->input->post('id')),
+                        'flag'   => 'Edit',
+                        'trans_id'   => $this->input->post('id'),
+                    );
+                    $param = array(
+                        'status' => 2
+                    );
+                }else{
+                    $selectOne = $this->m_model->selectOne('id',$this->input->post('id'),'armada');
+                    $log = array(
+                        'cabang_id'  => cleartext($this->input->post('cabang_id')),
+                        'item'     => cleartext($this->input->post('name')),
+                        'deskripsi'  => cleartext($this->input->post('deskripsi_armada')),
+                        // 'created_at'   => date('Y-m-d H:i:s'),
+                        'created_by'   => cleartext($this->session->userdata('admin_data')->id),
+                        'status'   => 2,
+                        'fulluri'   => base_url('panel/armada?details='.$this->input->post('id')),
+                        'flag'   => 'Edit',
+                        'trans_id'   => $this->input->post('id'),
+                        'path_file'   => $selectOne->foto,
+                    );
+
+                    $param = array(
+                        'status' => 2
+                    );
+                }
+
+                $this->m_model->insertgetid($log, 'armada_log');
+                $this->m_model->updateas('id', cleartext($this->input->post('id')), $param, 'armada');
+                $i=0;
+                foreach ($_FILES as $key => $value) {
+                    if( $key!='cover'){
+                        if(!empty($_FILES[$key]['name'])){
+                            $pathfile="";
+                            # code...
+                            $config[$i]['upload_path']   = FCPATH.'/images/armada/deck/';
+                                
+                            $config[$i]['allowed_types'] = 'jpg|jpeg|png|gif';
+                            $config[$i]['max_size'] = 3000000;
+                            $config[$i]['file_name'] = uniqid();
+                            $this->load->library('upload',$config[$i]);
+                            $this->upload->initialize($config[$i]);
+                            $this->upload->do_upload($key);
+                            $pathfile='images/armada/deck/'.$this->upload->data('file_name');
+                            $paramDeck = array(
+                                'name'     => cleartext($this->input->post('deck')[$i]),
+                                'deskripsi'     => cleartext($this->input->post('deskripsi')[$i]),
+                                'path_file'   => $pathfile,
+                                'created_at'   => date('Y-m-d H:i:s'),
+                                'created_user'   => cleartext($this->session->userdata('admin_data')->username),
+                            );
+                        }
+                        else{
+                            $paramDeck = array(
+                                'name'     => cleartext($this->input->post('deck')[$i]),
+                                'deskripsi'     => cleartext($this->input->post('deskripsi')[$i]),
+                                'created_at'   => date('Y-m-d H:i:s'),
+                                'created_user'   => cleartext($this->session->userdata('admin_data')->username),
+                            );
+                        }
+                        if(!isset($_POST['deck_id'][$i])){
+                            $paramDeck['armada_id']=cleartext($this->input->post('id'));
+                            $create=$this->m_model->create($paramDeck, 'armada_elements');
+                        }
+                        else{
+                            $update=$this->m_model->updateas('id', $this->input->post('deck_id')[$i], $paramDeck, 'armada_elements');
+                        }
+                        $i++;
                     }
-                    if(!isset($_POST['deck_id'][$i])){
-                        $paramDeck['armada_id']=cleartext($this->input->post('id'));
-                        $create=$this->m_model->create($paramDeck, 'armada_elements');
-                    }
-                    else{
-                        $update=$this->m_model->updateas('id', $this->input->post('deck_id')[$i], $paramDeck, 'armada_elements');
-                    }
-                    $i++;
                 }
             }
-
             redirect('panel/armada', 'refresh');
         }
         //---
         if ($this->input->get('remove')) {
-            $param = array(
-                'deleted_at'  => date('Y-m-d H:i:s'),
-                'deleted_by'   => cleartext($this->session->userdata('admin_data')->username),
-            );
-            $this->m_model->destroy($this->input->get('remove'), 'armada');
+            
+            if(($this->session->userdata('admin_data')->roles == 1) || ($this->session->userdata('admin_data')->roles == 2)){
+                $this->m_model->destroy($this->input->get('remove'), 'armada');
+            }else{
+                $selectOne = $this->m_model->selectOne('id',$this->input->post('id'),'armada');
+                    $log = array(
+                        'cabang_id'  => cleartext($this->input->post('cabang_id')),
+                        'item'     => cleartext($this->input->post('name')),
+                        'deskripsi'  => cleartext($this->input->post('deskripsi_armada')),
+                        // 'created_at'   => date('Y-m-d H:i:s'),
+                        'created_by'   => cleartext($this->session->userdata('admin_data')->id),
+                        'status'   => 2,
+                        'fulluri'   => base_url('panel/armada?details='.$this->input->post('id')),
+                        'flag'   => 'Edit',
+                        'trans_id'   => $this->input->post('id'),
+                        'path_file'   => $selectOne->path_file,
+                    );
+
+                    $param = array(
+                        'status' => 2
+                    );
+                $this->m_model->insertgetid($log, 'armada_log');
+                $this->m_model->updateas('id', cleartext($this->input->post('id')), $param, 'armada');
+            }
+
             redirect('panel/armada', 'refresh');
         }
 
         if ($this->input->get('removeElement')) {
             $this->m_model->destroy($this->input->get('removeElement'), 'armada_elements');
             redirect($this->agent->referrer(), 'refresh');
+        }
+
+        if($this->input->get('details')){
+            // redirect('panel/pelabuhan', 'refresh');
         }
     }
 
@@ -1928,6 +2119,7 @@ class Panel extends CI_Controller {
             }
 
             $param = array(
+                'item'  => cleartext($this->input->post('item')),
                 'cabang_id'  => cleartext($this->input->post('cabang_id')),
                 'deskripsi'  => cleartext($this->input->post('deskripsi')),
                 'path_file'   => $pathfile,
@@ -1939,39 +2131,121 @@ class Panel extends CI_Controller {
         }
         //---
         if ($this->input->post('save')) {
-            if (!empty($_FILES['photo']['name'])) {
-                $config['upload_path']   = FCPATH.'/images/pelabuhan/photo/';
-                $config['allowed_types'] = 'jpg|png|jpeg';
-                $config['max_size'] = 3000000;
-                $config['file_name'] = uniqid();
-                $this->load->library('upload',$config);
-                $this->upload->initialize($config);
-                $this->upload->do_upload('photo');
-                $pathfile='images/pelabuhan/photo/'.$this->upload->data('file_name');
+            if(($this->session->userdata('admin_data')->roles == 1) || ($this->session->userdata('admin_data')->roles == 2)){
+                if (!empty($_FILES['photo']['name'])) {
+                    $config['upload_path']   = FCPATH.'/images/pelabuhan/photo/';
+                    $config['allowed_types'] = 'jpg|png|jpeg';
+                    $config['max_size'] = 3000000;
+                    $config['file_name'] = uniqid();
+                    $this->load->library('upload',$config);
+                    $this->upload->initialize($config);
+                    $this->upload->do_upload('photo');
+                    $pathfile='images/pelabuhan/photo/'.$this->upload->data('file_name');
 
-                $param = array(
-                    'cabang_id'  => cleartext($this->input->post('cabang_id')),
-                    'deskripsi'  => cleartext($this->input->post('deskripsi')),
-                    'path_file'   => $pathfile,
-                    'updated_at'   => date('Y-m-d H:i:s'),
-                    'updated_by'   => cleartext($this->session->userdata('admin_data')->username),
-                );
+                    $param = array(
+                        'item'  => cleartext($this->input->post('item')),
+                        'cabang_id'  => cleartext($this->input->post('cabang_id')),
+                        'deskripsi'  => cleartext($this->input->post('deskripsi')),
+                        'path_file'   => $pathfile,
+                        'updated_at'   => date('Y-m-d H:i:s'),
+                        'updated_by'   => cleartext($this->session->userdata('admin_data')->id),
+                        'status'   => 3,
+                    );
+                }else{
+                    $param = array(
+                        'item'  => cleartext($this->input->post('item')),
+                        'cabang_id'  => cleartext($this->input->post('cabang_id')),
+                        'deskripsi'  => cleartext($this->input->post('deskripsi')),
+                        // 'path_file'   => $pathfile,
+                        'updated_at'   => date('Y-m-d H:i:s'),
+                        'updated_by'   => cleartext($this->session->userdata('admin_data')->username),
+                        'status'   => 3,
+                    );
+                }
+                $this->m_model->updateas('id', $this->input->post('id'), $param, 'photo');
+            }else{
+                if (!empty($_FILES['photo']['name'])) {
+                    $config['upload_path']   = FCPATH.'/images/pelabuhan/photo/';
+                    $config['allowed_types'] = 'jpg|png|jpeg';
+                    $config['max_size'] = 3000000;
+                    $config['file_name'] = uniqid();
+                    $this->load->library('upload',$config);
+                    $this->upload->initialize($config);
+                    $this->upload->do_upload('photo');
+                    $pathfile='images/pelabuhan/photo/'.$this->upload->data('file_name');
+
+                    $log = array(
+                        'item'  => cleartext($this->input->post('item')),
+                        'cabang_id'  => cleartext($this->input->post('cabang_id')),
+                        'deskripsi'  => cleartext($this->input->post('deskripsi')),
+                        'path_file'   => $pathfile,
+                        // 'updated_at'   => date('Y-m-d H:i:s'),
+                        'created_by'   => cleartext($this->session->userdata('admin_data')->id),
+                        'fulluri'   => base_url('panel/photo?details='.$this->input->post('id')),
+                        'trans_id'   => $this->input->post('id'),
+                        'status'   => 2,
+                        'flag'   => 'Edit',
+                    );
+                    $param = array(
+                        'status' => 2
+                    );
+                }else{
+                    $selectOne = $this->m_model->selectOne('id', $this->input->post('id'),'photo');
+                    $log = array(
+                        'path_file'  => $selectOne->path_file,
+                        'item'  => cleartext($this->input->post('item')),
+                        'cabang_id'  => cleartext($this->input->post('cabang_id')),
+                        'deskripsi'  => cleartext($this->input->post('deskripsi')),
+                        // 'updated_at'   => date('Y-m-d H:i:s'),
+                        'created_by'   => cleartext($this->session->userdata('admin_data')->id),
+                        'fulluri'   => base_url('panel/photo?details='.$this->input->post('id')),
+                        'trans_id'   => $this->input->post('id'),
+                        'status'   => 2,
+                        'flag'   => 'Edit',
+                    );
+                    $param = array(
+                        'status' => 2
+                    );
+                }
+                
+                $this->m_model->updateas('id', $this->input->post('id'), $param, 'photo');
+                $this->m_model->insertgetid($log, 'photo_log');
             }
-            else{
-                $param = array(
-                    'cabang_id'  => cleartext($this->input->post('cabang_id')),
-                    'deskripsi'  => cleartext($this->input->post('deskripsi')),
-                    'updated_at'   => date('Y-m-d H:i:s'),
-                    'updated_by'   => cleartext($this->session->userdata('admin_data')->username),
-                );
+
+            if($this->input->get('details')){
+                // redirect('panel/pelabuhan', 'refresh');
             }
-            $this->m_model->updateas('id', $this->input->post('id'), $param, 'photo');
+
             redirect('panel/photo', 'refresh');
         }
         //---
         if ($this->input->get('remove')) {
-             
-            $this->m_model->destroy($this->input->get('remove'),'photo');
+            if(($this->session->userdata('admin_data')->roles == 1) || ($this->session->userdata('admin_data')->roles == 2)){
+                $this->m_model->destroy($this->input->get('remove'),'photo');
+
+            }else{
+                $selectOne = $this->m_model->selectOne('id', $this->input->post('id'),'photo');
+                $log = array(
+                    'path_file'  => $selectOne->path_file,
+                    'item'  => $selectOne->item,
+                    'cabang_id'  => $selectOne->cabang_id,
+                    'deskripsi'  => $selectOne->deskripsi,
+                    // 'updated_at'   => date('Y-m-d H:i:s'),
+                    'created_by'   => cleartext($this->session->userdata('admin_data')->id),
+                    'fulluri'   => base_url('panel/photo?details='.$this->input->post('id')),
+                    'trans_id'   => $this->input->get('remove'),
+                    'status'   => 2,
+                    'flag'   => 'Remove',
+                );
+                $param = array(
+                    'status' => 2
+                );
+                $this->m_model->updateas('id', $this->input->get('remove'), $param, 'photo');
+                $this->m_model->insertgetid($log, 'photo_log'); 
+            }
+            
+
+
             redirect('panel/photo', 'refresh');
         }
     }
@@ -2114,7 +2388,8 @@ class Panel extends CI_Controller {
            // print_r($pathfile);
            // die();
             $param = array(
-                'name'  => $_FILES['photo']['name'],
+                'filename'  => $_FILES['photo']['name'],
+                'item'  => cleartext($this->input->post('item')),
                 'cabang_id'  => cleartext($this->input->post('cabang_id')),
                 'deskripsi'  => cleartext($this->input->post('deskripsi')),
                 'path_file'   => $pathfile,
@@ -2127,44 +2402,123 @@ class Panel extends CI_Controller {
         }
         //---
         if ($this->input->post('save')) {
-             $pathfile="";
-            if (!empty($_FILES['photo']['name'])) {
-                $config['upload_path']   = FCPATH.'/images/file/pdf/';
-                // $config['allowed_types'] = 'pdf';
-                $config['allowed_types'] = 'mp4|mkv|avi|3gp|mpg|mpeg|flv|mdi';
+            if(($this->session->userdata('admin_data')->roles == 1) || ($this->session->userdata('admin_data')->roles == 2)){
+                if (!empty($_FILES['photo']['name'])) {
+                    $config['upload_path']   = FCPATH.'/images/file/pdf/';
+                    $config['allowed_types'] = 'mp4|mkv|avi|3gp|mpg|mpeg|flv|mdi';
 
-                // $config['max_size'] = 3000000;
-                $config['file_name'] = uniqid();
-                $this->load->library('upload',$config);
-                $this->upload->initialize($config);
-                $this->upload->do_upload('photo');
-                // print_r($this->upload->data('file_name'));
-                // die();
-                $pathfile='images/file/pdf/'.$this->upload->data('file_name');
+                    $config['file_name'] = uniqid();
+                    $this->load->library('upload',$config);
+                    $this->upload->initialize($config);
+                    $this->upload->do_upload('photo');
+                    $pathfile='images/file/pdf/'.$this->upload->data('file_name');
+                    $param = array(
+                        'item'  => cleartext($this->input->post('item')),
+                        'status'  => 3,
+                        // 'fulluri'  => base_url('panel/video/detail/'.$this->input->post('id')),
+                        // 'trans_id'  => cleartext($this->input->post('id')),
+                        'cabang_id'  => cleartext($this->input->post('cabang_id')),
+                        'deskripsi'  => $this->input->post('deskripsi'),
+                        'path_file'   => $pathfile,
+                        'filename'  => $_FILES['photo']['name'],
+                        // 'flag'  => 'Edit',
+
+                        // 'updated_at'   => date('Y-m-d H:i:s'),
+                        // 'updated_by'   => cleartext($this->session->userdata('admin_data')->username),
+                    );
+                }else{
+                     $param = array(
+                        'item'  => cleartext($this->input->post('item')),
+                        'status'  => 3,
+                        'cabang_id'  => cleartext($this->input->post('cabang_id')),
+                        'deskripsi'  => $this->input->post('deskripsi'),
+                    );
+                }
+                $this->m_model->updateas('id', $this->input->post('id'), $param, 'video');
+            }else{
+                $pathfile="";
+                if (!empty($_FILES['photo']['name'])) {
+                    $config['upload_path']   = FCPATH.'/images/file/pdf/';
+                    $config['allowed_types'] = 'mp4|mkv|avi|3gp|mpg|mpeg|flv|mdi';
+
+                    $config['file_name'] = uniqid();
+                    $this->load->library('upload',$config);
+                    $this->upload->initialize($config);
+                    $this->upload->do_upload('photo');
+                    $pathfile='images/file/pdf/'.$this->upload->data('file_name');
+                    $log = array(
+                        'item'  => cleartext($this->input->post('item')),
+                        'status'  => 2,
+                        'fulluri'  => base_url('panel/video?detail='.$this->input->post('id')),
+                        'trans_id'  => cleartext($this->input->post('id')),
+                        'cabang_id'  => cleartext($this->input->post('cabang_id')),
+                        'deskripsi'  => $this->input->post('deskripsi'),
+                        'path_file'   => $pathfile,
+                        'filename'  => $_FILES['photo']['name'],
+                        'flag'  => 'Edit',
+
+                        // 'updated_at'   => date('Y-m-d H:i:s'),
+                        'created_by'   => cleartext($this->session->userdata('admin_data')->id),
+                    );
+                }else{
+                    $selectOne = $this->m_model->selectOne('id', $this->input->post('id'),'video');
+                    $log = array(
+                        'item'  => cleartext($this->input->post('item')),
+                        'status'  => 2,
+                        'fulluri'  => base_url('panel/video?detail='.$this->input->post('id')),
+                        'trans_id'  => cleartext($this->input->post('id')),
+                        'cabang_id'  => cleartext($this->input->post('cabang_id')),
+                        'deskripsi'  => $this->input->post('deskripsi'),
+                        'path_file'   => $selectOne->path_file,
+                        'filename'  => $selectOne->filename,
+                        'flag'  => 'Edit',
+                        // 'updated_at'   => date('Y-m-d H:i:s'),
+                        'created_by'   => cleartext($this->session->userdata('admin_data')->id),
+                    );
+                }
+                
+                $param = array(
+                    'status' => 2
+                );
             }
-
-
-            $param = array(
-                'name'  => $_FILES['photo']['name'],
-                'cabang_id'  => cleartext($this->input->post('cabang_id')),
-                'deskripsi'  => $this->input->post('deskripsi'),
-                'path_file'   => $pathfile,
-                // 'updated_at'   => date('Y-m-d H:i:s'),
-                // 'updated_by'   => cleartext($this->session->userdata('admin_data')->username),
-            );
-           
             $this->m_model->updateas('id', $this->input->post('id'), $param, 'video');
+            $this->m_model->insertgetid($log, 'video_log');
+
             redirect('panel/video', 'refresh');
         }
         //---
         if ($this->input->get('remove')) {
-            //  $createdata = array(
-            //     'deleted_at'  => date('Y-m-d H:i:s'),
-            //     'deleted_by'   => cleartext($this->session->userdata('admin_data')->username),
-            // );
-            // $this->m_model->updateas('id', cleartext($this->input->get('remove')), $createdata, 'video');
-            $this->m_model->destroy($this->input->get('remove'), 'video');
+            if(($this->session->userdata('admin_data')->roles == 1) || ($this->session->userdata('admin_data')->roles == 2)){
+                $this->m_model->destroy($this->input->get('remove'), 'video');
+            }else{
+                $selectOne = $this->m_model->selectOne('id', $this->input->get('remove'),'video');
+                    $log = array(
+                        'item'  => $selectOne->item,
+                        'status'  => 2,
+                        'fulluri'  => base_url('panel/video?details='.$this->input->get('remove')),
+                        'trans_id'  => $selectOne->trans_id,
+                        'cabang_id'  => $selectOne->cabang_id,
+                        'deskripsi'  => $selectOne->deskripsi,
+                        'path_file'   => $selectOne->path_file,
+                        'filename'  => $selectOne->filename,
+                        'flag'  => 'Remove',
+                        'created_by'   => cleartext($this->session->userdata('admin_data')->id),
+                        // 'updated_at'   => date('Y-m-d H:i:s'),
+                        // 'updated_by'   => cleartext($this->session->userdata('admin_data')->username),
+                    );
+                
+                $param = array(
+                    'status' => 2
+                );
+                $this->m_model->updateas('id', $this->input->get('remove'), $param, 'video');
+                $this->m_model->insertgetid($log, 'video_log');
+            }
+
             redirect('panel/video', 'refresh');
+        }
+
+        if($this->input->get('details')){
+                // redirect('panel/pelabuhan', 'refresh');
         }
     }
 

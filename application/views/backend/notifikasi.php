@@ -83,20 +83,22 @@
                                 </div> 
                                 </div>
 
-                                <table class="table table-bordered table-striped table-hover dataTable js-basic-example" id="example">
+                                <table class="table table-bordered table-responsive table-striped table-hover dataTable js-basic-example" id="example">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
-                                            <th>Module</th>                             
-                                            <th>Cabang</th>                             
-                                            <th>User</th>                             
-                                            <th>Status</th>  
-                                            <th>Tanggal</th>                             
+                                            <th style="text-align: center;">No</th>
+                                            <th style="text-align: center;">Link</th>                             
+                                            <th style="text-align: center;">Module</th>                             
+                                            <th style="text-align: center;">Flag</th>                             
+                                            <th style="text-align: center;">Cabang</th>                             
+                                            <th style="text-align: center;">User</th>                             
+                                            <th style="text-align: center;">Status</th>  
+                                            <th style="text-align: center;">Tanggal</th>                             
 
                                             <?php
                                                 if($trueAdm == 'salah'){
                                             ?>                           
-                                            <th>Action</th>
+                                            <th style="text-align: center;">Action</th>
                                             <?php
                                                 }
                                             ?>
@@ -113,7 +115,7 @@
                                                 $idCABANG = $this->session->userdata('admin_data')->id_cabang;
                                             }
                                             foreach ($record as $key => $value) {
-                                                $userNam = $this->m_model->selectOne('id',$value->user_id,'users'); 
+                                                $userNam = $this->m_model->selectOne('id',$value->created_by,'users'); 
                                                 if(isset($userNam->id_cabang)){
                                                     $idCABANG1 = $userNam->id_cabang;
                                                 }
@@ -123,8 +125,14 @@
                                                 <tr>
                                                     <td><?= $key + 1; ?></td>
                                                    
+                                                   <td colspan="" rowspan="" headers="">
+                                                       <a href="<?= $value->fulluri; ?>"> <?= $value->fulluri; ?></a>
+                                                   </td>
                                                     <td>
                                                         <?= $value->form_type; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $value->flag; ?>
                                                     </td>
                                                     <td>
                                                         <?php
@@ -137,7 +145,7 @@
                                                     </td>
                                                     <td>
                                                         <?php
-                                                            $userNam = $this->m_model->selectOne('id',$value->user_id,'users'); 
+                                                            $userNam = $this->m_model->selectOne('id',$value->created_by,'users'); 
                                                             if($userNam){
                                                                 echo $userNam->username;
                                                             }else{
@@ -146,18 +154,18 @@
                                                         ?>
                                                     </td>
 
-                                                    <td>
-                                                        <?php
-                                                            if($value->status == 'On Process'){
-                                                        ?>
-                                                            <span class="badge badge-warning"><?= $value->status; ?></span>
-                                                        <?php
-                                                            }else{
-                                                        ?>
-                                                            <span class="badge badge-danger"><?= $value->status; ?></span>
-                                                        <?php
+                                                    <td style="text-align: center;">
+                                                       <?php 
+                                                            if($value->status == 1){
+                                                                echo '<a class="btn btn-primary" title="" style="color:white;">Open</a>';
+                                                            }elseif($value->status == 2){
+                                                                echo '<a class="btn btn-warning" title="" style="color:white;">Waiting For Approval</a>';
+                                                            }elseif($value->status == 3){
+                                                                echo '<a class="btn btn-success" title="" style="color:white;">Approved</a>';
+                                                            }elseif($value->status == 4){
+                                                                echo '<a class="btn btn-danger" title="" style="color:white;">Rejected</a>';
                                                             }
-                                                        ?>
+                                                        ?>        
                                                     </td>
                                                     <td>
                                                         <?= $value->created_at; ?>
@@ -168,7 +176,7 @@
                                                     ?>
                                                     <td>
                                                         <?php
-                                                            if($value->status == 'On Process'){
+                                                            if($value->status == 2){
                                                         ?>
                                                             <a class="confirm badge badge-success" msg="You Want Approve This Data?" href="<?= site_url('backend/notifikasi/approve/').$value->id; ?>">Approve</a>
                                                             <a class="confirm badge badge-danger" msg="You Want Reject This Data?" href="<?= site_url('backend/notifikasi/reject/').$value->id; ?>">Reject</a>
@@ -190,8 +198,14 @@
                                                  <tr>
                                                     <td><?= $key + 1; ?></td>
                                                    
+                                                   <td colspan="" rowspan="" headers="">
+                                                       <a href="<?= $value->fulluri; ?>"> <?= $value->fulluri; ?></a>
+                                                   </td>
                                                     <td>
                                                         <?= $value->form_type; ?>
+                                                    </td>
+                                                     <td>
+                                                        <?= $value->flag; ?>
                                                     </td>
                                                     <td>
                                                         <?php
@@ -204,7 +218,7 @@
                                                     </td>
                                                     <td>
                                                         <?php
-                                                            $userNam = $this->m_model->selectOne('id',$value->user_id,'users'); 
+                                                            $userNam = $this->m_model->selectOne('id',$value->created_by,'users'); 
                                                             if($userNam){
                                                                 echo $userNam->username;
                                                             }else{
@@ -213,23 +227,16 @@
                                                         ?>
                                                     </td>
 
-                                                    <td>
-                                                        <?php
-                                                            if($value->status == 'On Process'){
-                                                        ?>
-                                                            <span class="badge badge-warning"><?= $value->status; ?></span>
-                                                        <?php
-                                                            }else{
-                                                                if($value->status == 'Approved'){
-                                                        ?>
-                                                                    <span class="badge badge-primary"><?= $value->status; ?></span>
-
-                                                        <?php
-                                                                }else{
-                                                        ?>
-                                                                    <span class="badge badge-danger"><?= $value->status; ?></span>
-                                                        <?php
-                                                                }
+                                                    <td style="text-align: center;">
+                                                        <?php 
+                                                            if($value->status == 1){
+                                                                echo '<a class="btn btn-primary" title="" style="color:white;">Open</a>';
+                                                            }elseif($value->status == 2){
+                                                                echo '<a class="btn btn-warning" title="" style="color:white;">Waiting For Approval</a>';
+                                                            }elseif($value->status == 3){
+                                                                echo '<a class="btn btn-success" title="" style="color:white;">Approved</a>';
+                                                            }elseif($value->status == 4){
+                                                                echo '<a class="btn btn-danger" title="" style="color:white;">Rejected</a>';
                                                             }
                                                         ?>
                                                     </td>
@@ -243,14 +250,14 @@
                                                     ?>
                                                     <td>
                                                         <?php
-                                                            if($value->status == 'On Process'){
+                                                            if($value->status == 2){
                                                         ?>
-                                                            <a class="confirm badge badge-success" msg="You Want Approve This Data?" href="<?= site_url('backend/notifikasi/approve/').$value->id; ?>">Approve</a>
-                                                            <a class="confirm badge badge-danger" msg="You Want Reject This Data?" href="<?= site_url('backend/notifikasi/reject/').$value->id; ?>">Reject</a>
+                                                            <a class="confirm badge badge-success" msg="You Want Approve This Data?" href="<?= site_url('backend/notifikasi/approve/'.$value->id.'/'.$value->form_type.'/'.$value->flag); ?>">Approve</a>
+                                                            <a class="confirm badge badge-danger" msg="You Want Reject This Data?" href="<?= site_url('backend/notifikasi/reject/'.$value->id.'/'.$value->form_type.'/'.$value->flag); ?>">Reject</a>
                                                         <?php
                                                             }else{
                                                         ?>
-                                                            <a class="confirm badge badge-danger" msg="You Want Delete This Data?" href="<?= site_url('backend/notifikasi/delete/').$value->id; ?>">Delete</a>
+                                                            <a class="confirm badge badge-danger" msg="You Want Delete This Data?" href="<?= site_url('backend/notifikasi/delete/'.$value->id.'/'.$value->form_type.'/'.$value->flag); ?>">Delete</a>
                                                         <?php
                                                             }
                                                         ?>

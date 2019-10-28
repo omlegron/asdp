@@ -91,6 +91,7 @@ class Armada extends CI_Controller {
                 'kondisi' => $this->input->post('kondisi'),
                 'posisi' => $this->input->post('posisi'),
                 'tahun' => $this->input->post('tahun'),
+                'width' => $this->input->post('width'),
                 // 'fileurl' => $pathfile,
             );
             $this->m_model->updateas('id', $this->input->post('id'), $saveArr, 'trans_armada_hasil');
@@ -149,6 +150,7 @@ class Armada extends CI_Controller {
                 'kondisi' => $this->input->post('kondisi'),
                 'posisi' => $this->input->post('posisi'),
                 'tahun' => $this->input->post('tahun'),
+                'width' => $this->input->post('width'),
                 // 'fileurl' => $pathfile,
             );
             $this->m_model->updateas('id', $this->input->post('id_armada_elments'), ['url_canvas' => $output], 'armada_elements');

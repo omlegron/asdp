@@ -109,7 +109,10 @@
         </div>
     <?php } ?>
 
-    <?php if ($this->input->get('edit')) { ?>
+    <?php 
+        if ($this->input->get('edit')) { 
+    ?>
+
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card">
@@ -156,10 +159,13 @@
                                     </select>
                                 </div>
 
-                                 <div class="form-group col-lg-4" style="display: none">
+                                <?php
+                                    if(isset($val[0]->id_cabang)){
+                                ?>
+                                <div class="form-group col-lg-4 cabang" style="">
                                     <div class="form-line">
                                         <label >Cabang</label>
-                                        <select name="id_cabang" class="form-control show-tick">
+                                        <select name="id_cabang" class="form-control show-tick ">
                                             <option value="">Pilih Cabang</option>
                                             <?php
                                                 foreach ($this->m_model->all('cabangs') as $key => $vals) {
@@ -167,16 +173,21 @@
                                                     if(isset($val[0]->id_cabang)){
                                                         if($vals->id == $val[0]->id_cabang){
                                                             $selectedCab="selected";
+                                                            // print_r($selectedCab);
+                                                            // die();
                                                         }
                                                     }
                                             ?>
-                                                    <option value="<?=$vals->id;?>" <?=$selectedCab;?> ><?=$vals->name;?></option>
+                                                    <option value="<?=$vals->id;?>" <?= $selectedCab; ?> ><?=$vals->name;?></option>
                                             <?php
                                                 }
                                             ?>
                                         </select>
                                     </div>
                                 </div>
+                                <?php
+                                    }
+                                ?>
                             </div>
                             <div class="row clearfix" style="margin-top: 20px;">
                                 <div class="col-lg-2">

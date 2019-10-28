@@ -131,7 +131,7 @@
 <script>
 
       var width = 613;
-      var height = 730;
+      var height = 850;
       console.log('width(integer)',width,'height',height)
       var stage = new Konva.Stage({
         container: 'containers',

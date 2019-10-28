@@ -26,12 +26,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-6">
+                                    <div class="form-line">
+                                        
                                     <label>Cabang</label>
                                     <?php 
                                         if(($this->session->userdata('admin_data')->id_cabang) && ($this->session->userdata('admin_data')->id_cabang != 0)){
                                     ?>
                                         <input type="text" readonly="" class="form-control" value="<?php echo $this->m_model->getOne($this->session->userdata('admin_data')->id_cabang, 'cabangs')['name'] ?>">
                                         <input type="hidden" name="cabang" class="form-control" value="<?php echo $this->session->userdata('admin_data')->id_cabang; ?>">
+                                    </div>
                                     <?php
                                         }else{
                                     ?>
@@ -104,7 +107,17 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-6">
+                                    <div class="form-line">    
                                     <label>Cabang</label>
+                                    <?php 
+                                        if(($this->session->userdata('admin_data')->id_cabang) && ($this->session->userdata('admin_data')->id_cabang != 0)){
+                                    ?>
+                                        <input type="text" readonly="" class="form-control" value="<?php echo $this->m_model->getOne($this->session->userdata('admin_data')->id_cabang, 'cabangs')['name'] ?>">
+                                        <input type="hidden" name="cabang" class="form-control" value="<?php echo $this->session->userdata('admin_data')->id_cabang; ?>">
+                                    </div>
+                                    <?php
+                                        }else{
+                                    ?>
                                     <select name="cabang" class="form-control show-tick" required>
                                             <option value="">Pilih</option>
                                         <?php
@@ -116,6 +129,9 @@
                                             }
                                         ?>
                                     </select>
+                                    <?php
+                                            }
+                                        ?>
                                 </div>
                                 <div class="col-lg-6">
                                     <img src="<?=$img['path'];?>" class="img-fluid" style="max-height: 300px;">
@@ -194,34 +210,10 @@
                                 $statusApprove = 'Approval';
                                 $cekApprove = $this->m_model->selectOneWhere3('form_type','pelabuhan','form_id',$value->id,'user_id',$this->session->userdata('admin_data')->id,'trans_approval');
                                 if($this->session->userdata('admin_data')->roles!=4){
-                                    if(isset($cekApprove)){
-                                    if($cekApprove->status == 'On Process'){
-                            ?>
-                                    <a class="btn btn-warning btn-sm" msg="Silahkan Tunggu Selesai Di Konfirmasi" href="javascript:void(0)"><?= $cekApprove->status; ?></a>
-                            <?php
-                                    }elseif($cekApprove->status == 'Rejected'){
-                                        ?>
-                                            <a class="confirm btn btn-danger btn-sm" msg="Pesan Rejected (`<?= $cekApprove->deskripsi; ?>`), Status Anda Telah Direject Approve Kembali?." href="<?= site_url('panel/approve/pelabuhan/').$value->id; ?>"><?= $cekApprove->status; ?></a>
-                                        <?php
-                                    }else{
                             ?>
                                     <a href="<?=base_url();?>panel/pelabuhan?edit=<?=$val['id'];?>"  class="btn btn-primary btn-sm" style="color: #fff">Edit</a>
                                     <a href="<?=base_url();?>panel/pelabuhan?remove=<?=$val['id'];?>"  class="confirm btn btn-danger btn-sm" msg="Are you sure to Delete data?" style="color: #fff">Delete</a>
                             <?php
-                                    }
-                                    }else{
-                                        if(($this->session->userdata('admin_data')->id_cabang) && ($this->session->userdata('admin_data')->id_cabang != 0)){
-
-                                        ?>
-                                            <a class="confirm btn btn-warning btn-sm" msg="Approve Terlebih Dahulu." href="<?= site_url('panel/approve/pelabuhan/').$value->id; ?>"><?= $statusApprove; ?></a>
-                                        <?php
-                                        }else{
-                                        ?>
-                                            <a href="<?=base_url();?>panel/pelabuhan?edit=<?=$val['id'];?>"  class="btn btn-primary btn-sm" style="color: #fff">Edit</a>
-                                            <a href="<?=base_url();?>panel/pelabuhan?remove=<?=$val['id'];?>"  class="confirm btn btn-danger btn-sm" msg="Are you sure to Delete data?" style="color: #fff">Delete</a>
-                                        <?php
-                                        }
-                                    }
                                 }else{
 
                                 }
@@ -259,7 +251,64 @@
         </div>
     <?php } ?>
 
-    <?php if (!$this->input->get('add') && !$this->input->get('edit') && !$this->input->get('detail')) { ?>
+    <?php
+         if ($this->input->get('details')) { 
+    ?>
+
+ <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>Detail Pelabuhan</h2>
+                    </div>
+                    <div class="body">
+                     <?php
+                        $val = $this->m_model->getOne($this->input->get('details'), 'pelabuhans');
+                        if (count($val)) {
+                            $img=check_img($val['foto']);
+                    ?>
+
+                        <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+                            <input name="id" type="hidden" value="<?= $val['id']; ?>">
+                            <div class="row clearfix">
+                                <ul>
+                                    <li>Nama Pelabuhan : <?=$val['name'];?></li>
+                                    <li>Nama Deskripsi : <?=$val['deskripsi'];?></li>
+                                    <li>Nama Cabang : 
+                                        <?php
+                                            $cabs = $val['cabang_id'];
+                                            $cb = $this->m_model->selectOne('id',$cabs,'cabangs');
+                                            echo $cb->name;
+                                        ?>                
+                                    </li>
+                                    <li>Foto Cabang</li>
+                                </ul>
+                                <div class="col-md-12">
+                                        <center><img src="<?=$img['path'];?>"></center>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix" style="margin-top: 20px;">
+                                <div class="col-md-6">
+                                    <a href="<?=$this->uri->segment('2');?>" class="btn btn-block btn-danger">Back</a>
+                                </div>
+                                <div class="col-md-6">
+                                    <!-- <input name="save" type="submit" value="Save" class="btn btn-block btn-primary"> -->
+                                </div>
+                            </div>
+                        </form>
+
+                    <?php } ?>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php
+        }
+    ?>
+
+    <?php if (!$this->input->get('add') && !$this->input->get('edit') && !$this->input->get('detail') && !$this->input->get('details')) { ?>
         <div class="row clearfix">
             <div class="col-lg-10">
             </div>
@@ -281,7 +330,7 @@
             if(isset($this->session->userdata('admin_data')->id_cabang) && ($this->session->userdata('admin_data')->id_cabang != 0)){
                 $data = $this->m_model->selectwhere('cabang_id', $this->session->userdata('admin_data')->id_cabang, 'pelabuhans');
             }else{
-                $data = $this->m_model->selectas('deleted_at is NULL', NULL, 'pelabuhans', 'id', 'ASC');
+                $data = $this->m_model->all('pelabuhans');
             }
 
             
@@ -297,6 +346,17 @@
                       <div class="body">
                         <a href="<?=base_url();?>panel/pelabuhan?detail=<?=$value->id;?>">
                         <h4 class="title"><?=$value->name;?></h4>
+                        <?php 
+                            if($value->status == 1){
+                                echo '<a class="btn btn-primary" title="" style="color:white;">Open</a>';
+                            }elseif($value->status == 2){
+                                echo '<a class="btn btn-warning" title="" style="color:white;">Waiting For Approval</a>';
+                            }elseif($value->status == 3){
+                                echo '<a class="btn btn-success" title="" style="color:white;">Approved</a>';
+                            }elseif($value->status == 4){
+                                echo '<a class="btn btn-danger" title="" style="color:white;">Rejected</a>';
+                            }
+                        ?>        
                         </a>
                       </div>
                     </div>
