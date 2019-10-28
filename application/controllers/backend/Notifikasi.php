@@ -9,63 +9,68 @@ class Notifikasi extends CI_Controller {
 
     public function index(){
         if ($this->session->userdata('admin')) {
-            // if($this->session->userdata('admin_data')->roles == 3){
-            //     $cekAdm = $this->session->userdata('admin_data')->id_cabang;
-            //     $trueAdm = 'benar';
-            //     // $record = $this->m_model->selectcustom("select trans_approval.id,
-            //     //     trans_approval.form_type,
-            //     //     trans_approval.form_id,
-            //     //     trans_approval.deskripsi,
-            //     //     trans_approval.created_at,
-            //     //     trans_approval.status,
-            //     //     trans_approval.user_id,
-            //     //     users.id,
-            //     //     users.username,
-            //     //     users.id_cabang
-            //     //     from trans_approval 
-            //     //     inner join users 
-            //     //     on trans_approval.user_id=users.id where users.id_cabang=".$cekAdm."");
-            //     $record = $this->m_model->all('trans_approval');
-
-
-            // }else{
-            //     $trueAdm = 'salah';
-
-            //     $record = $this->m_model->all('trans_approval');
-            // }
             $array = [];
-            $photo = $this->m_model->all('photo_log');
-            if(count($photo) > 0){
-                foreach ($photo as $k => $value) {
-                    array_push($array,$value);
-                }
-            }
-
-            $video = $this->m_model->all('video_log');
-            if(count($video) > 0){
-                foreach ($video as $k => $value) {
-                    array_push($array,$value);   
-                }
-            }
-
-            $armada = $this->m_model->all('armada_log');
-            if(count($video) > 0){
-                foreach ($video as $k => $value) {
-                    array_push($array,$value);   
-                }
-            }
-
-            $pelabuhan = $this->m_model->all('pelabuhans_log');
-            if(count($pelabuhan) > 0){
-                foreach ($pelabuhan as $k => $value) {
-                    array_push($array,$value);   
-                }
-            }
-
+            
+            // print_r($this->session->userdata('admin_data')->roles);
+            // die();
             if(($this->session->userdata('admin_data')->roles == 1) || ($this->session->userdata('admin_data')->roles == 2)){
                 $trueAdm = 'salah';
+                $photo = $this->m_model->all('photo_log');
+                if(count($photo) > 0){
+                    foreach ($photo as $k => $value) {
+                        array_push($array,$value);
+                    }
+                }
+
+                $video = $this->m_model->all('video_log');
+                if(count($video) > 0){
+                    foreach ($video as $k => $value) {
+                        array_push($array,$value);   
+                    }
+                }
+
+                $armada = $this->m_model->all('armada_log');
+                if(count($video) > 0){
+                    foreach ($video as $k => $value) {
+                        array_push($array,$value);   
+                    }
+                }
+
+                $pelabuhan = $this->m_model->all('pelabuhans_log');
+                if(count($pelabuhan) > 0){
+                    foreach ($pelabuhan as $k => $value) {
+                        array_push($array,$value);   
+                    }
+                }
             }else{
                 $trueAdm = 'benar';
+                $photo = $this->m_model->selectwhere('cabang_id',$this->session->userdata('admin_data')->id_cabang,'photo_log');
+                if(count($photo) > 0){
+                    foreach ($photo as $k => $value) {
+                        array_push($array,$value);
+                    }
+                }
+
+                $video = $this->m_model->selectwhere('cabang_id',$this->session->userdata('admin_data')->id_cabang,'video_log');
+                if(count($video) > 0){
+                    foreach ($video as $k => $value) {
+                        array_push($array,$value);   
+                    }
+                }
+
+                $armada = $this->m_model->selectwhere('cabang_id',$this->session->userdata('admin_data')->id_cabang,'armada_log');
+                if(count($video) > 0){
+                    foreach ($video as $k => $value) {
+                        array_push($array,$value);   
+                    }
+                }
+
+                $pelabuhan = $this->m_model->selectwhere('cabang_id',$this->session->userdata('admin_data')->id_cabang,'pelabuhans_log');
+                if(count($pelabuhan) > 0){
+                    foreach ($pelabuhan as $k => $value) {
+                        array_push($array,$value);   
+                    }
+                }
             }
             $this->load->view('backend/notifikasi',[
                 'title' => 'Notifikasi',

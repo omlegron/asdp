@@ -76,6 +76,71 @@
     </div>
     <!-- #User Info --> 
     <!-- Menu -->
+     <?php
+        $array = [];
+            
+            // print_r($this->session->userdata('admin_data')->roles);
+            // die();
+            if(($this->session->userdata('admin_data')->roles == 1) || ($this->session->userdata('admin_data')->roles == 2)){
+                $trueAdm = 'salah';
+                $photo = $this->m_model->all('photo_log');
+                if(count($photo) > 0){
+                    foreach ($photo as $k => $value) {
+                        array_push($array,$value);
+                    }
+                }
+
+                $video = $this->m_model->all('video_log');
+                if(count($video) > 0){
+                    foreach ($video as $k => $value) {
+                        array_push($array,$value);   
+                    }
+                }
+
+                $armada = $this->m_model->all('armada_log');
+                if(count($video) > 0){
+                    foreach ($video as $k => $value) {
+                        array_push($array,$value);   
+                    }
+                }
+
+                $pelabuhan = $this->m_model->all('pelabuhans_log');
+                if(count($pelabuhan) > 0){
+                    foreach ($pelabuhan as $k => $value) {
+                        array_push($array,$value);   
+                    }
+                }
+            }else{
+                $trueAdm = 'benar';
+                $photo = $this->m_model->selectwhere('cabang_id',$this->session->userdata('admin_data')->id_cabang,'photo_log');
+                if(count($photo) > 0){
+                    foreach ($photo as $k => $value) {
+                        array_push($array,$value);
+                    }
+                }
+
+                $video = $this->m_model->selectwhere('cabang_id',$this->session->userdata('admin_data')->id_cabang,'video_log');
+                if(count($video) > 0){
+                    foreach ($video as $k => $value) {
+                        array_push($array,$value);   
+                    }
+                }
+
+                $armada = $this->m_model->selectwhere('cabang_id',$this->session->userdata('admin_data')->id_cabang,'armada_log');
+                if(count($video) > 0){
+                    foreach ($video as $k => $value) {
+                        array_push($array,$value);   
+                    }
+                }
+
+                $pelabuhan = $this->m_model->selectwhere('cabang_id',$this->session->userdata('admin_data')->id_cabang,'pelabuhans_log');
+                if(count($pelabuhan) > 0){
+                    foreach ($pelabuhan as $k => $value) {
+                        array_push($array,$value);   
+                    }
+                }
+            }
+    ?>
     <div class="menu">
         <ul class="list">
             <!-- <li class="header">MAIN NAVIGATION</li> -->
@@ -131,7 +196,7 @@
                     <li> <a href="<?=base_url();?>panel/photo"><i class="zmdi zmdi-collection-image-o"></i><span>Foto</span> </a> </li>
                     <li> <a href="<?=base_url();?>panel/video"><i class="zmdi zmdi-collection-video"></i><span>Video</span> </a> </li>
                     <li> <a href="<?=base_url();?>panel/file"><i class="zmdi zmdi-file"></i><span>Standarisasi</span> </a> </li>
-                    <li> <a href="<?=base_url();?>backend/notifikasi"><i class="zmdi zmdi-notifications-active"></i><span>Notifikasi <span class="rounded-circle text-white bg-warning mr-1" style="padding: 1px 8px;"><?= count($this->m_model->selectwhere('status','On Process','trans_approval')); ?></span></span> </a> </li>
+                    <li> <a href="<?=base_url();?>backend/notifikasi"><i class="zmdi zmdi-notifications-active"></i><span>Notifikasi <span class="rounded-circle text-white bg-warning mr-1" style="padding: 1px 8px;"><?= count($array); ?></span></span> </a> </li>
                     <li> 
                         <a href="javascript:void(0)" class="menu-toggle"><i class="zmdi zmdi-file"></i><span>Laporan</span> </a> 
                         <ul class="ml-menu">
@@ -161,7 +226,7 @@
                                 </ul>
                             </li>
 
-                            <li> <a href="<?=base_url();?>backend/notifikasi"><i class="zmdi zmdi-notifications-active"></i><span>Notifikasi <span class="rounded-circle text-white bg-warning mr-1" style="padding: 1px 8px;"><?= count($this->m_model->selectwhere('status','On Process','trans_approval')); ?></span></span> </a> </li>
+                            <li> <a href="<?=base_url();?>backend/notifikasi"><i class="zmdi zmdi-notifications-active"></i><span>Notifikasi <span class="rounded-circle text-white bg-warning mr-1" style="padding: 1px 8px;"><?= count($array); ?></span></span> </a> </li>
                         <?php
                         }     
                         ?>
@@ -184,7 +249,7 @@
                         </ul>
                     </li>
 
-                    <li> <a href="<?=base_url();?>backend/notifikasi"><i class="zmdi zmdi-notifications-active"></i><span>Notifikasi <span class="rounded-circle text-white bg-warning mr-1" style="padding: 1px 8px;"><?= count($this->m_model->selectwhere('status','On Process','trans_approval')); ?></span></span> </a> </li>
+                    <li> <a href="<?=base_url();?>backend/notifikasi"><i class="zmdi zmdi-notifications-active"></i><span>Notifikasi <span class="rounded-circle text-white bg-warning mr-1" style="padding: 1px 8px;"><?= count($array); ?></span></span> </a> </li>
                         <?php
                     }
                 }
