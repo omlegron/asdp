@@ -17,9 +17,11 @@
                                 if($this->session->userdata('admin_data')->roles == 4){
 
                                 }else{
+                                  // print_r($pelabuhanss);
+                                  // die();
                                     ?>
-                                      &nbsp;<a href="<?=base_url();?>backend/pelabuhan/edit/edit/<?= $record->id ?>/<?= $pelabuhan->id ?>"  class="btn btn-success btn-sm" style="color: #fff">Edit</a>
-                                      <!-- &nbsp;<a href="<?=base_url();?>backend/pelabuhan/edit/edit/<?= $record->id ?>/<?= $pelabuhan->id ?>"  class="btn btn-danger btn-sm" style="color: #fff">Print Out</a> -->
+                                      &nbsp;<a href="<?=base_url();?>backend/pelabuhan/edit/edit/<?= $record->id ?>/<?= $pelabuhanss->id ?>"  class="btn btn-success btn-sm" style="color: #fff">Edit</a>
+                                      &nbsp;<a href="<?=base_url();?>backend/pelabuhan/laporan/<?= $record->id ?>/<?= $pelabuhanss->id ?>"  class="btn btn-danger btn-sm" style="color: #fff">Print Out</a>
                                     <?php
                                 }
                             ?>
@@ -31,11 +33,11 @@
                 </div>
 
                 <?php
-                    $img=check_img($pelabuhan->foto);
+                    $img=check_img($pelabuhanss->foto);
                 ?>
                 <div class="wrapper content">
                     <div class="container-fluid">
-                      <h3><?= $record->nama_aspek;  ?> <?= $pelabuhan->name; ?></h3>
+                      <h3><?= $record->nama_aspek;  ?> <?= $pelabuhanss->name; ?></h3>
                       <div class="row">
                         <div class="col-lg-7 mb-3 pr-0">
                           <div style="background-image: url('<?=$img['path'];?>'); background-size: 100%;background-repeat: no-repeat;" id="containers" data-id="containers" class="img-fluid"></div>
@@ -64,13 +66,13 @@
                                                         $cekReal = $this->m_model->getOne($valueSubIco->trans_icon_id,'icon');
                                                         $imgs=check_img($cekReal['path_file']);
 
-                                                        // $cekSubHasil = $this->m_model->selectOneWhere3('id_pelabuhan',$pelabuhan->id,'id_jenis_aspek',$record->id,'id_icon',$cekReal['id'],'trans_pelabuhans_hasil_sub');
+                                                        // $cekSubHasil = $this->m_model->selectOneWhere3('id_pelabuhan',$pelabuhanss->id,'id_jenis_aspek',$record->id,'id_icon',$cekReal['id'],'trans_pelabuhans_hasil_sub');
                                             ?>
                                             <?php 
                                               $coun = 0;
                                               $color = 'background-color: #f00;color: white;border-radius:20px;border:3px solid #f00 !important';
-                                              if(count($this->m_model->selectas3('id_pelabuhan',$pelabuhan->id,'id_jenis_aspek',$record->id,'icon_id',$cekReal['id'],'trans_pelabuhans_hasil')) > 0){
-                                                $coun = count($this->m_model->selectas3('id_pelabuhan',$pelabuhan->id,'id_jenis_aspek',$record->id,'icon_id',$cekReal['id'],'trans_pelabuhans_hasil'));
+                                              if(count($this->m_model->selectas3('id_pelabuhan',$pelabuhanss->id,'id_jenis_aspek',$record->id,'icon_id',$cekReal['id'],'trans_pelabuhans_hasil')) > 0){
+                                                $coun = count($this->m_model->selectas3('id_pelabuhan',$pelabuhanss->id,'id_jenis_aspek',$record->id,'icon_id',$cekReal['id'],'trans_pelabuhans_hasil'));
                                                 $color = '-';
                                               }
                                             ?>
@@ -88,13 +90,13 @@
                                                             
                                                           </div>
                                                            <!--  <table>
-                                                              <tbody class="appendChildSub<?= $pelabuhan->id; ?>-<?= $cekReal['id']; ?>">
+                                                              <tbody class="appendChildSub<?= $pelabuhanss->id; ?>-<?= $cekReal['id']; ?>">
                                                               <tr>
                                                                 <td colspan="" rowspan="" headers="">
-                                                                  <input type="text" name="sub_text[]" id="subText" data-pelabuhanid="<?= $pelabuhan->id; ?>" data-idaspek="<?= $record->id; ?>" data-icon="<?= $cekReal['id']; ?>" class="form-control" style="width: 150px;height:25px;border:1px solid black !important;font-size: 11px">
+                                                                  <input type="text" name="sub_text[]" id="subText" data-pelabuhanid="<?= $pelabuhanss->id; ?>" data-idaspek="<?= $record->id; ?>" data-icon="<?= $cekReal['id']; ?>" class="form-control" style="width: 150px;height:25px;border:1px solid black !important;font-size: 11px">
                                                                 </td>
                                                                 <td colspan="" rowspan="" headers="">
-                                                                  <input type="text" name="sub_value[]" class="form-control" style="width: 100px;height:25px;border:1px solid black !important;font-size: 11px" id="subValue" data-pelabuhanid="<?= $pelabuhan->id; ?>" data-idaspek="<?= $record->id; ?>" data-icon="<?= $cekReal['id']; ?>">
+                                                                  <input type="text" name="sub_value[]" class="form-control" style="width: 100px;height:25px;border:1px solid black !important;font-size: 11px" id="subValue" data-pelabuhanid="<?= $pelabuhanss->id; ?>" data-idaspek="<?= $record->id; ?>" data-icon="<?= $cekReal['id']; ?>">
                                                                 </td>
                                                                 <td colspan="" rowspan="" headers="">
                                                                   <a href="javascript:void(0)" class="btn btn-sm btn-danger" style="position:relative;top:-3px;height:25px;width: 15px">
@@ -102,7 +104,7 @@
                                                                   </a>
                                                                 </td>
                                                                 <td colspan="" rowspan="" headers="">
-                                                                  <a href="javascript:void(0)" data-id1="<?= $pelabuhan->id; ?>" data-cekreal="<?= $cekReal['id']; ?>" class="btn btn-sm btn-success appendAdd" id="appendAdd" style="position:relative;top:-3px;height:25px;width: 15px">
+                                                                  <a href="javascript:void(0)" data-id1="<?= $pelabuhanss->id; ?>" data-cekreal="<?= $cekReal['id']; ?>" class="btn btn-sm btn-success appendAdd" id="appendAdd" style="position:relative;top:-3px;height:25px;width: 15px">
                                                                     <i class="zmdi zmdi-plus" style="position: relative;right: 5px;top:-2px;"></i>
                                                                   </a>
                                                                 </td>
@@ -152,7 +154,7 @@
         $.ajax({
             url: '<?= site_url('backend/pelabuhan/getData'); ?>',
             type: 'post',
-            data: {id_jenis_aspek: '<?= $record->id; ?>',id_pelabuhan:'<?= $pelabuhan->id; ?>'},
+            data: {id_jenis_aspek: '<?= $record->id; ?>',id_pelabuhan:'<?= $pelabuhanss->id; ?>'},
             dataType: 'json',
             success:function(response){
                 if(response.length > 0){
@@ -321,7 +323,7 @@
               <form id="formModals" action="<?= base_url('backend/pelabuhan/store'); ?>" method="POST" enctype="multipart/form-data">
                 <div class="row">
                   <input type="hidden" name="id">
-                  <input type="hidden" name="id_pelabuhan" value="<?= $pelabuhan->id; ?>">
+                  <input type="hidden" name="id_pelabuhan" value="<?= $pelabuhanss->id; ?>">
                   <input type="hidden" name="id_jenis_aspek" value="<?= $record->id; ?>">
                   <input type="hidden" name="icon_id">
                   <input type="hidden" name="url">
@@ -474,10 +476,10 @@
           $('.appendChildSub'+$(this).data('id1')+'-'+$(this).data('cekreal')).append(`
             <tr>
                <td colspan="" rowspan="" headers="">
-                  <input type="text" name="sub_text[]" id="subText" data-pelabuhanid="<?= $pelabuhan->id; ?>" data-idaspek="<?= $record->id; ?>" data-icon="<?= $cekReal['id']; ?>" class="form-control" style="width: 150px;height:25px;border:1px solid black !important;font-size: 11px">
+                  <input type="text" name="sub_text[]" id="subText" data-pelabuhanid="<?= $pelabuhanss->id; ?>" data-idaspek="<?= $record->id; ?>" data-icon="<?= $cekReal['id']; ?>" class="form-control" style="width: 150px;height:25px;border:1px solid black !important;font-size: 11px">
                 </td>
                 <td colspan="" rowspan="" headers="">
-                  <input type="text" name="sub_value[]" class="form-control" style="width: 100px;height:25px;border:1px solid black !important;font-size: 11px" id="subValue" data-pelabuhanid="<?= $pelabuhan->id; ?>" data-idaspek="<?= $record->id; ?>" data-icon="<?= $cekReal['id']; ?>">
+                  <input type="text" name="sub_value[]" class="form-control" style="width: 100px;height:25px;border:1px solid black !important;font-size: 11px" id="subValue" data-pelabuhanid="<?= $pelabuhanss->id; ?>" data-idaspek="<?= $record->id; ?>" data-icon="<?= $cekReal['id']; ?>">
                 </td>
               <td colspan="" rowspan="" headers="">
                 <a href="javascript:void(0)" class="btn btn-sm btn-danger appendDelete" id="appendDelete" style="position:relative;top:-3px;height:25px;width: 15px">

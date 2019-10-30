@@ -4,7 +4,7 @@
         $cabangs=cabangs();
         //die("asdasd");
     ?>
-        <div class="row clearfix">
+         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card">
                     <div class="header">
@@ -26,15 +26,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <div class="form-line">
-                                        
                                     <label>Cabang</label>
                                     <?php 
                                         if(($this->session->userdata('admin_data')->id_cabang) && ($this->session->userdata('admin_data')->id_cabang != 0)){
                                     ?>
                                         <input type="text" readonly="" class="form-control" value="<?php echo $this->m_model->getOne($this->session->userdata('admin_data')->id_cabang, 'cabangs')['name'] ?>">
                                         <input type="hidden" name="cabang" class="form-control" value="<?php echo $this->session->userdata('admin_data')->id_cabang; ?>">
-                                    </div>
                                     <?php
                                         }else{
                                     ?>
@@ -107,11 +104,11 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <div class="form-line">    
                                     <label>Cabang</label>
                                     <?php 
                                         if(($this->session->userdata('admin_data')->id_cabang) && ($this->session->userdata('admin_data')->id_cabang != 0)){
                                     ?>
+                                    <div class="form-line">    
                                         <input type="text" readonly="" class="form-control" value="<?php echo $this->m_model->getOne($this->session->userdata('admin_data')->id_cabang, 'cabangs')['name'] ?>">
                                         <input type="hidden" name="cabang" class="form-control" value="<?php echo $this->session->userdata('admin_data')->id_cabang; ?>">
                                     </div>
@@ -235,6 +232,60 @@
                                 <div class="body">
                                     <h2><?=$val['name'];?></h2>
                                     <p><?=$val['deskripsi'];?></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="col-md-12" >
+                    <div class="col-md-12 pl-0 pt-4">
+                        <div class="panel panel-default">
+                            <h4 class="panel-heading">Diagram Pelabuhan</h4>
+                            <div class="panel-body"> 
+                                <div class="row">
+                                    <?php
+                                    $hasil = 0;
+                                        if(count($this->m_model->selectwhere('status','Pelabuhan','jenis_aspeks')) > 0){
+                                            foreach ($this->m_model->selectwhere('status','Pelabuhan','jenis_aspeks') as $k => $value) {
+                                                $no = 0;
+                                                $subAsspek = $this->m_model->selectwhere('jenis_aspek_id',$value->id,'sub_aspeks');
+                                                if(count($subAsspek)){
+                                                    foreach ($subAsspek as $k => $value1) {
+                                                        $no1 = 0;
+                                                        // print_r($value1);
+                                                        $subIconAspk = $this->m_model->selectas2('trans_sub_id',$value1->id,'status','Active','sub_aspeks_icon');
+                                                        if(count($subIconAspk) > 0){
+                                                            foreach ($subIconAspk as $k => $value2) {
+                                                                $cekListHasil = $this->m_model->selectcustom('select * from trans_pelabuhans_hasil where id_pelabuhan = '.$this->input->get('detail').' && id_jenis_aspek='.$value->id.' && icon_id = '.$value2->trans_icon_id.' group by icon_id');
+                                                                // print_r($cekListHasil);
+                                                                $no1 += count($cekListHasil);
+
+                                                            }
+                                                        }
+                                                        $no += count($subIconAspk);
+                                                        if($no1 == 0){
+                                                            // echo 'cek Kosong';
+                                                            $hasil = 0;
+                                                        }else{
+                                                            $hasil = ($no1 / $no) * 100;
+
+                                                        }
+                                                    }
+                                                }
+                                            ?>
+                                                <div class="col-lg-3 col-md-12 col-sm-12 text-center">
+                                                    <div class="card tasks_report">
+                                                        <div class="body">
+                                                            <input type="text" class="knob dial<?= $value->id; ?>-" value="<?= round($hasil,1) ?>" data-width="50" data-height="50" data-thickness="0.2" data-fgColor="#00ced1" readonly>
+                                                            <h6 class="m-t-20"><?= $value->nama_aspek; ?></h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            <?php                
+                                            }
+                                        }
+                                    ?>         
                                 </div>
                             </div>
                         </div>

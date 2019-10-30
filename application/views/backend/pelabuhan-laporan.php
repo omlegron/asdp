@@ -124,7 +124,6 @@
 
 
 
-
 </head>
 <body>
   <script type="text/php">
@@ -167,10 +166,13 @@
       </tr>
     </table>
   </header>
+
   <?php
   $img=check_img($data['record']->url_canvas);
   ?>
   <center><img src="<?= $img['path']; ?>"></center>
+
+  
 
   <?php
   $dataPlbhHsl = $this->m_model->selectcustom("select * from trans_pelabuhans_hasil where id_pelabuhan=".$data['record']->id." group by id_jenis_aspek");
@@ -236,12 +238,12 @@
               if(count($checkPbHslALL) > 0){
                 $split = 4;
                 $checkPbHslALL1 = array_chunk($checkPbHslALL, $split);
-                   foreach ($checkPbHslALL1 as $k3 => $value3) {
+                  foreach ($checkPbHslALL1 as $k3 => $value3) {
                   ?>
                     <tbody>
                       <tr>
                         <td colspan="" rowspan="" headers="">
-                            
+                           <br> 
                         </td>
                         <td colspan="2" rowspan="" headers="" style="background-color: #ebecec;">
                             <div style="background-color: white;">
@@ -250,7 +252,7 @@
                                     foreach ($value3 as $k4 => $value4) {
                                         
                                 ?>
-                                  <div class="col-sm-2" style="background-color: #ebecec;margin-bottom: 10px;top:10px;margin-right: 10px;height: 200px;font-size: 11px;max-width: 150px">
+                                  <div class="col-sm-2" style="background-color: #ebecec;margin-bottom: 10px;top:10px;margin-right: 10px;height: 180px;font-size: 11px;max-width: 150px">
                                       <!-- <p style="max-width: 100px;">Nama : <?= $value4->nama; ?></p><br> -->
                                       Nomor : <?= $value4->nomor; ?><br>
                                       Kondisi : <?= $value4->kondisi; ?><br>
@@ -280,13 +282,13 @@
                           <label></label>
                         </td>
                         <td colspan="2" rowspan="" headers="" style="background-color: #ebecec;">
-                            <br>    
+                          <br>    
                         </td>
                       </tr>
                     </tbody>
                  <?php
-                    }
                   }
+                }
                 }
                 ?>
               </table>

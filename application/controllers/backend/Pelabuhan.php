@@ -1,19 +1,28 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
 class Pelabuhan extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('m_model');
     }
 
+    protected function ci()
+    {
+        return get_instance();
+    }
+
     public function show($url,$id,$idSebelum){
-        // print_r($url,$id);
+        // print_r($this->m_model->selectOne('id',$idSebelum, 'pelabuhans'));
+        // die();
         if ($this->session->userdata('admin')) {
             $this->load->view('backend/pelabuhan-show',[
                 'title' => 'Pelabuhan',
                 'bcrumb' => 'Master Data > Detail Pelabuhan',
-                'pelabuhan' => $this->m_model->selectOne('id',$idSebelum, 'pelabuhans'),
+                'pelabuhanss' => $this->m_model->selectOne('id',$idSebelum, 'pelabuhans'),
                 'record' => $this->m_model->selectOne('id',$id,'jenis_aspeks'),
                 'records' => $this->m_model->selectcustom('
                     select jenis_aspeks.id, jenis_aspeks.nama_aspek, sub_aspeks.id,sub_aspeks.name 
@@ -34,7 +43,7 @@ class Pelabuhan extends CI_Controller {
                 'title' => 'Pelabuhan',
                 'bcrumb' => 'Master Data > Edit Pelabuhan',
                 // 'pelabuhanDrag' => $this->m_model->selectWhere2('id_pelabuhan',$idSebelum,'id_jenis_aspek',$id,'trans_pelabuhans_hasil'),
-                'pelabuhan' => $this->m_model->selectOne('id',$idSebelum, 'pelabuhans'),
+                'pelabuhanss' => $this->m_model->selectOne('id',$idSebelum, 'pelabuhans'),
                 'record' => $this->m_model->selectOne('id',$id,'jenis_aspeks'),
                 'records' => $this->m_model->selectcustom('
                     select jenis_aspeks.id, jenis_aspeks.nama_aspek, sub_aspeks.id,sub_aspeks.name 
@@ -288,5 +297,37 @@ class Pelabuhan extends CI_Controller {
             );
             $this->m_model->create($data, 'trans_pelabuhans_hasil_sub');
         }
+    }
+
+    public function laporan($jenisAspek, $id){
+        // print_r($jenisAspek);
+        // die();
+        $data = array(
+            "data" => array(
+                "judul" => 'PELABUHAN',
+                "record" => $this->m_model->selectOne('id',$id,'pelabuhans'),
+            )
+        );
+        
+        $options = new Options();
+        // $options->set('isRemoteEnabled',true);      
+        // $options->set('defaultFont', 'Courier');
+        $options->set('isRemoteEnabled', TRUE);
+        $options->set('debugKeepTemp', TRUE);
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isPhpEnabled', true);
+        $dompdf = new Dompdf( $options );
+
+        $dompdf->setPaper('A4', 'potrait');
+        $dompdf->set_option('isRemoteEnabled', TRUE);
+        $dompdf->filename = 'laporan'.$this->m_model->selectOne('id',$id,'pelabuhans')->name.".pdf";
+        $html = $this->load->view('backend/pelabuhan-laporan', $data, TRUE);
+        $dompdf->load_html($html);
+        // Render the PDF
+        // $dompdf->set_base_path(base_url());
+        $dompdf->render();
+
+        // Output the generated PDF to Browser
+        $dompdf->stream($dompdf->filename, array("Attachment" => false));
     }
 }

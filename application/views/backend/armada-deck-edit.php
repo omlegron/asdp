@@ -15,7 +15,7 @@
 <script type="text/javascript">
 	$(document).on('change','select[name="deck_id"]',function(){
 		var deckId = $(this).val();
-		$('.showFind').attr('href','<?php echo site_url(); ?>backend/armada/showDetail/<?= $record->id; ?>/'+deckId+'/<?= $armada->id; ?>');
+		$('.showFind').attr('href','<?php echo site_url(); ?>backend/armada/showDetail/<?= $record->id; ?>/'+deckId+'/<?= $armadass->id; ?>');
 	});
 
 
@@ -51,8 +51,8 @@
 											<option value="-">Select One </option>
 
 											<?php
-											if(count($this->m_model->selectwhere('armada_id',$armada->id,'armada_elements')) > 0){
-												foreach ($this->m_model->selectwhere('armada_id',$armada->id,'armada_elements') as $k => $value) {
+											if(count($this->m_model->selectwhere('armada_id',$armadass->id,'armada_elements')) > 0){
+												foreach ($this->m_model->selectwhere('armada_id',$armadass->id,'armada_elements') as $k => $value) {
 													$cek = '';
 													if($armadaElments->id == $value->id){
 														$cek = 'selected';
@@ -74,7 +74,7 @@
 
 							</div>
 							<div class="col-md-8 " style="text-align: right">
-								<h3><?= $armada->name; ?></h3>
+								<h3><?= $armadass->name; ?></h3>
 								<h6><?= $armadaElments->name; ?></h6>
 							</div>
 							<div class="showAppendArmada">
@@ -123,8 +123,8 @@
                                     <?php 
                                       $coun = 0;
                                       $color = 'background-color: #f00;color: white;border-radius:20px;border:3px solid #f00 !important';
-                                      if(count($this->m_model->selectas4('id_armada',$armada->id,'id_jenis_aspek',$record->id,'icon_id',$cekReal['id'],'id_armada_elments',$armadaElments->id,'trans_armada_hasil')) > 0){
-                                        $coun = count($this->m_model->selectas4('id_armada',$armada->id,'id_jenis_aspek',$record->id,'icon_id',$cekReal['id'],'id_armada_elments',$armadaElments->id,'trans_armada_hasil'));
+                                      if(count($this->m_model->selectas4('id_armada',$armadass->id,'id_jenis_aspek',$record->id,'icon_id',$cekReal['id'],'id_armada_elments',$armadaElments->id,'trans_armada_hasil')) > 0){
+                                        $coun = count($this->m_model->selectas4('id_armada',$armadass->id,'id_jenis_aspek',$record->id,'icon_id',$cekReal['id'],'id_armada_elments',$armadaElments->id,'trans_armada_hasil'));
 
                                         $color = '-';
                                       }
@@ -184,7 +184,7 @@
     	$.ajax({
             url: '<?= site_url('backend/armada/getData'); ?>',
             type: 'post',
-            data: {id_jenis_aspek: '<?= $record->id; ?>',id_armada:'<?= $armada->id; ?>',id_armada_elments:'<?= $armadaElments->id; ?>'},
+            data: {id_jenis_aspek: '<?= $record->id; ?>',id_armada:'<?= $armadass->id; ?>',id_armada_elments:'<?= $armadaElments->id; ?>'},
             dataType: 'json',
             success:function(response){
                 if(response.length > 0){
@@ -197,7 +197,7 @@
                     layer.add(group);
                     // 3. Create an Image node and add it to group
                     Konva.Image.fromURL(v.url, function(yoda) {
-                      if(v.width == null){
+                      if(v.width == null || v.width == ""){
                         widths = 30
                       }else{
                         widths = v.width;
@@ -365,7 +365,7 @@
           <form id="formModals" class="form-horizontal" action="<?= site_url('backend/armada/store'); ?>" method="POST" enctype="multipart/form-data">
             <div class="row">
               <input type="hidden" name="id">
-              <input type="hidden" name="id_armada" value="<?= $armada->id; ?>">
+              <input type="hidden" name="id_armada" value="<?= $armadass->id; ?>">
               <input type="hidden" name="id_armada_elments" value="<?= $armadaElments->id; ?>">
               <input type="hidden" name="id_jenis_aspek" value="<?= $record->id; ?>">
               <input type="hidden" name="id_sub_jenis_aspek">

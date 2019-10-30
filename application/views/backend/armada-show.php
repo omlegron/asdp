@@ -15,7 +15,7 @@
     // });
     $(document).on('change','select[name="deck_id"]',function(){
         var deckId = $(this).val();
-        $('.showFind').attr('href','<?php echo site_url(); ?>backend/armada/showDetail/<?= $record->id; ?>/'+deckId+'/<?= $armada->id; ?>');
+        $('.showFind').attr('href','<?php echo site_url(); ?>backend/armada/showDetail/<?= $record->id; ?>/'+deckId+'/<?= $armadass->id; ?>');
     });
 </script>
 <?php include 'header.php'; ?>
@@ -28,6 +28,7 @@
                     <div class="col-lg-8">
                         <div class="btn-group">
                             <a href="<?=base_url();?>panel/armada"  class="btn btn-primary btn-sm" style="color: #fff">Kembali</a>
+                            
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -58,8 +59,8 @@
                                             <option value="">Select One </option>
 
                                             <?php
-                                            if(count($this->m_model->selectwhere('armada_id',$armada->id,'armada_elements')) > 0){
-                                                foreach ($this->m_model->selectwhere('armada_id',$armada->id,'armada_elements') as $k => $value) {
+                                            if(count($this->m_model->selectwhere('armada_id',$armadass->id,'armada_elements')) > 0){
+                                                foreach ($this->m_model->selectwhere('armada_id',$armadass->id,'armada_elements') as $k => $value) {
                                                     ?>
                                                     <option value="<?=$value->id;?>"><?=$value->name;?></option>
                                                     <?php
@@ -75,7 +76,7 @@
 
                             </div>
                             <div class="col-md-8 " style="text-align: right">
-                                <h3><?= $armada->name; ?></h3>
+                                <h3><?= isset($armadass->name) ? $armadass->name : '-'; ?></h3>
                             </div>
                             <div class="showAppendArmada">
 

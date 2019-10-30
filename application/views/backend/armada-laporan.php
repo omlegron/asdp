@@ -207,11 +207,7 @@
                 if(isset($value->url_canvas)){
                   $imgCanvas=check_img($value->url_canvas);  
                   $styles = 'width: 600px;height: 840px';
-                  // print_r('asd'.$value->url_canvas);
-                  // die();
                 }else{
-                  // print_r('done');
-                  // die();
                   $imgCanvas=array(
                     'path' => 'images/no-images.png'
                   );

@@ -1,10 +1,16 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+use Dompdf\Dompdf;
+use Dompdf\Options;
 class Armada extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('m_model');
+    }
+
+    protected function ci()
+    {
+        return get_instance();
     }
 
     public function show($url,$id,$idSebelum){
@@ -13,7 +19,7 @@ class Armada extends CI_Controller {
             $this->load->view('backend/armada-show',[
                 'title' => 'Armada',
                 'bcrumb' => 'Master Data > Detail Armada',
-                'armada' => $this->m_model->selectOne('id',$idSebelum, 'armada'),
+                'armadass' => $this->m_model->selectOne('id',$idSebelum, 'armada'),
                 'record' => $this->m_model->selectOne('id',$id,'jenis_aspeks'),
                 'records' => $this->m_model->selectcustom('
                     select jenis_aspeks.id, jenis_aspeks.nama_aspek, sub_aspeks.id,sub_aspeks.name 
@@ -33,7 +39,7 @@ class Armada extends CI_Controller {
         }else{
             $record = $this->load->view('backend/armada-deck',[
                 'armadaElments' => $this->m_model->selectOne('id',$id, 'armada_elements'),
-                'armada' => $this->m_model->selectOne('id',$armada, 'armada'),
+                'armadass' => $this->m_model->selectOne('id',$armada, 'armada'),
                 'record' => $this->m_model->selectOne('id',$bigId,'jenis_aspeks'),
                 'records' => $this->m_model->selectcustom('
                     select jenis_aspeks.id, jenis_aspeks.nama_aspek, sub_aspeks.id,sub_aspeks.name 
@@ -53,7 +59,7 @@ class Armada extends CI_Controller {
         }else{
             $record = $this->load->view('backend/armada-deck-edit',[
                 'armadaElments' => $this->m_model->selectOne('id',$id, 'armada_elements'),
-                'armada' => $this->m_model->selectOne('id',$armada, 'armada'),
+                'armadass' => $this->m_model->selectOne('id',$armada, 'armada'),
                 'record' => $this->m_model->selectOne('id',$bigId,'jenis_aspeks'),
                 'records' => $this->m_model->selectcustom('
                     select jenis_aspeks.id, jenis_aspeks.nama_aspek, sub_aspeks.id,sub_aspeks.name 
@@ -217,5 +223,35 @@ class Armada extends CI_Controller {
             'record_file' => $record1
         );
         echo json_encode($data);
+    }
+
+    public function laporan($jenisAspek, $id, $idSub){
+         $data = array(
+            "data" => array(
+                "judul" => 'ARMADA',
+                "record" => $this->m_model->selectOne('id',$id,'armada'),
+            )
+        );
+        
+        $options = new Options();
+        // $options->set('isRemoteEnabled',true);      
+        // $options->set('defaultFont', 'Courier');
+        $options->set('isRemoteEnabled', TRUE);
+        $options->set('debugKeepTemp', TRUE);
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isPhpEnabled', true);
+        $dompdf = new Dompdf( $options );
+
+        $dompdf->setPaper('A4', 'potrait');
+        $dompdf->set_option('isRemoteEnabled', TRUE);
+        $dompdf->filename = 'laporan'.$this->m_model->selectOne('id',$id,'armada')->name.".pdf";
+        $html = $this->load->view('backend/armada-laporan', $data, TRUE);
+        $dompdf->load_html($html);
+        // Render the PDF
+        // $dompdf->set_base_path(base_url());
+        $dompdf->render();
+
+        // Output the generated PDF to Browser
+        $dompdf->stream($dompdf->filename, array("Attachment" => false));
     }
 }

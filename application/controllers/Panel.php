@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
 class Panel extends CI_Controller {
     function __construct() {
         parent::__construct();
@@ -47,35 +48,65 @@ class Panel extends CI_Controller {
     //         die();
     // }
 
-        // protected $_ci;    
-        // protected $email_pengirim = 'legrondhibebzky@gmail.com'; 
-        // protected $nama_pengirim = 'Rizaldi Maulidia Achmad';
-        // protected $password = 'legron26801';
+        protected $_ci;    
+        protected $email_pengirim = 'legrondhibebzky@gmail.com'; 
+        protected $nama_pengirim = 'Rizaldi Maulidia Achmad';
+        protected $password = 'legron26801';
         
-        // public function send(){        
-        //     $mail = new PHPMailer;        
-        //     $mail->isSMTP();
-        //     $mail->Host = 'smtp.gmail.com';
-        //     $mail->Username = $this->email_pengirim; 
-        //     $mail->Password = $this->password;
-        //     $mail->Port = 465;
-        //     $mail->SMTPAuth = true;
-        //     $mail->SMTPSecure = 'ssl';
-        //     $mail->setFrom($this->email_pengirim, $this->nama_pengirim);        
-        //     $mail->addAddress('adriyanaputra017@gmail.com', '');        
-        //     $mail->isHTML(true); // Aktifkan jika isi emailnya berupa html        
-        //     $mail->Subject = 'cel';        
-        //     $mail->Body = 'asi';        
-        //     // $mail->AddEmbeddedImage('image/logo.png', 'logo_mynotescode', 'logo.png'); // Aktifkan jika ingin menampilkan gambar dalam email        
-        //     $send = $mail->send();        
-        //     if($send){ 
-        //         $response = array('status'=>'Sukses', 'message'=>'Email berhasil dikirim');        
-        //     }else{ 
-        //         $response = show_error($email->print_debugger());        
-        //     }        
-        //      print_r($response);   
-        //      die();
-        // }
+        public function send(){        
+            $mail = new PHPMailer;        
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->Username = $this->email_pengirim; 
+            $mail->Password = $this->password;
+            $mail->Port = 587;
+            $mail->SMTPAuth = true;
+            $mail->SMTPDebug = SMTP::DEBUG_SERVER; 
+            $mail->SMTPSecure = 'TLS';
+            $mail->setFrom($this->email_pengirim, $this->nama_pengirim);        
+            $mail->addAddress('adriyanaputra017@gmail.com', 'adriyanaputra017@gmail.com');        
+            $mail->Subject = 'PHPMailer GMail SMTP test';
+            $mail->isHTML(true); // Aktifkan jika isi emailnya berupa html        
+            $mail->Subject = 'TEST DULU';        
+            $mail->Body = '<h1><b>TEST</b></h1>';        
+            // $mail->AddEmbeddedImage('image/logo.png', 'logo_mynotescode', 'logo.png'); // Aktifkan jika ingin menampilkan gambar dalam email        
+            $send = $mail->send();        
+            if($send){ 
+                $response = array('status'=>'Sukses', 'message'=>'Email berhasil dikirim');        
+            }else{ 
+                $response = $mail->ErrorInfo;        
+            }        
+             print_r($response);   
+             die();
+
+             // $this->load->library('email');
+             //    $config = [
+             //       'mailtype'  => 'html',
+             //       'charset'   => 'utf-8',
+             //       'protocol'  => 'smtp',
+             //       'smtp_host' => 'ssl://smtp.googlemail.com',
+             //       'smtp_user' => 'legrondhibebzky@gmail.com',    // Ganti dengan email gmail kamu
+             //       'smtp_pass' => 'legron26801',      // Password gmail kamu
+             //       'smtp_port' => 465,
+             //       'crlf'      => "\r\n",
+             //       'newline'   => "\r\n",
+             //       'wordwrap'  => TRUE
+             //   ];
+             //    //------------
+             //    $subject = "Welcome to Bazaarplace!";
+             //    $data = array(
+             //        'name' => '$value->name'
+             //    );
+             //    $message = $this->load->view('frontend/mail/wellcome', $data, true);
+             //    //------------
+             //    $this->email->initialize($config);
+             //    $this->email->from('legrondhibebzky@gmail.com', 'Bazaarplace');
+             //    $this->email->to('adriyanaputra017@gmail.com');
+             //    $this->email->cc('legrondhibebzky@gmail.com');
+             //    $this->email->subject('CEK');
+             //    $this->email->message("<h1>YOOOMANN</h1>");
+             //    $this->email->send();
+        }
     public function index() {
         if ($this->session->userdata('admin')) {
             $this->load->view('backend/home');
